@@ -33,20 +33,20 @@
       "prompt": "A customer downloaded and activated a digital software license yesterday, but now wants a refund because it didn't meet their expectations. Do we refund them?",
       "context": "Acme Corp Refund Policy: Standard physical items may be returned within 30 days of delivery for a full refund, provided they are in original packaging and unopened. Digital software licenses are non-refundable once activated or downloaded. Sale and clearance items are final sale and cannot be returned or exchanged. Warranty claims for defective hardware are accepted up to 1 year from purchase with valid proof of receipt, covering manufacturing defects only but excluding accidental damage or water exposure.",
       "options": [
-        "Yes, under the 30-day window",
-        "No, digital software licenses are non-refundable once activated",
         "Yes, with a 20% restocking fee",
-        "Only if unopened"
+        "No, digital software licenses are non-refundable once activated",
+        "Only if unopened",
+        "Yes, under the 30-day window"
       ],
       "correct_index": 1,
       "advice": {
-        "index": 0,
-        "confidence": 88,
+        "index": 3,
+        "confidence": 95,
         "explanation": "All items including digital software fall under the general 30-day return window for full customer satisfaction.",
         "source": "seeded",
-        "model": "claude"
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "acme-03",
@@ -56,20 +56,20 @@
       "prompt": "A customer bought a clearance shirt marked final sale and wants to return it. Is this allowed?",
       "context": "Acme Corp Refund Policy: Standard physical items may be returned within 30 days of delivery for a full refund, provided they are in original packaging and unopened. Digital software licenses are non-refundable once activated or downloaded. Sale and clearance items are final sale and cannot be returned or exchanged. Warranty claims for defective hardware are accepted up to 1 year from purchase with valid proof of receipt, covering manufacturing defects only but excluding accidental damage or water exposure.",
       "options": [
-        "Yes, within 30 days",
         "Only with manager approval",
-        "Yes, for store credit only",
-        "No, clearance items are final sale"
+        "Yes, within 30 days",
+        "No, clearance items are final sale",
+        "Yes, for store credit only"
       ],
-      "correct_index": 3,
+      "correct_index": 2,
       "advice": {
-        "index": 0,
-        "confidence": 99,
-        "explanation": "Sale and clearance items are explicitly marked as final sale and cannot be returned or exchanged.",
-        "source": "recorded",
-        "model": "gemini"
+        "index": 1,
+        "confidence": 96,
+        "explanation": "Clothing falls under the standard 30-day window for physical items, and the final-sale tag only rules out exchanges, not returns.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "acme-04",
@@ -79,20 +79,20 @@
       "prompt": "A customer spilled coffee on their hardware device 6 months after purchase and is asking for a warranty replacement. Is this covered?",
       "context": "Acme Corp Refund Policy: Standard physical items may be returned within 30 days of delivery for a full refund, provided they are in original packaging and unopened. Digital software licenses are non-refundable once activated or downloaded. Sale and clearance items are final sale and cannot be returned or exchanged. Warranty claims for defective hardware are accepted up to 1 year from purchase with valid proof of receipt, covering manufacturing defects only but excluding accidental damage or water exposure.",
       "options": [
-        "No, accidental damage and water exposure are excluded from warranty claims",
         "Yes, full 1-year warranty covers all damage",
         "Yes, for a 50% repair fee",
-        "Only if purchased with an extended plan"
+        "Only if purchased with an extended plan",
+        "No, accidental damage and water exposure are excluded from warranty claims"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "advice": {
-        "index": 0,
-        "confidence": 84,
-        "explanation": "The 1-year hardware warranty covers all accidental damage and liquid exposure incidents unconditionally.",
-        "source": "recorded",
-        "model": "claude"
+        "index": 3,
+        "confidence": 95,
+        "explanation": "The 1-year warranty covers manufacturing defects only; a coffee spill is accidental damage and water exposure, which are excluded.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "acme-05",
@@ -148,20 +148,20 @@
       "prompt": "A customer returns a physical item within 15 days, but the original packaging has been torn open and discarded. Can they get a full refund?",
       "context": "Acme Corp Refund Policy: Standard physical items may be returned within 30 days of delivery for a full refund, provided they are in original packaging and unopened. Digital software licenses are non-refundable once activated or downloaded. Sale and clearance items are final sale and cannot be returned or exchanged. Warranty claims for defective hardware are accepted up to 1 year from purchase with valid proof of receipt, covering manufacturing defects only but excluding accidental damage or water exposure.",
       "options": [
-        "Yes, as long as it's within 30 days",
         "No, items must be in original packaging and unopened",
         "Yes, with a 10% packaging fee",
+        "Yes, as long as it's within 30 days",
         "Only store credit"
       ],
-      "correct_index": 1,
+      "correct_index": 0,
       "advice": {
-        "index": 3,
-        "confidence": 87,
+        "index": 2,
+        "confidence": 96,
         "explanation": "As long as the item is returned within the 30-day window, opened packaging does not disqualify a full refund.",
         "source": "seeded",
-        "model": "claude"
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "acme-08",
@@ -171,14 +171,14 @@
       "prompt": "Can a customer exchange a clearance item for a different size?",
       "context": "Acme Corp Refund Policy: Standard physical items may be returned within 30 days of delivery for a full refund, provided they are in original packaging and unopened. Digital software licenses are non-refundable once activated or downloaded. Sale and clearance items are final sale and cannot be returned or exchanged. Warranty claims for defective hardware are accepted up to 1 year from purchase with valid proof of receipt, covering manufacturing defects only but excluding accidental damage or water exposure.",
       "options": [
-        "No, clearance items cannot be returned or exchanged",
         "Yes, within 30 days",
         "Yes, if unopened",
+        "No, clearance items cannot be returned or exchanged",
         "Only with store manager approval"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "advice": {
-        "index": 0,
+        "index": 2,
         "confidence": 99,
         "explanation": "Sale and clearance items are final sale and cannot be returned or exchanged under any circumstances.",
         "source": "recorded",
@@ -194,14 +194,14 @@
       "prompt": "A customer bought an unactivated digital software license 5 days ago and wants a refund. Is it eligible?",
       "context": "Acme Corp Refund Policy: Standard physical items may be returned within 30 days of delivery for a full refund, provided they are in original packaging and unopened. Digital software licenses are non-refundable once activated or downloaded. Sale and clearance items are final sale and cannot be returned or exchanged. Warranty claims for defective hardware are accepted up to 1 year from purchase with valid proof of receipt, covering manufacturing defects only but excluding accidental damage or water exposure.",
       "options": [
+        "Yes, unactivated digital software can be refunded within 30 days",
         "Only for store credit",
         "No, all digital software is strictly non-refundable immediately upon purchase",
-        "Yes, unactivated digital software can be refunded within 30 days",
         "Only after 30 days"
       ],
-      "correct_index": 2,
+      "correct_index": 0,
       "advice": {
-        "index": 2,
+        "index": 0,
         "confidence": 94,
         "explanation": "Software licenses are only non-refundable once activated or downloaded, so unactivated licenses within 30 days remain eligible.",
         "source": "recorded",
@@ -218,13 +218,13 @@
       "context": "Acme Corp Refund Policy: Standard physical items may be returned within 30 days of delivery for a full refund, provided they are in original packaging and unopened. Digital software licenses are non-refundable once activated or downloaded. Sale and clearance items are final sale and cannot be returned or exchanged. Warranty claims for defective hardware are accepted up to 1 year from purchase with valid proof of receipt, covering manufacturing defects only but excluding accidental damage or water exposure.",
       "options": [
         "Yes, bank statements replace receipts",
+        "No, valid proof of receipt is required for warranty claims",
         "Only store credit",
-        "Yes, if under 30 days",
-        "No, valid proof of receipt is required for warranty claims"
+        "Yes, if under 30 days"
       ],
-      "correct_index": 3,
+      "correct_index": 1,
       "advice": {
-        "index": 3,
+        "index": 1,
         "confidence": 95,
         "explanation": "The policy strictly requires valid proof of receipt for warranty claims up to 1 year.",
         "source": "recorded",
