@@ -2,6 +2,8 @@
 
 Six slides, about 4 minutes, per `docs/plan/team-plan.md` ("Pitch"). Every number comes from `findings.md` (locked 09:30 Friday) and is shown with its n. Placeholders look like `{{name}}`; do not fill them from memory or from the demo screens.
 
+For the business and KPMG framing of slides 5 and 6 (EU AI Act Article 14, "phishing simulation for AI advice", how it runs in an office), see `docs/pitch/product-strategy.md`.
+
 Language rules: "directional evidence from {{n_sessions}} people", never "proves" or "shows that people are". Seeded sessions never appear in a pitch number.
 
 ---
