@@ -103,3 +103,14 @@ test("parseCsv keeps empty cells and drops blank lines", () => {
     ["1", "", "x,y"],
   ]);
 });
+
+test("the sample files on the dashboard upload cleanly, with no warnings", () => {
+  for (const name of ["kyc-alerts-demo.csv", "centaur-cases-template.csv"]) {
+    const result = parseUpload(name, readFileSync(new URL(`../public/samples/${name}`, import.meta.url), "utf8"));
+    assert.equal(result.ok, true, `${name}: ${result.ok ? "" : result.errors.join("; ")}`);
+    assert.deepEqual(result.warnings, [], name);
+  }
+  const demo = parseUpload("kyc-alerts-demo.csv", readFileSync(new URL("../public/samples/kyc-alerts-demo.csv", import.meta.url), "utf8"));
+  assert.equal(demo.questions.length, 12);
+  assert.equal(demo.questions.filter((q) => q.adviceIndex !== q.correctIndex).length, 4);
+});

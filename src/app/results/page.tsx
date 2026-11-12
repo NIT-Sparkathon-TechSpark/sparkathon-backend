@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ThreeWayChart, type ConditionBar } from "@/components/results/charts";
+import { AiInducedErrorsBanner } from "@/components/results/ai-induced-errors";
 import { EmptyState } from "@/components/results/notices";
+import { PredictionsCard } from "@/components/results/predictions-card";
 import { RelianceGrid } from "@/components/results/reliance-grid";
 import { ResultsHeader } from "@/components/results/results-header";
 import { StatTile } from "@/components/results/stat-tile";
@@ -26,6 +28,7 @@ import {
 } from "@/lib/metrics";
 import { filterQuery, parseFilter, type ResultsFilter } from "./_lib/filters";
 import { intervalText, kOfN, pct, points } from "./_lib/format";
+import { aiInducedErrors, endedOnWrongAdvice, predictions } from "./_lib/insights";
 import { loadFacts } from "./_lib/load-facts";
 
 /** Below this many people, one person's habits dominate every number. */
@@ -78,6 +81,8 @@ function Overview({ facts, filter }: { facts: TrialFact[]; filter: ResultsFilter
 
   const gain = s.centaurGain;
   const better = (s.aiAlone.value ?? 0) >= (s.humanAlone.value ?? 0) ? "the AI alone" : "people alone";
+  const induced = aiInducedErrors(facts);
+  const endedWrong = endedOnWrongAdvice(facts);
   const disagreements =
     s.relianceGrid.followedRight + s.relianceGrid.followedWrong + s.relianceGrid.ignoredRight + s.relianceGrid.ignoredWrong;
 
@@ -89,6 +94,8 @@ function Overview({ facts, filter }: { facts: TrialFact[]; filter: ResultsFilter
           Read these numbers as a first look; they will move.
         </p>
       )}
+
+      <AiInducedErrorsBanner induced={induced} endedWrong={endedWrong} />
 
       <section className="grid gap-6 lg:grid-cols-[3fr_2fr]">
         <Card>
@@ -123,6 +130,8 @@ function Overview({ facts, filter }: { facts: TrialFact[]; filter: ResultsFilter
           <StatTile label="Humans + AI" value={pct(s.humanAI)} detail={kOfN(s.humanAI)} interval={intervalText(ci.centaur)} tone="centaur" />
         </div>
       </section>
+
+      <PredictionsCard items={predictions(facts, { allSets: filter.set === null })} />
 
       <section className="grid gap-6 lg:grid-cols-[3fr_2fr]">
         <Card>

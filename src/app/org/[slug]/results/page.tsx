@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { pct, intervalText, kOfN, points } from "@/app/results/_lib/format";
+import { aiInducedErrors, endedOnWrongAdvice } from "@/app/results/_lib/insights";
+import { AiInducedErrorsBanner } from "@/components/results/ai-induced-errors";
 import { AutoRefresh } from "@/components/results/auto-refresh";
 import { SliceChart, ThreeWayChart, type ConditionBar, type SliceBar } from "@/components/results/charts";
 import { TooLittleData } from "@/components/results/notices";
@@ -150,6 +152,12 @@ function Overview({ facts }: { facts: TrialFact[] }) {
 
   return (
     <div className="flex flex-col gap-6">
+      <AiInducedErrorsBanner
+        induced={aiInducedErrors(facts)}
+        endedWrong={endedOnWrongAdvice(facts)}
+        people="one of your people"
+      />
+
       <Card className="border-l-4 border-l-centaur">
         <CardHeader>
           <CardTitle>What this means for your rollout</CardTitle>
