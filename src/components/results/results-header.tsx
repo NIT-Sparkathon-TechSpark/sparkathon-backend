@@ -2,7 +2,8 @@ import Link from "next/link";
 import { SETS, SET_NAMES, filterQuery, type ResultsFilter } from "@/app/results/_lib/filters";
 import { cn } from "@/lib/utils";
 import { AutoRefresh } from "./auto-refresh";
-import { DemoDataBanner } from "./notices";
+import type { FactsProblem, FactsSource } from "@/app/results/_lib/load-facts";
+import { DataSourceNotice } from "./notices";
 
 const TABS = [
   { href: "/results", label: "Overview" },
@@ -39,7 +40,8 @@ export function ResultsHeader({
   extra = {},
   trials,
   sessions,
-  demo,
+  source,
+  problem,
 }: {
   active: Tab;
   filter: ResultsFilter;
@@ -47,7 +49,8 @@ export function ResultsHeader({
   extra?: Record<string, string | null>;
   trials: number;
   sessions: number;
-  demo: boolean;
+  source: FactsSource;
+  problem?: FactsProblem;
 }) {
   return (
     <header className="flex flex-col gap-4">
@@ -111,7 +114,7 @@ export function ResultsHeader({
         </Chip>
       </div>
 
-      <DemoDataBanner show={demo} />
+      <DataSourceNotice source={source} problem={problem} />
     </header>
   );
 }

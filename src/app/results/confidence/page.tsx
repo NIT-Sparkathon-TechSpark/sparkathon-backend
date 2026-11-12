@@ -44,7 +44,7 @@ function shiftShares({ label, trials }: Group): ShiftBar {
 /** Feature 10: the second meaning of "worse", feeling surer of a wrong answer. */
 export default async function ConfidencePage({ searchParams }: PageProps<"/results/confidence">) {
   const filter = parseFilter(await searchParams);
-  const { facts, source } = await loadFacts(filter);
+  const { facts, source, problem } = await loadFacts(filter);
   const s = summarize(facts);
   const done = complete(facts);
 
@@ -75,11 +75,12 @@ export default async function ConfidencePage({ searchParams }: PageProps<"/resul
         filter={filter}
         trials={s.trials}
         sessions={s.sessions}
-        demo={source === "demo"}
+        source={source}
+        problem={problem}
       />
 
       {s.trials === 0 ? (
-        <EmptyState seeded={filter.seeded} />
+        <EmptyState seeded={filter.seeded} source={source} />
       ) : (
         <div className="flex flex-col gap-6">
           <section className="grid gap-3 md:grid-cols-3">
