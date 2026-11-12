@@ -9,6 +9,7 @@ const NAV = [
   { href: "#how", label: "How it works" },
   { href: "#measure", label: "What you get" },
   { href: "#sets", label: "Topics" },
+  { href: "#orgs", label: "For organizations" },
 ] as const;
 
 /** The public front page. Static: it reads nothing from the database. */
@@ -154,6 +155,41 @@ export default function Home() {
           </div>
         </Band>
 
+        {/* For organizations */}
+        <Band id="orgs">
+          <div className="grid items-center gap-10 lg:grid-cols-2">
+            <div className="flex flex-col gap-6">
+              <SectionHead
+                eyebrow="For organizations"
+                title="Run the test on your own AI"
+                lead="Find out whether your team catches your AI assistant's mistakes or goes along with them, on cases from your own work."
+              />
+              <ol className="flex flex-col gap-4">
+                <OrgStep n={1} title="Upload your cases">
+                  A CSV or JSON file: each question, four options, the right one, and what your AI answered.
+                </OrgStep>
+                <OrgStep n={2} title="Share a private link" ai>
+                  Your people take the test with a nickname. Nobody can find the set without the link.
+                </OrgStep>
+                <OrgStep n={3} title="See where AI helps and where it hurts">
+                  Results only your organization can see, with plain advice on what to change.
+                </OrgStep>
+              </ol>
+              <div className="flex flex-wrap gap-3">
+                <Link href="/org" className={cn(buttonVariants({ size: "lg" }), "h-12 px-7")}>
+                  Set up your organization
+                </Link>
+                <Link href="/org" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-12 px-7")}>
+                  Sign in
+                </Link>
+              </div>
+              <p className="text-muted-foreground text-sm">No personal accounts. Your team shares one passcode.</p>
+            </div>
+
+            <OrgExample />
+          </div>
+        </Band>
+
         {/* Results */}
         <Band>
           <div className="bg-card/70 flex flex-col items-start gap-5 rounded-2xl border p-8 backdrop-blur md:flex-row md:items-center md:justify-between md:p-10">
@@ -178,11 +214,6 @@ export default function Home() {
           <ul className="flex max-w-xl flex-col gap-1.5 leading-relaxed">
             <li>We store your nickname and your answers, and nothing else.</li>
             <li>The AI&apos;s answers were recorded before the test. Nothing is generated while you answer.</li>
-            <li>
-              <Link href="/org" className="hover:text-foreground underline underline-offset-4 transition-colors">
-                For organizations: test your own AI on your own cases
-              </Link>
-            </li>
           </ul>
         </div>
       </footer>
@@ -233,6 +264,72 @@ function Step({ n, title, ai, children }: { n: number; title: string; ai?: boole
       <h3 className="text-lg font-semibold">{title}</h3>
       <p className="text-muted-foreground text-sm leading-relaxed">{children}</p>
     </li>
+  );
+}
+
+function OrgStep({ n, title, ai, children }: { n: number; title: string; ai?: boolean; children: ReactNode }) {
+  return (
+    <li className="flex gap-4">
+      <span
+        aria-hidden
+        className={cn(
+          "grid size-9 shrink-0 place-items-center rounded-full font-semibold",
+          ai ? "bg-ai/15 text-ai" : "bg-primary/15 text-primary",
+        )}
+      >
+        {n}
+      </span>
+      <div className="flex flex-col gap-1">
+        <h3 className="font-semibold">{title}</h3>
+        <p className="text-muted-foreground text-sm leading-relaxed">{children}</p>
+      </div>
+    </li>
+  );
+}
+
+/**
+ * A made up organization dashboard, the counterpart of HeroExample: what an organization sees
+ * after one upload. Illustrative numbers, not real data.
+ */
+function OrgExample() {
+  return (
+    <figure aria-label="An example organization dashboard" className="relative mx-auto w-full max-w-md">
+      <div aria-hidden className="bg-card flex flex-col gap-4 rounded-2xl border p-5 shadow-2xl shadow-black/20">
+        <div className="flex items-center justify-between">
+          <Eyebrow className="text-muted-foreground">Example dashboard</Eyebrow>
+          <span className="bg-secondary text-muted-foreground rounded-full px-2 py-0.5 text-xs font-medium">
+            Private
+          </span>
+        </div>
+        <p className="text-lg leading-snug font-semibold">Loan application reviews</p>
+        <div className="grid grid-cols-3 gap-2">
+          <ExampleStat label="Questions" value="24" />
+          <ExampleStat label="AI wrong" value="8" ai />
+          <ExampleStat label="Finished" value="17" />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Eyebrow className="text-muted-foreground">Participant link</Eyebrow>
+          <p className="bg-secondary/60 truncate rounded-lg border px-3 py-2 font-mono text-xs">
+            /t/k7Qm2xP9vLr4Tn8wZc1bYa
+          </p>
+        </div>
+        <div className="border-hurts/40 bg-hurts-soft flex flex-col gap-1 rounded-xl border p-3 text-sm">
+          <span className="text-hurts font-semibold">It fooled them 41% of the time</span>
+          <span className="text-xs leading-snug">
+            When the AI was wrong and people disagreed with it, 41% switched to its answer anyway.
+          </span>
+        </div>
+      </div>
+    </figure>
+  );
+}
+
+function ExampleStat({ label, value, ai }: { label: string; value: string; ai?: boolean }) {
+  return (
+    <div className="flex flex-col gap-1 rounded-xl border p-3">
+      <span className="text-muted-foreground text-[0.6875rem] font-semibold tracking-wide uppercase">{label}</span>
+      <span className={cn("text-xl font-semibold tabular-nums", ai && "text-ai")}>{value}</span>
+    </div>
   );
 }
 
