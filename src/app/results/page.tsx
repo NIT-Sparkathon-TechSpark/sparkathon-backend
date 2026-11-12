@@ -28,6 +28,9 @@ import { filterQuery, parseFilter, type ResultsFilter } from "./_lib/filters";
 import { intervalText, kOfN, pct, points } from "./_lib/format";
 import { loadFacts } from "./_lib/load-facts";
 
+/** Below this many people, one person's habits dominate every number. */
+const MIN_SESSIONS = 3;
+
 export const metadata: Metadata = { title: "Results · The Centaur Test" };
 
 function errorBar(rate: Rate, interval: Interval | null): [number, number] | undefined {
@@ -79,9 +82,10 @@ function Overview({ facts, filter }: { facts: TrialFact[]; filter: ResultsFilter
 
   return (
     <div className="flex flex-col gap-6">
-      {s.trials < MIN_TRIALS_PER_SLICE && (
+      {(s.trials < MIN_TRIALS_PER_SLICE || s.sessions < MIN_SESSIONS) && (
         <p className="text-muted-foreground rounded-lg border border-dashed px-4 py-2 text-sm">
-          Only {s.trials} answers so far. Read these numbers as a first look; they will move.
+          Only {s.trials} answers from {s.sessions} {s.sessions === 1 ? "person" : "people"} so far.
+          Read these numbers as a first look; they will move.
         </p>
       )}
 

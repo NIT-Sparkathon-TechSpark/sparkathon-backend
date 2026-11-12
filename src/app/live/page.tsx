@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { filterQuery, parseFilter, SET_NAMES } from "@/app/results/_lib/filters";
 import { pct, points } from "@/app/results/_lib/format";
@@ -20,6 +21,9 @@ export default async function LivePage({ searchParams }: PageProps<"/live">) {
   const { facts, source } = await loadFacts(filter);
   const s = summarize(facts);
   const gain = s.centaurGain;
+  // The judge link from the team plan, shown big on the projector during the pitch.
+  const host = (await headers()).get("host");
+  const joinUrl = filter.set === "judge-demo" && host ? `${host}/s/judge-demo?label=judge` : null;
 
   return (
     <main className="dark bg-background text-foreground flex min-h-dvh flex-1 flex-col gap-8 px-6 py-8 md:px-12 md:py-10">
@@ -31,6 +35,11 @@ export default async function LivePage({ searchParams }: PageProps<"/live">) {
           <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">
             Does AI advice make people better, or worse?
           </h1>
+          {joinUrl && (
+            <p className="mt-3 text-xl md:text-2xl">
+              Take the test: <span className="text-centaur font-mono font-semibold break-all">{joinUrl}</span>
+            </p>
+          )}
         </div>
         <div className="flex flex-col items-end gap-1">
           <AutoRefresh />
@@ -88,8 +97,8 @@ export default async function LivePage({ searchParams }: PageProps<"/live">) {
 
       <footer className="text-muted-foreground flex flex-wrap items-center justify-between gap-2 text-sm">
         <span>
-          {s.trials > 0 && s.trials < MIN_TRIALS_PER_SLICE
-            ? "Early numbers: fewer than 10 answers so far."
+          {s.trials > 0 && (s.trials < MIN_TRIALS_PER_SLICE || s.sessions < 3)
+            ? `Early numbers: ${s.trials} answers from ${s.sessions} ${s.sessions === 1 ? "person" : "people"} so far.`
             : "Directional evidence, not proof."}
         </span>
         <Link href={`/results${filterQuery(filter)}`} className="hover:text-foreground">

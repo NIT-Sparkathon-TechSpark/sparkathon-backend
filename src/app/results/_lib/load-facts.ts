@@ -17,6 +17,9 @@ export async function loadFacts(
   filter: ResultsFilter,
 ): Promise<{ facts: TrialFact[]; source: FactsSource }> {
   const labels: SessionLabel[] = filter.seeded ? ["pilot", "seeded"] : ["pilot"];
+  // Judges take `judge-demo` with ?label=judge during the pitch. Their answers count only in that
+  // set's view, so the live demo shows them and they never mix into the pilot findings.
+  if (filter.set === "judge-demo") labels.push("judge");
 
   if (!process.env.DATABASE_URL) {
     return { facts: demoFacts(filter, labels), source: "demo" };
