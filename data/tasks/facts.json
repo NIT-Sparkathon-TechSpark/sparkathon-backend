@@ -24,7 +24,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "facts-02",
@@ -72,7 +72,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "facts-04",
@@ -120,7 +120,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "facts-06",
@@ -144,7 +144,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "facts-07",
@@ -192,7 +192,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "facts-09",
@@ -216,7 +216,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "facts-10",
@@ -288,7 +288,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "facts-13",
@@ -360,7 +360,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "facts-16",
@@ -432,7 +432,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "facts-19",

@@ -24,7 +24,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "logic-02",
@@ -72,7 +72,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "logic-04",
@@ -120,7 +120,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "logic-06",
@@ -168,7 +168,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "logic-08",
@@ -216,7 +216,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "logic-10",
@@ -264,7 +264,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "logic-12",
@@ -288,7 +288,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "logic-13",
@@ -312,7 +312,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "logic-14",
@@ -336,7 +336,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "logic-15",
@@ -384,7 +384,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "logic-17",
@@ -432,7 +432,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "logic-19",
@@ -456,7 +456,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "logic-20",

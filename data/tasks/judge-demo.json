@@ -24,7 +24,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "judge-demo-02",
@@ -48,7 +48,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "judge-demo-03",
