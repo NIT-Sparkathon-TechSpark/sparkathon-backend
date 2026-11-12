@@ -1,5 +1,17 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.DS_Store
+dist/
+build/
+.next/
+coverage/
+*.log
+.claude/settings.local.json
+
+# Python (kept from the original repo setup)
 __pycache__/
 *.pyc
-.env
 venv/
 .ipynb_checkpoints/
