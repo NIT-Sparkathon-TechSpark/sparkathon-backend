@@ -15,3 +15,7 @@ __pycache__/
 *.pyc
 venv/
 .ipynb_checkpoints/
+
+# Next.js / TypeScript build artifacts
+*.tsbuildinfo
+next-env.d.ts
