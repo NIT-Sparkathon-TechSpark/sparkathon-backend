@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ThreeWayChart, type ConditionBar } from "@/components/results/charts";
 import { EmptyState } from "@/components/results/notices";
+import { PredictionsCard } from "@/components/results/predictions-card";
 import { RelianceGrid } from "@/components/results/reliance-grid";
 import { ResultsHeader } from "@/components/results/results-header";
 import { StatTile } from "@/components/results/stat-tile";
@@ -26,6 +27,7 @@ import {
 } from "@/lib/metrics";
 import { filterQuery, parseFilter, type ResultsFilter } from "./_lib/filters";
 import { intervalText, kOfN, pct, points } from "./_lib/format";
+import { aiInducedErrors, endedOnWrongAdvice, predictions } from "./_lib/insights";
 import { loadFacts } from "./_lib/load-facts";
 
 /** Below this many people, one person's habits dominate every number. */
@@ -78,6 +80,8 @@ function Overview({ facts, filter }: { facts: TrialFact[]; filter: ResultsFilter
 
   const gain = s.centaurGain;
   const better = (s.aiAlone.value ?? 0) >= (s.humanAlone.value ?? 0) ? "the AI alone" : "people alone";
+  const induced = aiInducedErrors(facts);
+  const endedWrong = endedOnWrongAdvice(facts);
   const disagreements =
     s.relianceGrid.followedRight + s.relianceGrid.followedWrong + s.relianceGrid.ignoredRight + s.relianceGrid.ignoredWrong;
 
@@ -89,6 +93,26 @@ function Overview({ facts, filter }: { facts: TrialFact[]; filter: ResultsFilter
           Read these numbers as a first look; they will move.
         </p>
       )}
+
+      <section
+        aria-label="Headline"
+        className="border-hurts/40 bg-hurts-soft grid gap-4 rounded-xl border p-5 md:grid-cols-[auto_1fr] md:items-center md:gap-8"
+      >
+        <div className="flex flex-col">
+          <span className="text-hurts text-xs font-semibold tracking-wide uppercase">AI-induced errors</span>
+          <span className="text-5xl font-semibold tracking-tight tabular-nums md:text-6xl">{induced.k}</span>
+        </div>
+        <div className="flex flex-col gap-1 text-sm">
+          <p className="text-base font-medium">
+            {induced.k === 1 ? "Once" : `${induced.k} times`}, someone had the right answer, the AI was wrong,
+            and they switched to the AI.
+          </p>
+          <p className="text-muted-foreground">
+            That is {pct(induced)} of the {induced.n} times a person was right and the AI wrong. Overall, when the AI
+            was wrong, {pct(endedWrong)} of final answers ({kOfN(endedWrong)}) were the AI&apos;s wrong answer.
+          </p>
+        </div>
+      </section>
 
       <section className="grid gap-6 lg:grid-cols-[3fr_2fr]">
         <Card>
@@ -123,6 +147,8 @@ function Overview({ facts, filter }: { facts: TrialFact[]; filter: ResultsFilter
           <StatTile label="Humans + AI" value={pct(s.humanAI)} detail={kOfN(s.humanAI)} interval={intervalText(ci.centaur)} tone="centaur" />
         </div>
       </section>
+
+      <PredictionsCard items={predictions(facts, { allSets: filter.set === null })} />
 
       <section className="grid gap-6 lg:grid-cols-[3fr_2fr]">
         <Card>
