@@ -3,11 +3,14 @@ import { and, asc, eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { db } from "../index";
 import { responses, sessions, tasks, type SessionLabel } from "../schema";
 import { planSession } from "../session-plan";
+import { isMixedSet } from "../../lib/sets";
 
 /**
  * Everything the participant flow reads and writes. P1's Server Actions call these with the
  * session id from the cookie (never from a form value). Hard rule 2 lives here: the correct
- * answer and the AI advice are only ever selected for a response whose first answer is stored.
+ * answer is never selected, and the AI advice is only ever selected for a response whose first
+ * answer is stored, or for a response marked advice first (spec 0002), where showing the advice
+ * with the question is the point.
  *
  * Rows are created when the session starts, so "insert if absent" for the first answer is an
  * update that only applies while first_answer is still null. Each write is one statement, or one
@@ -39,6 +42,8 @@ export type SessionStep =
       first: { answer: number; confidence: number };
       advice: Advice;
     }
+  // Spec 0002: the advice is on screen from the start and there is one answer only.
+  | { stage: "advised"; position: number; total: number; task: PublicTask; advice: Advice }
   | { stage: "done"; total: number };
 
 // ---------------------------------------------------------------------------------------------
@@ -67,7 +72,10 @@ export async function startSession(input: StartSessionInput): Promise<{ sessionI
     .where(eq(tasks.setSlug, input.setSlug));
   if (setTasks.length === 0) return null;
 
-  const plan = planSession(setTasks, { fixedOrder: input.setSlug === "judge-demo" });
+  const plan = planSession(setTasks, {
+    fixedOrder: input.setSlug === "judge-demo",
+    mixed: isMixedSet(input.setSlug),
+  });
   const sessionId = randomUUID();
 
   await db.batch([
@@ -84,6 +92,7 @@ export async function startSession(input: StartSessionInput): Promise<{ sessionI
         taskId: p.taskId,
         position: p.position,
         rationaleShown: p.rationaleShown,
+        adviceFirst: p.adviceFirst,
       })),
     ),
   ]);
@@ -103,10 +112,14 @@ export async function sessionExists(sessionId: string): Promise<boolean> {
 // ---------------------------------------------------------------------------------------------
 // Reads: the stage always comes from the database
 
-/** Stage 1: the next question without a first answer. Never selects the answer or the advice. */
+/**
+ * Stage 1: the question alone, for an answer first response with no first answer yet. Never
+ * selects the answer or the advice.
+ */
 export async function getStageOneTask(
   sessionId: string,
-): Promise<{ position: number; total: number; task: PublicTask } | null> {
+  taskId: string,
+): Promise<{ position: number; task: PublicTask } | null> {
   const [row] = await db
     .select({
       position: responses.position,
@@ -117,12 +130,18 @@ export async function getStageOneTask(
     })
     .from(responses)
     .innerJoin(tasks, eq(responses.taskId, tasks.id))
-    .where(and(eq(responses.sessionId, sessionId), isNull(responses.firstAnswer)))
-    .orderBy(asc(responses.position))
+    .where(
+      and(
+        eq(responses.sessionId, sessionId),
+        eq(responses.taskId, taskId),
+        eq(responses.adviceFirst, false),
+        isNull(responses.firstAnswer),
+      ),
+    )
     .limit(1);
   if (!row) return null;
   const { position, ...task } = row;
-  return { position, total: await countResponses(sessionId), task };
+  return { position, task };
 }
 
 /**
@@ -149,6 +168,7 @@ export async function getStageTwoAdvice(sessionId: string, taskId: string) {
       and(
         eq(responses.sessionId, sessionId),
         eq(responses.taskId, taskId),
+        eq(responses.adviceFirst, false),
         isNotNull(responses.firstAnswer),
         isNull(responses.finalAnswer),
       ),
@@ -167,29 +187,78 @@ export async function getStageTwoAdvice(sessionId: string, taskId: string) {
   };
 }
 
-/** What the session screen should show right now. Use this on every render of the flow. */
-export async function getSessionStep(sessionId: string): Promise<SessionStep> {
-  const total = await countResponses(sessionId);
-  // A response with a first answer but no final answer: show its advice.
-  const [pending] = await db
-    .select({ taskId: responses.taskId })
+/**
+ * Spec 0002: the question together with the advice, only for a response that is marked advice
+ * first and not answered yet. Returns null for every other row, so an answer first question can
+ * never get its advice this way.
+ */
+export async function getAdvisedTask(sessionId: string, taskId: string) {
+  const [row] = await db
+    .select({
+      position: responses.position,
+      rationaleShown: responses.rationaleShown,
+      prompt: tasks.prompt,
+      context: tasks.context,
+      options: tasks.options,
+      adviceIndex: tasks.adviceIndex,
+      adviceConfidence: tasks.adviceConfidence,
+      adviceExplanation: tasks.adviceExplanation,
+    })
     .from(responses)
+    .innerJoin(tasks, eq(responses.taskId, tasks.id))
     .where(
       and(
         eq(responses.sessionId, sessionId),
-        isNotNull(responses.firstAnswer),
+        eq(responses.taskId, taskId),
+        eq(responses.adviceFirst, true),
         isNull(responses.finalAnswer),
       ),
     )
+    .limit(1);
+  if (!row) return null;
+  return {
+    position: row.position,
+    task: { taskId, prompt: row.prompt, context: row.context, options: row.options } as PublicTask,
+    advice: {
+      index: row.adviceIndex,
+      confidence: row.adviceConfidence,
+      explanation: row.rationaleShown ? row.adviceExplanation : null,
+    } as Advice,
+  };
+}
+
+/**
+ * What the session screen should show right now. Use this on every render of the flow.
+ * The next open response (lowest position with no final answer) decides the stage. This first read
+ * selects no question text, no answer and no advice: only which row it is and which form it has.
+ */
+export async function getSessionStep(sessionId: string, retry = true): Promise<SessionStep> {
+  const total = await countResponses(sessionId);
+  const [next] = await db
+    .select({
+      taskId: responses.taskId,
+      adviceFirst: responses.adviceFirst,
+      hasFirst: sql<boolean>`${responses.firstAnswer} is not null`,
+    })
+    .from(responses)
+    .where(and(eq(responses.sessionId, sessionId), isNull(responses.finalAnswer)))
     .orderBy(asc(responses.position))
     .limit(1);
-  if (pending) {
-    const stage2 = await getStageTwoAdvice(sessionId, pending.taskId);
+  if (!next) return { stage: "done", total };
+
+  if (next.adviceFirst) {
+    const advised = await getAdvisedTask(sessionId, next.taskId);
+    if (advised) return { stage: "advised", total, ...advised };
+  } else if (next.hasFirst) {
+    const stage2 = await getStageTwoAdvice(sessionId, next.taskId);
     if (stage2) return { stage: "final", total, ...stage2 };
+  } else {
+    const stage1 = await getStageOneTask(sessionId, next.taskId);
+    if (stage1) return { stage: "first", total, ...stage1 };
   }
-  const stage1 = await getStageOneTask(sessionId);
-  if (stage1) return { stage: "first", ...stage1 };
-  return { stage: "done", total };
+  // The row changed between the two reads (a submit in another tab). Read once more.
+  if (retry) return getSessionStep(sessionId, false);
+  throw new Error(`Could not work out the current step for session ${sessionId}`);
 }
 
 async function countResponses(sessionId: string): Promise<number> {
@@ -225,12 +294,26 @@ export async function recordFirstAnswer(input: AnswerInput): Promise<boolean> {
       and(
         eq(responses.sessionId, input.sessionId),
         eq(responses.taskId, input.taskId),
+        eq(responses.adviceFirst, false),
         isNull(responses.firstAnswer),
       ),
     )
     .returning({ id: responses.id });
   return updated.length > 0;
 }
+
+/** Marks the session complete when no response is left without a final answer. */
+const completeSessionIfDone = (sessionId: string) =>
+  db
+    .update(sessions)
+    .set({ completedAt: sql`now()` })
+    .where(
+      and(
+        eq(sessions.id, sessionId),
+        isNull(sessions.completedAt),
+        sql`not exists (select 1 from responses r where r.session_id = ${sessionId} and r.final_answer is null)`,
+      ),
+    );
 
 /**
  * Store the final answer, only after the first answer and only once. Marks the session complete
@@ -250,21 +333,42 @@ export async function recordFinalAnswer(input: AnswerInput): Promise<boolean> {
         and(
           eq(responses.sessionId, input.sessionId),
           eq(responses.taskId, input.taskId),
+          eq(responses.adviceFirst, false),
           isNotNull(responses.firstAnswer),
           isNull(responses.finalAnswer),
         ),
       )
       .returning({ id: responses.id }),
+    completeSessionIfDone(input.sessionId),
+  ]);
+  return updated.length > 0;
+}
+
+/**
+ * Spec 0002: store the one answer of an advice first response, only once. The first answer
+ * columns stay empty (the database also refuses them on these rows). Marks the session complete
+ * in the same transaction when this was its last open question.
+ */
+export async function recordAdvisedAnswer(input: AnswerInput): Promise<boolean> {
+  const [updated] = await db.batch([
     db
-      .update(sessions)
-      .set({ completedAt: sql`now()` })
+      .update(responses)
+      .set({
+        finalAnswer: input.answer,
+        finalConfidence: input.confidence,
+        msFinal: input.ms,
+        finalAt: sql`now()`,
+      })
       .where(
         and(
-          eq(sessions.id, input.sessionId),
-          isNull(sessions.completedAt),
-          sql`not exists (select 1 from responses r where r.session_id = ${input.sessionId} and r.final_answer is null)`,
+          eq(responses.sessionId, input.sessionId),
+          eq(responses.taskId, input.taskId),
+          eq(responses.adviceFirst, true),
+          isNull(responses.finalAnswer),
         ),
-      ),
+      )
+      .returning({ id: responses.id }),
+    completeSessionIfDone(input.sessionId),
   ]);
   return updated.length > 0;
 }

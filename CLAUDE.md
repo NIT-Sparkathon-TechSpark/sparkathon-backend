@@ -21,7 +21,7 @@ Skills installed in `.claude/skills/`: `shadcn`, `neon-postgres`, `neon-drizzle`
 ## Hard rules
 
 1. The app never calls an AI service, at build time or at run time. AI advice comes from `data/tasks/*.json`.
-2. The correct answer and the AI advice for a task never reach the browser before the participant's first answer for that task is stored. That covers page content, Server Action return values and props passed to Client Components.
+2. The correct answer for a task never reaches the browser before the session is complete. The AI advice never reaches the browser before the participant's first answer for that task is stored, except on responses marked `advice_first` (spec 0002, experiment branch only), where the advice is shown with the question by design. That covers page content, Server Action return values and props passed to Client Components.
 3. Every Server Action validates its input with Zod and reads the session from the cookie, never from a form value.
 4. Results queries return aggregates only. One person's rows appear only in their own report and the researcher area.
 5. No database write during a page render.

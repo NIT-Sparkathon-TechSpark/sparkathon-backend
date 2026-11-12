@@ -91,6 +91,8 @@ export const sessions = pgTable(
  *   first_answer is null                       -> show the question alone
  *   first_answer set, final_answer is null     -> show the AI advice
  *   both set                                   -> done, next position
+ * Advice first rows (spec 0002, `advice_first`) skip the first stage: the advice is shown with the
+ * question and only the final answer is ever stored. Their first_* columns stay null for ever.
  * Writes: the first answer only updates while first_answer is null; the final answer only
  * while final_answer is null and first_answer is set. One SQL statement each (neon-http).
  */
@@ -107,6 +109,8 @@ export const responses = pgTable(
       .references(() => tasks.id),
     position: smallint("position").notNull(),
     rationaleShown: boolean("rationale_shown").notNull(),
+    // Spec 0002: true when the AI advice is shown before the person answers (one step).
+    adviceFirst: boolean("advice_first").notNull().default(false),
     firstAnswer: smallint("first_answer"),
     firstConfidence: smallint("first_confidence"),
     finalAnswer: smallint("final_answer"),
@@ -138,7 +142,11 @@ export const responses = pgTable(
     ),
     check(
       "responses_final_after_first",
-      sql`${t.finalAnswer} is null or ${t.firstAnswer} is not null`,
+      sql`${t.finalAnswer} is null or ${t.firstAnswer} is not null or ${t.adviceFirst}`,
+    ),
+    check(
+      "responses_advice_first_no_first",
+      sql`not ${t.adviceFirst} or (${t.firstAnswer} is null and ${t.firstConfidence} is null)`,
     ),
   ],
 );

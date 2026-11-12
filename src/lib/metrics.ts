@@ -25,9 +25,17 @@ export type TrialFact = {
   finalConfidence: number | null;
   label?: string;
   selfRatedExpertise?: number | null;
+  /** Spec 0002: the AI advice was shown before the person answered. Such a trial has no first answer. */
+  adviceFirst?: boolean;
+  msFirst?: number | null;
+  msFinal?: number | null;
 };
 
-/** A trial where both stages are stored. Only these count in any metric. */
+/**
+ * A trial where both stages are stored. Only these count in the metrics of the two stage test.
+ * Advice first trials (spec 0002) never have a first answer, so they are never complete and never
+ * enter those metrics; they have their own section at the end of this file.
+ */
 export type CompleteTrial = TrialFact & {
   firstAnswer: number;
   firstConfidence: number;
@@ -309,5 +317,96 @@ export function sessionProfile(rows: TrialFact[]) {
     ignoredGoodAdvice: grid.ignoredRight,
     harmfulSwitches: harmfulSwitch(done).k,
     items,
+  };
+}
+
+// ---------------------------------------------------------------------------------------------
+// Spec 0002: advice first against answer first
+
+export type Form = "adviceFirst" | "answerFirst";
+
+/** An advice first trial with its one answer stored. */
+export type AdvisedTrial = TrialFact & { adviceFirst: true; finalAnswer: number; finalConfidence: number };
+
+export const isAdvised = (t: TrialFact): t is AdvisedTrial =>
+  t.adviceFirst === true && t.finalAnswer !== null && t.finalConfidence !== null;
+
+type Answered = TrialFact & { finalAnswer: number; finalConfidence: number };
+
+/** The answered trials of one form. Answer first means both stages are stored. */
+export function inForm(rows: TrialFact[], form: Form): Answered[] {
+  return form === "adviceFirst"
+    ? rows.filter(isAdvised)
+    : complete(rows).filter((t) => t.adviceFirst !== true);
+}
+
+const endedCorrect = (t: Answered) => t.finalAnswer === t.correctIndex;
+
+/** AI wrong: share of final answers that were still right. The headline of spec 0002. */
+export const catchRate = (rows: TrialFact[], form: Form): Rate =>
+  rate(inForm(rows, form).filter((t) => !aiCorrect(t)), endedCorrect);
+
+/** AI wrong: share of final answers that were the AI's wrong answer. */
+export const followedWrongRate = (rows: TrialFact[], form: Form): Rate =>
+  rate(inForm(rows, form).filter((t) => !aiCorrect(t)), (t) => t.finalAnswer === t.adviceIndex);
+
+/** AI right: share of final answers that were right. Shows what answering first costs, if anything. */
+export const rightWhenAIRight = (rows: TrialFact[], form: Form): Rate =>
+  rate(inForm(rows, form).filter(aiCorrect), endedCorrect);
+
+/** Catch rate answer first minus catch rate advice first, as a fraction. Null if either is missing. */
+export function orderGap(rows: TrialFact[]): number | null {
+  const answerFirst = catchRate(rows, "answerFirst").value;
+  const adviceFirst = catchRate(rows, "adviceFirst").value;
+  return answerFirst === null || adviceFirst === null ? null : answerFirst - adviceFirst;
+}
+
+/**
+ * Median seconds spent on one question: the one step for advice first, both steps added for
+ * answer first. Null when no trial of that form has its times stored.
+ */
+export function medianSeconds(rows: TrialFact[], form: Form): number | null {
+  const times: number[] = [];
+  for (const t of inForm(rows, form)) {
+    if (t.msFinal == null) continue;
+    if (form === "adviceFirst") times.push(t.msFinal);
+    else if (t.msFirst != null) times.push(t.msFirst + t.msFinal);
+  }
+  if (times.length === 0) return null;
+  times.sort((a, b) => a - b);
+  const mid = Math.floor(times.length / 2);
+  const median = times.length % 2 === 1 ? times[mid] : (times[mid - 1] + times[mid]) / 2;
+  return median / 1000;
+}
+
+export type AdvisedItem = {
+  taskId: string;
+  position: number | null;
+  finalAnswer: number;
+  adviceIndex: number;
+  correctIndex: number;
+};
+
+/** The advice first part of the participant's own end screen. Rows are that one session's responses. */
+export function advisedProfile(rows: TrialFact[]) {
+  const done = rows.filter(isAdvised).sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
+  const aiWrong = done.filter((t) => !aiCorrect(t));
+  return {
+    answered: done.length,
+    right: done.filter(endedCorrect).length,
+    aiWrong: aiWrong.length,
+    caught: aiWrong.filter(endedCorrect).length,
+    /** Questions where the person ended on the AI's wrong answer. */
+    followedWrong: aiWrong
+      .filter((t) => t.finalAnswer === t.adviceIndex)
+      .map(
+        (t): AdvisedItem => ({
+          taskId: t.taskId,
+          position: t.position ?? null,
+          finalAnswer: t.finalAnswer,
+          adviceIndex: t.adviceIndex,
+          correctIndex: t.correctIndex,
+        }),
+      ),
   };
 }

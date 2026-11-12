@@ -6,6 +6,11 @@
  * - 16 or more tasks: 12 of them, exactly 4 with wrong AI advice when the set has 4, shuffled.
  * - fewer: every task, shuffled.
  * The explanation is shown on a random half of the questions.
+ *
+ * - mixed (spec 0002): every task, shuffled. Half of the wrong advice tasks and half of the right
+ *   advice tasks are marked advice first (the AI is shown before the person answers); with an odd
+ *   count the extra task goes to a random side. The explanation is always shown, so it is not a
+ *   second thing that varies.
  */
 
 export type PlanTask = {
@@ -15,7 +20,12 @@ export type PlanTask = {
   adviceIndex: number;
 };
 
-export type PlannedResponse = { taskId: string; position: number; rationaleShown: boolean };
+export type PlannedResponse = {
+  taskId: string;
+  position: number;
+  rationaleShown: boolean;
+  adviceFirst: boolean;
+};
 
 export const SESSION_LENGTH = 12;
 export const WRONG_PER_SESSION = 4;
@@ -32,14 +42,35 @@ function shuffle<T>(items: T[], random: () => number): T[] {
 
 export function planSession(
   tasks: PlanTask[],
-  { fixedOrder = false, random = Math.random }: { fixedOrder?: boolean; random?: () => number } = {},
+  {
+    fixedOrder = false,
+    mixed = false,
+    random = Math.random,
+  }: { fixedOrder?: boolean; mixed?: boolean; random?: () => number } = {},
 ): PlannedResponse[] {
   if (tasks.length === 0) throw new Error("This set has no tasks");
+
+  if (mixed) {
+    const adviceFirst = new Set<string>();
+    const markHalf = (group: PlanTask[]) => {
+      const shuffled = shuffle(group, random);
+      const extra = shuffled.length % 2 === 1 && random() < 0.5 ? 1 : 0;
+      for (const t of shuffled.slice(0, Math.floor(shuffled.length / 2) + extra)) adviceFirst.add(t.id);
+    };
+    markHalf(tasks.filter((t) => t.adviceIndex !== t.correctIndex));
+    markHalf(tasks.filter((t) => t.adviceIndex === t.correctIndex));
+    return shuffle(tasks, random).map((t, i) => ({
+      taskId: t.id,
+      position: i + 1,
+      rationaleShown: true,
+      adviceFirst: adviceFirst.has(t.id),
+    }));
+  }
 
   if (fixedOrder) {
     return [...tasks]
       .sort((a, b) => a.position - b.position)
-      .map((t, i) => ({ taskId: t.id, position: i + 1, rationaleShown: true }));
+      .map((t, i) => ({ taskId: t.id, position: i + 1, rationaleShown: true, adviceFirst: false }));
   }
 
   let chosen: PlanTask[];
@@ -59,5 +90,10 @@ export function planSession(
     ordered.map((_, i) => i < half),
     random,
   );
-  return ordered.map((t, i) => ({ taskId: t.id, position: i + 1, rationaleShown: showRationale[i] }));
+  return ordered.map((t, i) => ({
+    taskId: t.id,
+    position: i + 1,
+    rationaleShown: showRationale[i],
+    adviceFirst: false,
+  }));
 }
