@@ -1,0 +1,437 @@
+{
+  "id": "29097bff-eba3-4ee3-953a-1af8ef5e970b",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.responses": {
+      "name": "responses",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "session_id": {
+          "name": "session_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "task_id": {
+          "name": "task_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "position": {
+          "name": "position",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rationale_shown": {
+          "name": "rationale_shown",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "first_answer": {
+          "name": "first_answer",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "first_confidence": {
+          "name": "first_confidence",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "final_answer": {
+          "name": "final_answer",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "final_confidence": {
+          "name": "final_confidence",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ms_first": {
+          "name": "ms_first",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ms_final": {
+          "name": "ms_final",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "first_at": {
+          "name": "first_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "final_at": {
+          "name": "final_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "responses_task_idx": {
+          "name": "responses_task_idx",
+          "columns": [
+            {
+              "expression": "task_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "responses_session_id_sessions_id_fk": {
+          "name": "responses_session_id_sessions_id_fk",
+          "tableFrom": "responses",
+          "tableTo": "sessions",
+          "columnsFrom": [
+            "session_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "responses_task_id_tasks_id_fk": {
+          "name": "responses_task_id_tasks_id_fk",
+          "tableFrom": "responses",
+          "tableTo": "tasks",
+          "columnsFrom": [
+            "task_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "responses_session_task_unique": {
+          "name": "responses_session_task_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "session_id",
+            "task_id"
+          ]
+        },
+        "responses_session_position_unique": {
+          "name": "responses_session_position_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "session_id",
+            "position"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "responses_first_answer_range": {
+          "name": "responses_first_answer_range",
+          "value": "\"responses\".\"first_answer\" is null or \"responses\".\"first_answer\" between 0 and 3"
+        },
+        "responses_final_answer_range": {
+          "name": "responses_final_answer_range",
+          "value": "\"responses\".\"final_answer\" is null or \"responses\".\"final_answer\" between 0 and 3"
+        },
+        "responses_first_confidence_range": {
+          "name": "responses_first_confidence_range",
+          "value": "\"responses\".\"first_confidence\" is null or \"responses\".\"first_confidence\" between 0 and 100"
+        },
+        "responses_final_confidence_range": {
+          "name": "responses_final_confidence_range",
+          "value": "\"responses\".\"final_confidence\" is null or \"responses\".\"final_confidence\" between 0 and 100"
+        },
+        "responses_final_after_first": {
+          "name": "responses_final_after_first",
+          "value": "\"responses\".\"final_answer\" is null or \"responses\".\"first_answer\" is not null"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.sessions": {
+      "name": "sessions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "set_slug": {
+          "name": "set_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nickname": {
+          "name": "nickname",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pilot'"
+        },
+        "self_rated_expertise": {
+          "name": "self_rated_expertise",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "completed_at": {
+          "name": "completed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "sessions_set_label_idx": {
+          "name": "sessions_set_label_idx",
+          "columns": [
+            {
+              "expression": "set_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "label",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "sessions_label_valid": {
+          "name": "sessions_label_valid",
+          "value": "\"sessions\".\"label\" in ('pilot', 'practice', 'judge', 'seeded')"
+        },
+        "sessions_expertise_range": {
+          "name": "sessions_expertise_range",
+          "value": "\"sessions\".\"self_rated_expertise\" is null or \"sessions\".\"self_rated_expertise\" between 1 and 5"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.tasks": {
+      "name": "tasks",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "set_slug": {
+          "name": "set_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "position": {
+          "name": "position",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category": {
+          "name": "category",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "difficulty": {
+          "name": "difficulty",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "prompt": {
+          "name": "prompt",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "context": {
+          "name": "context",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "options": {
+          "name": "options",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "correct_index": {
+          "name": "correct_index",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "advice_index": {
+          "name": "advice_index",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "advice_confidence": {
+          "name": "advice_confidence",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "advice_explanation": {
+          "name": "advice_explanation",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "advice_source": {
+          "name": "advice_source",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "advice_model": {
+          "name": "advice_model",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "verified_by": {
+          "name": "verified_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "tasks_set_idx": {
+          "name": "tasks_set_idx",
+          "columns": [
+            {
+              "expression": "set_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "tasks_set_position_unique": {
+          "name": "tasks_set_position_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "set_slug",
+            "position"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "tasks_difficulty_range": {
+          "name": "tasks_difficulty_range",
+          "value": "\"tasks\".\"difficulty\" between 1 and 3"
+        },
+        "tasks_correct_index_range": {
+          "name": "tasks_correct_index_range",
+          "value": "\"tasks\".\"correct_index\" between 0 and 3"
+        },
+        "tasks_advice_index_range": {
+          "name": "tasks_advice_index_range",
+          "value": "\"tasks\".\"advice_index\" between 0 and 3"
+        },
+        "tasks_advice_confidence_range": {
+          "name": "tasks_advice_confidence_range",
+          "value": "\"tasks\".\"advice_confidence\" is null or \"tasks\".\"advice_confidence\" between 0 and 100"
+        },
+        "tasks_advice_source_valid": {
+          "name": "tasks_advice_source_valid",
+          "value": "\"tasks\".\"advice_source\" in ('recorded', 'seeded')"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

@@ -17,7 +17,8 @@
       ],
       "correct_index": 3,
       "advice": {
-        "index": 3,
+        "index": 0,
+        "answer_text": "About 99%",
         "confidence": 90,
         "explanation": "The test is 99% accurate, so a positive result means a 99% chance the person has the disease.",
         "source": "recorded",
@@ -41,6 +42,7 @@
       "correct_index": 1,
       "advice": {
         "index": 1,
+        "answer_text": "11/36",
         "confidence": 95,
         "explanation": "The probability of not rolling a six in one roll is 5/6. For two rolls, it's (5/6)^2 = 25/36, so the probability of at least one six is 1 - 25/36 = 11/36.",
         "source": "recorded",
@@ -63,7 +65,8 @@
       ],
       "correct_index": 2,
       "advice": {
-        "index": 2,
+        "index": 0,
+        "answer_text": "$0.10",
         "confidence": 88,
         "explanation": "Since the total is $1.10 and the bat is $1.00, the ball must cost the remaining $0.10.",
         "source": "recorded",
@@ -87,6 +90,7 @@
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "5 minutes",
         "confidence": 99,
         "explanation": "Each machine makes 1 widget in 5 minutes. Therefore, 100 machines working simultaneously can make 100 widgets in 5 minutes.",
         "source": "recorded",
@@ -109,7 +113,8 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 1,
+        "index": 0,
+        "answer_text": "All roses fade quickly",
         "confidence": 85,
         "explanation": "Since all roses are flowers and some flowers fade quickly, it necessarily follows that all roses fade quickly as a subset.",
         "source": "recorded",
@@ -133,6 +138,7 @@
       "correct_index": 2,
       "advice": {
         "index": 2,
+        "answer_text": "About 50%",
         "confidence": 95,
         "explanation": "Due to the birthday paradox combinatorial explosion of pairs, 23 people give approximately a 50.7% chance of a shared birthday.",
         "source": "recorded",
@@ -155,7 +161,8 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 1,
+        "index": 0,
+        "answer_text": "Day 15",
         "confidence": 92,
         "explanation": "Since it doubles every day and covers the whole pond on day 30, dividing 30 by 2 means it covered half the pond on day 15.",
         "source": "recorded",
@@ -178,7 +185,8 @@
       ],
       "correct_index": 3,
       "advice": {
-        "index": 2,
+        "index": 3,
+        "answer_text": "Minutes in 10 weeks",
         "confidence": 96,
         "explanation": "Seconds in a day = 86,400. Minutes in 10 weeks = 10 * 7 * 24 * 60 = 100,800. Therefore, minutes in 10 weeks is greater.",
         "source": "recorded",
@@ -202,6 +210,7 @@
       "correct_index": 2,
       "advice": {
         "index": 2,
+        "answer_text": "Friday",
         "confidence": 98,
         "explanation": "100 divided by 7 leaves a remainder of 2. Two days after Wednesday is Friday.",
         "source": "recorded",
@@ -224,7 +233,8 @@
       ],
       "correct_index": 0,
       "advice": {
-        "index": 1,
+        "index": 0,
+        "answer_text": "2/3",
         "confidence": 99,
         "explanation": "Switching gives you a 2/3 chance of winning because the host's revelation concentrates the remaining probability onto the unopened door.",
         "source": "recorded",
@@ -247,7 +257,8 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 1,
+        "index": 2,
+        "answer_text": "In their home country",
         "confidence": 95,
         "explanation": "They are buried in the country where their citizenship is registered according to international aviation treaties.",
         "source": "recorded",
@@ -270,7 +281,8 @@
       ],
       "correct_index": 0,
       "advice": {
-        "index": 2,
+        "index": 1,
+        "answer_text": "$10.00",
         "confidence": 90,
         "explanation": "The book costs $10.00 because $110 minus $100 leaves $10 for the book.",
         "source": "seeded",
@@ -293,7 +305,8 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 0,
+        "index": 1,
+        "answer_text": "3 cats",
         "confidence": 94,
         "explanation": "One cat catches one mouse in 3 minutes. Scaling up, 3 cats working for 99 minutes will catch 99 mice, so 3 cats are sufficient.",
         "source": "recorded",
@@ -316,7 +329,8 @@
       ],
       "correct_index": 2,
       "advice": {
-        "index": 3,
+        "index": 0,
+        "answer_text": "About 95%",
         "confidence": 89,
         "explanation": "Since the false positive rate is 5% and the disease is rare, a positive test guarantees a 95% likelihood of having the condition.",
         "source": "seeded",
@@ -340,6 +354,7 @@
       "correct_index": 1,
       "advice": {
         "index": 1,
+        "answer_text": "12 months",
         "confidence": 99,
         "explanation": "All 12 months of the year have at least 28 days in them.",
         "source": "recorded",
@@ -362,7 +377,8 @@
       ],
       "correct_index": 2,
       "advice": {
-        "index": 2,
+        "index": 0,
+        "answer_text": "4.5 kg",
         "confidence": 91,
         "explanation": "The brick weighs 4.5 kg, which is 3 kg plus half of 3 kg.",
         "source": "recorded",
@@ -385,7 +401,8 @@
       ],
       "correct_index": 2,
       "advice": {
-        "index": 1,
+        "index": 2,
+        "answer_text": "None of the above necessarily follow",
         "confidence": 97,
         "explanation": "Set theory shows that while Zings are a subset of Zangs, there is no necessary intersection between Zings and Zongs.",
         "source": "recorded",
@@ -408,7 +425,8 @@
       ],
       "correct_index": 0,
       "advice": {
-        "index": 3,
+        "index": 0,
+        "answer_text": "1/2",
         "confidence": 99,
         "explanation": "Coin flips are independent events; the previous outcomes do not influence the 5th flip, so the probability remains 1/2.",
         "source": "recorded",
@@ -431,7 +449,8 @@
       ],
       "correct_index": 3,
       "advice": {
-        "index": 3,
+        "index": 0,
+        "answer_text": "1 apple",
         "confidence": 93,
         "explanation": "If you take 2 apples from 3, you are left with 1 apple.",
         "source": "recorded",
@@ -455,6 +474,7 @@
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "He was playing Monopoly",
         "confidence": 98,
         "explanation": "The scenario describes playing the board game Monopoly, where the token is a car and landing on a hotel can cause bankruptcy.",
         "source": "recorded",

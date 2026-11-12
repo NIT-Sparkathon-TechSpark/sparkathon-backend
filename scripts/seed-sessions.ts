@@ -15,6 +15,7 @@ import { db } from "../src/db/index";
 import { responses, sessions, tasks } from "../src/db/schema";
 import { mulberry32 } from "../src/lib/metrics";
 import { planSession } from "../src/db/session-plan";
+import { requireNonProduction } from "./_guard";
 
 const SETS = ["logic", "facts"];
 const args = process.argv.slice(2);
@@ -31,6 +32,8 @@ const otherThan = (exclude: number[]) => {
 };
 
 async function main() {
+  // Simulated people must never reach the production results (amendments A3).
+  requireNonProduction("create seeded sessions");
   if (!Number.isInteger(perSet) || perSet < 1 || perSet > 200) {
     throw new Error("--count must be a whole number from 1 to 200");
   }

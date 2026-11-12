@@ -26,6 +26,8 @@ import {
   wrongAndSurer,
 } from "../src/lib/metrics.ts";
 import { planSession } from "../src/db/session-plan.ts";
+import { taskFileSchema } from "../src/db/task-file.ts";
+import { isNonProduction, requireNonProduction } from "./_guard.ts";
 
 const trial = (sessionId, position, correctIndex, adviceIndex, first, firstConf, final, finalConf) => ({
   sessionId,
@@ -144,4 +146,55 @@ test("planSession: small set uses every task, judge demo keeps its order", () =>
   const judge = planSession(makeTasks(3, 1).reverse(), { fixedOrder: true });
   assert.deepEqual(judge.map((p) => p.taskId), ["x-01", "x-02", "x-03"]);
   assert.ok(judge.every((p) => p.rationaleShown));
+});
+
+// --- task files: the advice index must point at the option the advice names -----------------------
+
+const taskFile = (adviceIndex, answerText) => ({
+  set: "x",
+  name: "X",
+  tasks: [
+    {
+      id: "x-01",
+      position: 1,
+      category: "c",
+      difficulty: 1,
+      prompt: "Capital of Australia?",
+      context: null,
+      options: ["Sydney", "Melbourne", "Canberra", "Perth"],
+      correct_index: 2,
+      advice: {
+        index: adviceIndex,
+        answer_text: answerText,
+        confidence: 90,
+        explanation: "Canberra is the capital.",
+        source: "recorded",
+        model: "claude",
+      },
+      verified_by: null,
+    },
+  ],
+});
+
+test("task file: advice.answer_text must equal the option at advice.index", () => {
+  assert.ok(taskFileSchema.safeParse(taskFile(2, "Canberra")).success);
+
+  // Options were shuffled but the index was not moved with them.
+  const drifted = taskFileSchema.safeParse(taskFile(1, "Canberra"));
+  assert.ok(!drifted.success);
+  assert.match(drifted.error.issues[0].message, /options\[1\]/);
+
+  assert.ok(!taskFileSchema.safeParse(taskFile(2, "")).success);
+});
+
+// --- scripts that write test data refuse to run on production ------------------------------------
+
+test("guard: only development and preview count as safe, anything else is production", () => {
+  assert.ok(isNonProduction({ NEON_BRANCH: "development" }));
+  assert.ok(isNonProduction({ NEON_BRANCH: "preview" }));
+  for (const branch of ["production", "main", "Development", "", undefined]) {
+    assert.ok(!isNonProduction({ NEON_BRANCH: branch }), String(branch));
+    assert.throws(() => requireNonProduction("seed", { NEON_BRANCH: branch }), /Refusing to seed/);
+  }
+  assert.doesNotThrow(() => requireNonProduction("seed", { NEON_BRANCH: "development" }));
 });

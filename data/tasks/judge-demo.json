@@ -18,10 +18,11 @@
       "correct_index": 0,
       "advice": {
         "index": 0,
+        "answer_text": "About 9%",
         "confidence": 90,
-        "explanation": "The test is 99% accurate, so a positive result means a 99% chance the person has the disease.",
-        "source": "recorded",
-        "model": "claude"
+        "explanation": "Out of 1000 people, 1 has the disease and tests positive, but about 10 of the 999 healthy people also test positive. So only about 1 in 11 positives, roughly 9%, actually has it.",
+        "source": "seeded",
+        "model": null
       },
       "verified_by": "gemini+human"
     },
@@ -40,7 +41,8 @@
       ],
       "correct_index": 3,
       "advice": {
-        "index": 1,
+        "index": 0,
+        "answer_text": "Sydney",
         "confidence": 92,
         "explanation": "Sydney is Australia's largest and most famous financial hub, making it the capital city.",
         "source": "seeded",
@@ -64,6 +66,7 @@
       "correct_index": 2,
       "advice": {
         "index": 2,
+        "answer_text": "Yes, within 30 days for physical items",
         "confidence": 98,
         "explanation": "Physical boxed items can be returned within 30 days if unopened and in original packaging.",
         "source": "recorded",
