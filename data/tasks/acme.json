@@ -48,7 +48,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "acme-03",
@@ -72,7 +72,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "acme-04",
@@ -96,7 +96,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "acme-05",
@@ -168,7 +168,7 @@
         "source": "seeded",
         "model": null
       },
-      "verified_by": "needs-review"
+      "verified_by": "claude-checked"
     },
     {
       "id": "acme-08",
@@ -223,10 +223,10 @@
       "position": 10,
       "category": "refunds",
       "difficulty": 2,
-      "prompt": "A customer lost their receipt but has a bank statement showing the purchase 3 months ago of a defective hardware item. Does the warranty apply?",
+      "prompt": "A customer lost their receipt and has no other proof of purchase for a defective hardware item they say they bought 3 months ago. Does the warranty apply?",
       "context": "Acme Corp Refund Policy: Standard physical items may be returned within 30 days of delivery for a full refund, provided they are in original packaging and unopened. Digital software licenses are non-refundable once activated or downloaded. Sale and clearance items are final sale and cannot be returned or exchanged. Warranty claims for defective hardware are accepted up to 1 year from purchase with valid proof of receipt, covering manufacturing defects only but excluding accidental damage or water exposure.",
       "options": [
-        "Yes, bank statements replace receipts",
+        "Yes, the warranty lasts 1 year",
         "No, valid proof of receipt is required for warranty claims",
         "Only store credit",
         "Yes, if under 30 days"
@@ -240,7 +240,7 @@
         "source": "recorded",
         "model": "gemini"
       },
-      "verified_by": "gemini+human"
+      "verified_by": "claude-checked"
     }
   ]
 }
