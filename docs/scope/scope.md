@@ -24,13 +24,13 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 3 | Data model | Foundation | planned |
 | 4 | Design system & UI foundation | Foundation | planned |
 | 5 | Task set with recorded AI answers | Release 1 | planned |
-| 6 | Two stage task session | Release 1 | planned |
+| 6 | Two stage task session | Release 1 | in-progress |
 | 7 | Three way comparison and reliance results | Release 1 | planned |
 | 8 | Seeded sessions | Release 2 | planned |
 | 9 | Helps or hurts breakdowns | Release 2 | planned |
 | 10 | Confidence analysis | Release 2 | planned |
 | 11 | AI advice variants | Release 3 | planned |
-| 12 | Personal centaur report | Release 3 | planned |
+| 12 | Personal centaur report | Release 3 | in-progress |
 | 13 | Researcher view and data export | Release 4 | planned |
 
 ## Foundations
@@ -68,10 +68,11 @@ A first set of tasks across a few categories and difficulty levels, each with th
 **Done when:** a loaded task set exists where every task has a correct answer, a category, a difficulty and recorded AI advice, and the AI is wrong on a meaningful share of tasks spread across categories.
 - [ ] Design it (spec): `/architect task set with recorded AI answers`
 
-### 6. Two stage task session
+### 6. Two stage task session · in-progress
 The participant flow: enter a nickname, then for each task answer alone with a confidence rating, see the AI advice, and give a final answer and confidence. The correct answer stays hidden until the session ends.
 **Done when:** a participant can finish a full session start to end, every response stores both stages, a refresh in the middle does not lose progress, and the advice is never visible before the first answer is locked.
-- [ ] Build it: `/develop two stage task session`
+- [x] Build it: `/develop two stage task session`
+code in `src/app/(participant)/`, `src/actions/`, `src/lib/session.ts`
 
 ### 7. Three way comparison and reliance results · needs a decision
 The core results screen. It shows accuracy for humans alone, AI alone and humans with AI side by side, plus the reliance grid: followed when the AI was right, followed when it was wrong (followed too readily), ignored when it was right (good advice lost), ignored when it was wrong (caught the mistake).
@@ -104,10 +105,11 @@ Show the same advice in different styles (answer only, answer with stated confid
 **Done when:** each session is assigned one style, the style is stored on every response, and the breakdowns can compare over reliance across styles.
 - [ ] Design it (spec): `/architect AI advice variants`
 
-### 12. Personal centaur report
+### 12. Personal centaur report · in-progress
 At the end of a session the participant sees their own result: their three scores, where the AI helped them, where it hurt them, and their reliance pattern in plain words.
 **Done when:** a participant who finishes sees a report built from their own responses, including at least one concrete task where they switched to a wrong AI answer or rejected a right one, if any happened.
-- [ ] Build it: `/develop personal centaur report`
+- [x] Build it: `/develop personal centaur report`
+code in `src/app/(participant)/_components/report.tsx`
 
 ## Release 4: For the person running the study
 
