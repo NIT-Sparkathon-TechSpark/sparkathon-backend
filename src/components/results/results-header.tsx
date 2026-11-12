@@ -56,16 +56,14 @@ export function ResultsHeader({
     <header className="flex flex-col gap-4">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="flex flex-col gap-1">
-          <Link href="/" className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-            The Centaur Test
-          </Link>
+          <p className="text-primary text-xs font-semibold tracking-wide uppercase">Results</p>
           <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
             When does AI advice make people worse?
           </h1>
           <p className="text-muted-foreground text-sm">
             {trials} answers from {sessions} {sessions === 1 ? "session" : "sessions"}
-            {filter.set ? ` · ${SET_NAMES[filter.set]}` : " · all sets"}
-            {filter.seeded ? " · includes seeded sessions" : " · live sessions only"}
+            {filter.set ? ` · ${SET_NAMES[filter.set]}` : " · all question sets"}
+            {filter.seeded ? " · includes simulated sessions" : " · real sessions only"}
           </p>
         </div>
         <AutoRefresh />
@@ -96,7 +94,7 @@ export function ResultsHeader({
       </nav>
 
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-muted-foreground mr-1 text-xs">Set</span>
+        <span className="text-muted-foreground mr-1 text-xs">Question set</span>
         <Chip href={`${active}${filterQuery({ ...filter, set: null }, extra)}`} active={filter.set === null}>
           All
         </Chip>
@@ -110,7 +108,7 @@ export function ResultsHeader({
           href={`${active}${filterQuery({ ...filter, seeded: !filter.seeded }, extra)}`}
           active={filter.seeded}
         >
-          {filter.seeded ? "✓ " : ""}Seeded sessions
+          {filter.seeded ? "✓ " : ""}Simulated sessions
         </Chip>
       </div>
 

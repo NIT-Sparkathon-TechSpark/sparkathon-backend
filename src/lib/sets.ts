@@ -6,19 +6,19 @@
 export const PARTICIPANT_SETS = {
   logic: {
     name: "Logic & probability",
-    blurb: "Puzzles where you can work out the answer if you think it through.",
+    blurb: "Short puzzles. You can work each one out if you take a moment.",
   },
   facts: {
     name: "General knowledge",
-    blurb: "Questions about history, geography and the world.",
+    blurb: "History, geography and other things you either know or you don't.",
   },
   acme: {
     name: "Acme refund policy",
-    blurb: "Apply a company's refund and warranty policy to real customer cases.",
+    blurb: "Read a company's refund policy, then decide what each customer should get.",
   },
   "judge-demo": {
     name: "Judge demo",
-    blurb: "Three quick questions to see how the test works.",
+    blurb: "Three quick questions, so you can see how the test works.",
   },
 } as const;
 

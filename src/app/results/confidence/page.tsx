@@ -110,7 +110,7 @@ export default async function ConfidencePage({ searchParams }: PageProps<"/resul
             <Card>
               <CardHeader>
                 <CardTitle>Confidence before and after advice</CardTitle>
-                <CardDescription>Mean confidence on the 25–100 scale.</CardDescription>
+                <CardDescription>Average confidence, from 25 (just guessing) to 100 (certain).</CardDescription>
               </CardHeader>
               <CardContent>
                 {chartData.length > 0 ? (
@@ -140,14 +140,14 @@ export default async function ConfidencePage({ searchParams }: PageProps<"/resul
             <Card>
               <CardHeader>
                 <CardTitle>Confidence change after advice</CardTitle>
-                <CardDescription>Final minus first confidence, in points on the 25–100 scale.</CardDescription>
+                <CardDescription>Confidence after the advice minus confidence before it, in points.</CardDescription>
               </CardHeader>
               <CardContent className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="text-muted-foreground border-b text-left text-xs">
                       <th className="py-2 pr-3 font-medium">Group</th>
-                      <th className="py-2 pr-3 text-right font-medium">n</th>
+                      <th className="py-2 pr-3 text-right font-medium">Answers</th>
                       <th className="py-2 pr-3 text-right font-medium">Before</th>
                       <th className="py-2 pr-3 text-right font-medium">After</th>
                       <th className="py-2 text-right font-medium">Change</th>
@@ -178,9 +178,10 @@ export default async function ConfidencePage({ searchParams }: PageProps<"/resul
 
             <Card>
               <CardHeader>
-                <CardTitle>Calibration</CardTitle>
+                <CardTitle>More sure than right?</CardTitle>
                 <CardDescription>
-                  Mean confidence minus accuracy. Above zero means people were more sure than right.
+                  Average confidence minus share correct (calibration). Above zero means people were more sure
+                  than they were right.
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid grid-cols-2 gap-3">

@@ -43,7 +43,7 @@ export default async function LivePage({ searchParams }: PageProps<"/live">) {
         <div className="flex flex-col items-end gap-1">
           <AutoRefresh />
           <span className="text-muted-foreground text-sm tabular-nums">
-            {s.sessions} people · {s.trials} answers
+            {s.sessions} {s.sessions === 1 ? "person" : "people"} · {s.trials} {s.trials === 1 ? "answer" : "answers"}
             {filter.set ? ` · ${SET_NAMES[filter.set]}` : ""}
           </span>
         </div>
@@ -107,7 +107,7 @@ export default async function LivePage({ searchParams }: PageProps<"/live">) {
         <span>
           {s.trials > 0 && (s.trials < MIN_TRIALS_PER_SLICE || s.sessions < 3)
             ? `Early numbers: ${s.trials} answers from ${s.sessions} ${s.sessions === 1 ? "person" : "people"} so far.`
-            : "Directional evidence, not proof."}
+            : "A small pilot. These numbers show a direction, not proof."}
         </span>
         <Link href={`/results${filterQuery(filter)}`} className="hover:text-foreground">
           Full results →

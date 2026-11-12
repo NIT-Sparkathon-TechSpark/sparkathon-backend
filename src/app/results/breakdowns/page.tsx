@@ -14,6 +14,9 @@ import { loadFacts } from "../_lib/load-facts";
 
 export const metadata: Metadata = { title: "Helps or hurts · The Centaur Test" };
 
+/** "Question set" to "question set", but "AI right or wrong" stays as it is. */
+const lowerFirst = (label: string) => (label.startsWith("AI") ? label : label[0].toLowerCase() + label.slice(1));
+
 type Verdict = "helps" | "hurts" | "even" | "unknown";
 
 function verdictOf(slice: Slice): { verdict: Verdict; delta: number | null } {
@@ -61,7 +64,7 @@ export default async function BreakdownsPage({ searchParams }: PageProps<"/resul
       />
 
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-muted-foreground mr-1 text-sm">Split by</span>
+        <span className="text-muted-foreground mr-1 text-sm">Compare by</span>
         {(Object.keys(DIMENSIONS) as DimensionKey[]).map((key) => (
           <Link
             key={key}
@@ -92,23 +95,23 @@ export default async function BreakdownsPage({ searchParams }: PageProps<"/resul
             {hurts.length > 0 ? (
               <>
                 <h2 className="text-hurts text-lg font-semibold">
-                  People got worse with AI in {hurts.length === 1 ? "this slice" : `these ${hurts.length} slices`}
+                  People got worse with AI in {hurts.length === 1 ? "this group" : `these ${hurts.length} groups`}
                 </h2>
                 <ul className="mt-2 flex flex-col gap-1 text-sm">
                   {hurts.map(({ slice, delta }) => (
                     <li key={slice.key}>
                       <strong className="font-medium">{sliceLabel(slice.key)}</strong>: accuracy went from{" "}
                       {pct(slice.summary.humanAlone)} alone to {pct(slice.summary.humanAI)} with AI (
-                      {points(delta)}), and {pct(slice.summary.overReliance)} of disagreements on wrong advice
-                      ended with the AI&apos;s answer.
+                      {points(delta)}). When the AI was wrong and they first disagreed,{" "}
+                      {pct(slice.summary.overReliance)} still switched to its answer.
                     </li>
                   ))}
                 </ul>
               </>
             ) : (
               <p className="text-sm">
-                No slice with enough data shows people doing worse with AI when split by{" "}
-                {DIMENSIONS[by].label.toLowerCase()}.
+                No group with enough data shows people doing worse with AI when compared by{" "}
+                {lowerFirst(DIMENSIONS[by].label)}.
               </p>
             )}
           </section>
@@ -117,30 +120,31 @@ export default async function BreakdownsPage({ searchParams }: PageProps<"/resul
             <Card>
               <CardHeader>
                 <CardTitle>Alone versus with AI</CardTitle>
-                <CardDescription>Share correct, slices with at least 10 answers.</CardDescription>
+                <CardDescription>Share of correct answers, for groups with at least 10 answers.</CardDescription>
               </CardHeader>
               <CardContent>
                 {chartData.length > 0 ? (
                   <SliceChart data={chartData} />
                 ) : (
-                  <p className="text-muted-foreground text-sm">No slice has enough data yet.</p>
+                  <p className="text-muted-foreground text-sm">No group has enough data yet.</p>
                 )}
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>By {DIMENSIONS[by].label.toLowerCase()}</CardTitle>
+                <CardTitle>By {lowerFirst(DIMENSIONS[by].label)}</CardTitle>
                 <CardDescription>
-                  Over-reliance: AI wrong and the person first disagreed, share who switched to it.
+                  Over-reliance: the AI was wrong and the person first disagreed. The share who switched to it
+                  anyway.
                 </CardDescription>
               </CardHeader>
               <CardContent className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="text-muted-foreground border-b text-left text-xs">
-                      <th className="py-2 pr-3 font-medium">Slice</th>
-                      <th className="py-2 pr-3 text-right font-medium">n</th>
+                      <th className="py-2 pr-3 font-medium">Group</th>
+                      <th className="py-2 pr-3 text-right font-medium">Answers</th>
                       <th className="py-2 pr-3 text-right font-medium">Alone</th>
                       <th className="py-2 pr-3 text-right font-medium">With AI</th>
                       <th className="py-2 pr-3 text-right font-medium">Change</th>
