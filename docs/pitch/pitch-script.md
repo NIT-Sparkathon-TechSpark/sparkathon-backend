@@ -55,6 +55,7 @@ The last line sets up the live jury test, so it doubles as the ask for a "yes".
 - **Who buys:** heads of AI governance, CROs, chief audit executives deploying AI that staff act on: audit, tax, KYC, claims, credit.
 - **Why now:** the AI Act's Article 14 names automation bias. Stand-alone high-risk obligations apply from 2 December 2027, so firms have a year to show their oversight works.
 - **How it runs:** 40–60 of the client's own past cases, the client's own AI outputs recorded, known errors planted, a 10-minute link for staff, results by team and case type, a re-test after fixing the process, then quarterly.
+- **Show it, 30 seconds (once org accounts are live):** at `/org`, create "Nordbank Risk" with a passcode, then upload `kyc-alerts-demo.csv` (12 KYC alerts, AI wrong on 4; the "Example" link on the dashboard downloads it). Point at the private link `/t/…` ("only your staff can open this") and the organization's own results page. Practise it beforehand; if anything is slow, show a pre-created org instead.
 - **Economics (illustrative, to validate):**
   - A *reliance assessment* is a fixed-fee engagement for one workflow over 4 weeks, delivered by an assurance team on our platform.
   - Platform cost per assessment is near zero (serverless, one database). The cost is case design, about 3–5 consultant days.
