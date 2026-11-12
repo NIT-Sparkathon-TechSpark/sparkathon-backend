@@ -20,3 +20,6 @@ venv/
 *.tsbuildinfo
 next-env.d.ts
 .neon
+
+# Trial exports (pnpm db:export)
+exports/
