@@ -4,8 +4,8 @@ import { leaveSessionAction } from "@/actions/session";
 import { Button } from "@/components/ui/button";
 import { parseLinkLabel } from "@/lib/participant-schemas";
 import { readSessionId } from "@/lib/session";
-import { isParticipantSet, PARTICIPANT_SETS } from "@/lib/sets";
-import { FinalStage, FirstStage } from "../../_components/stages";
+import { isMixedSet, isParticipantSet, PARTICIPANT_SETS } from "@/lib/sets";
+import { AdvisedStage, FinalStage, FirstStage } from "../../_components/stages";
 import { Report } from "../../_components/report";
 import { Shell } from "../../_components/shell";
 import { StartForm } from "../../_components/start-form";
@@ -60,6 +60,13 @@ export default async function SetPage({ params, searchParams }: PageProps<"/s/[s
       </Shell>
     );
   }
+  if (step.stage === "advised") {
+    return (
+      <Shell>
+        <AdvisedStage step={step} setSlug={set} />
+      </Shell>
+    );
+  }
 
   const [{ getSessionFacts }, { getReportTasks }] = await Promise.all([
     import("@/db/queries/trial-facts"),
@@ -79,6 +86,7 @@ function StartScreen({
   otherSet: string | null;
 }) {
   const set = PARTICIPANT_SETS[setSlug];
+  const mixed = isMixedSet(setSlug);
   return (
     <Shell>
       <header className="flex flex-col gap-2 pt-2">
@@ -90,13 +98,30 @@ function StartScreen({
         <h2 id="how-it-works" className="text-sm font-semibold">
           How it works
         </h2>
+        {mixed && (
+          <p className="text-sm leading-relaxed">
+            Each alert is handled in one of two ways. You will get some of each, in a mixed order.
+          </p>
+        )}
         <ol className="flex flex-col gap-3 text-sm leading-relaxed">
-          <li className="flex gap-3">
+          {mixed && (
+            <li className="flex gap-3">
+              <span aria-hidden className="bg-ai/15 text-ai grid size-7 shrink-0 place-items-center rounded-full font-semibold">
+                A
+              </span>
+              <span>
+                <b className="font-semibold">AI suggestion shown.</b> You see the alert together with what the AI
+                picked. Give your answer and tell us how sure you are.
+              </span>
+            </li>
+          )}
+          <li className={mixed ? "flex gap-3 border-t pt-3" : "flex gap-3"}>
             <span aria-hidden className="bg-primary/15 text-primary grid size-7 shrink-0 place-items-center rounded-full font-semibold">
               1
             </span>
             <span>
-              <b className="font-semibold">On your own.</b> Pick an answer and tell us how sure you are.
+              <b className="font-semibold">{mixed ? "B, step 1: on your own." : "On your own."}</b> Pick an answer and
+              tell us how sure you are.
             </span>
           </li>
           <li className="flex gap-3">
@@ -104,7 +129,8 @@ function StartScreen({
               2
             </span>
             <span>
-              <b className="font-semibold">With AI advice.</b> We show you what the AI picked. Keep your answer
+              <b className="font-semibold">{mixed ? "B, step 2: with AI advice." : "With AI advice."}</b> We show you
+              what the AI picked. Keep your answer
               or change it, then tell us how sure you are now.
             </span>
           </li>

@@ -1,0 +1,4 @@
+ALTER TABLE "responses" DROP CONSTRAINT "responses_final_after_first";--> statement-breakpoint
+ALTER TABLE "responses" ADD COLUMN "advice_first" boolean DEFAULT false NOT NULL;--> statement-breakpoint
+ALTER TABLE "responses" ADD CONSTRAINT "responses_advice_first_no_first" CHECK (not "responses"."advice_first" or ("responses"."first_answer" is null and "responses"."first_confidence" is null));--> statement-breakpoint
+ALTER TABLE "responses" ADD CONSTRAINT "responses_final_after_first" CHECK ("responses"."final_answer" is null or "responses"."first_answer" is not null or "responses"."advice_first");

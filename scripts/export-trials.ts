@@ -32,12 +32,15 @@ const COLUMNS: (keyof TrialFact)[] = [
   "difficulty",
   "selfRatedExpertise",
   "rationaleShown",
+  "adviceFirst",
   "correctIndex",
   "adviceIndex",
   "firstAnswer",
   "firstConfidence",
   "finalAnswer",
   "finalConfidence",
+  "msFirst",
+  "msFinal",
 ];
 
 const cell = (v: unknown) => {
