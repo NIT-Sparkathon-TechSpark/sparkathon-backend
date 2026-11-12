@@ -5,8 +5,9 @@ import { createOrgAction, signInOrgAction, uploadSetAction } from "@/actions/org
 import { Button } from "@/components/ui/button";
 import type { OrgFormState } from "@/lib/org-schemas";
 
+// Same look as the participant nickname field (start-form.tsx).
 const input =
-  "bg-card h-11 w-full rounded-lg border px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring";
+  "bg-card placeholder:text-muted-foreground/70 h-12 w-full rounded-xl border px-4 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
 function Field({
   id,
@@ -126,11 +127,11 @@ export function UploadForm() {
           type="file"
           required
           accept=".csv,.json,.tsv,.txt,text/csv,application/json"
-          className="text-sm file:mr-3 file:rounded-md file:border file:bg-transparent file:px-3 file:py-1.5"
+          className="bg-card text-muted-foreground w-full rounded-xl border border-dashed p-3 text-sm file:bg-secondary file:text-foreground file:mr-3 file:rounded-lg file:border-0 file:px-3 file:py-1.5 file:font-medium"
         />
       </Field>
       <Messages state={state} />
-      <Button type="submit" disabled={pending}>
+      <Button type="submit" size="lg" className="h-12 text-base" disabled={pending}>
         {pending ? "Checking and saving…" : "Upload and create set"}
       </Button>
     </form>
@@ -142,7 +143,7 @@ export function CopyLink({ url }: { url: string }) {
   const [copied, setCopied] = useState(false);
   return (
     <div className="flex items-center gap-2">
-      <code className="bg-muted min-w-0 flex-1 truncate rounded px-2 py-1 text-xs">{url}</code>
+      <code className="bg-secondary/60 min-w-0 flex-1 truncate rounded-lg border px-3 py-2 text-xs">{url}</code>
       <Button
         type="button"
         size="sm"

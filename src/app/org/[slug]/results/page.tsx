@@ -27,6 +27,7 @@ import {
 } from "@/lib/metrics";
 import { requireOrg } from "@/lib/org-auth";
 import { PRIVATE_SET_SLUG } from "@/lib/sets";
+import { OrgTabs } from "../../_components/org-tabs";
 
 export const metadata: Metadata = { title: "Results · The Centaur Test", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
@@ -59,19 +60,20 @@ export default async function OrgResults({ params, searchParams }: PageProps<"/o
 
   return (
     <>
-      <header className="flex flex-col gap-3">
+      <header className="flex flex-col gap-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div className="flex flex-col gap-1">
-            <Link href={`/org/${org.slug}`} className="text-muted-foreground text-sm underline underline-offset-4">
-              ← {org.name}
-            </Link>
-            <h1 className="text-3xl font-semibold tracking-tight">Results{current ? ` · ${current.name}` : ""}</h1>
+            <p className="text-primary text-xs font-semibold tracking-wide uppercase">{org.name} · Results</p>
+            <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
+              {current ? current.name : "All question sets"}
+            </h1>
             <p className="text-muted-foreground text-sm">
               {s.trials} answers from {s.sessions} {s.sessions === 1 ? "person" : "people"} · finished sessions only
             </p>
           </div>
           <AutoRefresh />
         </div>
+        <OrgTabs slug={org.slug} active="results" />
         {sets.length > 1 && (
           <nav aria-label="Sets" className="flex flex-wrap gap-2">
             <Chip href={`/org/${org.slug}/results`} active={!current}>
@@ -87,9 +89,9 @@ export default async function OrgResults({ params, searchParams }: PageProps<"/o
       </header>
 
       {failed ? (
-        <p className="rounded-lg border border-dashed p-4 text-sm">The results could not be loaded. Try again in a moment.</p>
+        <p className="border-hurts/40 bg-hurts-soft rounded-2xl border p-5 text-sm">The results could not be loaded. Try again in a moment.</p>
       ) : s.trials === 0 ? (
-        <p className="text-muted-foreground rounded-lg border border-dashed p-6 text-sm">
+        <p className="bg-card/70 text-muted-foreground rounded-2xl border border-dashed p-6 text-sm backdrop-blur">
           No finished sessions yet. Share a set&apos;s participant link from your{" "}
           <Link href={`/org/${org.slug}`} className="underline underline-offset-4">
             dashboard

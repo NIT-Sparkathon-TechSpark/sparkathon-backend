@@ -28,12 +28,12 @@ export default async function OrgHome({ searchParams }: PageProps<"/org">) {
 
   return (
     <>
-      <header className="flex flex-col gap-2">
-        <p className="text-muted-foreground text-sm font-medium">The Centaur Test for organizations</p>
-        <h1 className="text-3xl font-semibold tracking-tight text-balance">
+      <header className="flex flex-col gap-3 pt-2">
+        <p className="text-primary text-xs font-semibold tracking-wide uppercase">For organizations</p>
+        <h1 className="max-w-3xl text-3xl leading-tight font-semibold tracking-tight text-balance md:text-4xl">
           Test how your people rely on your AI, on your own cases
         </h1>
-        <p className="text-muted-foreground max-w-2xl">
+        <p className="text-muted-foreground max-w-2xl text-lg leading-relaxed">
           Upload questions from your own work, with the answers your AI assistant gave. Share a private link with your
           team. See where they catch the AI&apos;s mistakes and where they follow them. Your sets and results are
           visible only to your organization.
@@ -41,7 +41,7 @@ export default async function OrgHome({ searchParams }: PageProps<"/org">) {
       </header>
 
       {signedIn && (
-        <Card>
+        <Card className="bg-card/70 rounded-2xl backdrop-blur">
           <CardContent className="flex flex-wrap items-center justify-between gap-3 pt-6">
             <p>
               Signed in as <span className="font-semibold">{signedIn.name}</span>{" "}
@@ -62,7 +62,7 @@ export default async function OrgHome({ searchParams }: PageProps<"/org">) {
       )}
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
+        <Card className="bg-card/70 rounded-2xl backdrop-blur">
           <CardHeader>
             <CardTitle>Sign in</CardTitle>
             <CardDescription>With your organization ID and passcode.</CardDescription>
@@ -71,7 +71,7 @@ export default async function OrgHome({ searchParams }: PageProps<"/org">) {
             <SignInForm defaultSlug={slugHint} />
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-card/70 rounded-2xl backdrop-blur">
           <CardHeader>
             <CardTitle>New organization</CardTitle>
             <CardDescription>Takes a minute. No personal accounts: the team shares one passcode.</CardDescription>
@@ -81,10 +81,6 @@ export default async function OrgHome({ searchParams }: PageProps<"/org">) {
           </CardContent>
         </Card>
       </div>
-
-      <Link href="/" className="text-muted-foreground text-sm underline underline-offset-4">
-        Back to the public test
-      </Link>
     </>
   );
 }
