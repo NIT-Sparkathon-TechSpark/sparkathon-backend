@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SET_SLUGS } from "./sets.ts";
+import { SET_SLUGS, SHARE_TOKEN } from "./sets.ts";
 
 /**
  * Zod schemas for everything the participant flow accepts from the browser (hard rule 3).
@@ -32,8 +32,14 @@ export const EXPERTISE_LEVELS = [
   { value: 5, label: "5 · Expert" },
 ] as const;
 
+/**
+ * Which set a form is about: a public set's slug, or a private set's share token. The field keeps
+ * its name `setSlug` so the forms didn't change; the action turns a token into the set's slug.
+ */
+export const setRefSchema = z.union([z.enum(SET_SLUGS), z.string().regex(SHARE_TOKEN)]);
+
 export const startSchema = z.object({
-  setSlug: z.enum(SET_SLUGS),
+  setSlug: setRefSchema,
   nickname: z
     .string()
     .trim()
@@ -62,7 +68,7 @@ const whole = (min: number, max: number) =>
 /** First answer and final answer share one shape. `ms` is measured by the browser, within bounds. */
 export const answerSchema = z.object({
   // Only used to send the person back to the right page when their session is gone.
-  setSlug: z.enum(SET_SLUGS),
+  setSlug: setRefSchema,
   taskId: z.string().min(1).max(64),
   answer: whole(0, 3),
   confidence: whole(25, 100),

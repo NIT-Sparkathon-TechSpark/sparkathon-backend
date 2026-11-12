@@ -1,7 +1,7 @@
 import type { SessionLabel } from "@/db/schema";
 import type { TrialFact } from "@/lib/metrics";
 import { demoFacts } from "./demo-facts";
-import type { ResultsFilter } from "./filters";
+import { SETS, type ResultsFilter } from "./filters";
 
 export type FactsSource = "database" | "demo" | "unavailable";
 
@@ -44,7 +44,8 @@ export async function loadFacts(filter: ResultsFilter): Promise<LoadedFacts> {
   try {
     // Imported lazily: the database module throws at import time when DATABASE_URL is missing.
     const { getTrialFacts } = await import("@/db/queries/trial-facts");
-    const facts = await getTrialFacts({ sets: filter.set ? [filter.set] : undefined, labels });
+    // Public sets only: organizations' private sets (docs/plan/org-accounts.md) never show here.
+    const facts = await getTrialFacts({ sets: filter.set ? [filter.set] : [...SETS], labels });
     return { facts, source: "database" };
   } catch (error) {
     const problem: FactsProblem = isMissingTable(error) ? "missing-tables" : "query-failed";

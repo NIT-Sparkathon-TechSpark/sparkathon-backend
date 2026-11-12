@@ -143,6 +143,53 @@ export const responses = pgTable(
   ],
 );
 
+/**
+ * An organization with its own private question sets (docs/plan/org-accounts.md). Its admins
+ * sign in with the organization's slug and passcode; there are no personal accounts.
+ */
+export const organizations = pgTable(
+  "organizations",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    // Shown in the admin address, /org/<slug>. Lowercase letters, digits and dashes.
+    slug: text("slug").notNull().unique(),
+    name: text("name").notNull(),
+    // "scrypt$<salt hex>$<hash hex>". Never the passcode itself.
+    passcodeHash: text("passcode_hash").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [check("organizations_slug_format", sql`${t.slug} ~ '^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$'`)],
+);
+
+/**
+ * A private question set owned by one organization. Its slug ("o-" plus random characters) is
+ * what tasks.set_slug and sessions.set_slug hold, like the public set names do. Participants
+ * reach it only through /t/<share_token>, so it can't be found, guessed or listed.
+ *
+ * The public sets (logic, facts, acme, judge-demo) have no row here: they stay the fixed list in
+ * src/lib/sets.ts. That is why tasks.set_slug has no foreign key to this table.
+ */
+export const taskSets = pgTable(
+  "task_sets",
+  {
+    slug: text("slug").primaryKey(),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => organizations.id),
+    name: text("name").notNull(),
+    description: text("description"),
+    shareToken: text("share_token").notNull().unique(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("task_sets_org_idx").on(t.orgId),
+    check("task_sets_slug_format", sql`${t.slug} ~ '^o-[a-z0-9]{10}$'`),
+  ],
+);
+
+export type Organization = typeof organizations.$inferSelect;
+export type TaskSet = typeof taskSets.$inferSelect;
+
 export type Task = typeof tasks.$inferSelect;
 export type NewTask = typeof tasks.$inferInsert;
 export type Session = typeof sessions.$inferSelect;

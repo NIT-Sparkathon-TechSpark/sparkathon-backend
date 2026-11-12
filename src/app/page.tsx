@@ -24,9 +24,14 @@ export default function Home() {
         ))}
       </nav>
 
-      <Link href="/results" className="text-muted-foreground text-sm underline underline-offset-4">
-        See the results
-      </Link>
+      <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+        <Link href="/results" className="text-muted-foreground underline underline-offset-4">
+          See the results
+        </Link>
+        <Link href="/org" className="text-muted-foreground underline underline-offset-4">
+          For organizations: test your own AI on your own cases
+        </Link>
+      </div>
     </main>
   );
 }
