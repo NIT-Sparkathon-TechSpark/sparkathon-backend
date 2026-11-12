@@ -14,7 +14,7 @@
     "db:seed-sessions": "tsx --env-file=.env.local scripts/seed-sessions.ts",
     "db:export": "tsx --env-file=.env.local scripts/export-trials.ts",
     "tasks:check": "tsx scripts/load-tasks.ts --dry-run",
-    "test:metrics": "node --experimental-strip-types --no-warnings --test scripts/test-metrics.mjs"
+    "test:metrics": "node --experimental-strip-types --no-warnings --test scripts/test-metrics.mjs scripts/test-participant.mjs"
   },
   "dependencies": {
     "@neon/config": "^1.14.0",
