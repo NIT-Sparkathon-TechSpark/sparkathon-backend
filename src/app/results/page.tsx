@@ -41,7 +41,7 @@ function errorBar(rate: Rate, interval: Interval | null): [number, number] | und
 /** Feature 7: the three-way comparison and the reliance grid. */
 export default async function ResultsPage({ searchParams }: PageProps<"/results">) {
   const filter = parseFilter(await searchParams);
-  const { facts, source } = await loadFacts(filter);
+  const { facts, source, problem } = await loadFacts(filter);
   const s = summarize(facts);
 
   return (
@@ -51,9 +51,10 @@ export default async function ResultsPage({ searchParams }: PageProps<"/results"
         filter={filter}
         trials={s.trials}
         sessions={s.sessions}
-        demo={source === "demo"}
+        source={source}
+        problem={problem}
       />
-      {s.trials === 0 ? <EmptyState seeded={filter.seeded} /> : <Overview facts={facts} filter={filter} />}
+      {s.trials === 0 ? <EmptyState seeded={filter.seeded} source={source} /> : <Overview facts={facts} filter={filter} />}
     </>
   );
 }

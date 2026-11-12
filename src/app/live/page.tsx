@@ -6,7 +6,7 @@ import { pct, points } from "@/app/results/_lib/format";
 import { loadFacts } from "@/app/results/_lib/load-facts";
 import { AutoRefresh } from "@/components/results/auto-refresh";
 import { ThreeWayChart } from "@/components/results/charts";
-import { DemoDataBanner } from "@/components/results/notices";
+import { DataSourceNotice } from "@/components/results/notices";
 import { StatTile } from "@/components/results/stat-tile";
 import { MIN_TRIALS_PER_SLICE, summarize } from "@/lib/metrics";
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = { title: "Live · The Centaur Test" };
  */
 export default async function LivePage({ searchParams }: PageProps<"/live">) {
   const filter = parseFilter(await searchParams);
-  const { facts, source } = await loadFacts(filter);
+  const { facts, source, problem } = await loadFacts(filter);
   const s = summarize(facts);
   const gain = s.centaurGain;
   // The judge link from the team plan, shown big on the projector during the pitch.
@@ -50,9 +50,9 @@ export default async function LivePage({ searchParams }: PageProps<"/live">) {
         </div>
       </header>
 
-      <DemoDataBanner show={source === "demo"} />
+      <DataSourceNotice source={source} problem={problem} />
 
-      {s.trials === 0 ? (
+      {source === "unavailable" ? null : s.trials === 0 ? (
         <p className="text-muted-foreground flex flex-1 items-center justify-center text-2xl">
           Waiting for the first answers…
         </p>

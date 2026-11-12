@@ -35,7 +35,7 @@ export default async function BreakdownsPage({ searchParams }: PageProps<"/resul
   const params = await searchParams;
   const filter = parseFilter(params);
   const by = parseDimension(params.by);
-  const { facts, source } = await loadFacts(filter);
+  const { facts, source, problem } = await loadFacts(filter);
   const total = summarize(facts);
 
   const slices = sliceBy(facts, DIMENSIONS[by].keyOf).map((slice) => ({ slice, ...verdictOf(slice) }));
@@ -56,7 +56,8 @@ export default async function BreakdownsPage({ searchParams }: PageProps<"/resul
         extra={{ by }}
         trials={total.trials}
         sessions={total.sessions}
-        demo={source === "demo"}
+        source={source}
+        problem={problem}
       />
 
       <div className="flex flex-wrap items-center gap-2">
@@ -79,7 +80,7 @@ export default async function BreakdownsPage({ searchParams }: PageProps<"/resul
       </div>
 
       {total.trials === 0 ? (
-        <EmptyState seeded={filter.seeded} />
+        <EmptyState seeded={filter.seeded} source={source} />
       ) : (
         <>
           <section
