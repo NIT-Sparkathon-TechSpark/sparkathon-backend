@@ -1,5 +1,7 @@
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
+// Relative import so scripts run through tsx (which doesn't resolve the @/ alias) can use this file.
+import * as schema from "./schema";
 
 const url = process.env.DATABASE_URL;
 if (!url) {
@@ -7,5 +9,4 @@ if (!url) {
 }
 
 // neon-http: stateless, no db.transaction(). Use single statements or db.batch([...]).
-// P2: pass `{ schema }` here once src/db/schema.ts exists.
-export const db = drizzle(neon(url));
+export const db = drizzle(neon(url), { schema });
