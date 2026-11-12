@@ -1,7 +1,7 @@
 # 0001. Stack and architecture for the Centaur Test platform
 
 **Date**: 2026-11-12
-**Status**: Proposed
+**Status**: Accepted, with team amendments in [amendments.md](amendments.md), which take precedence
 
 ## Summary
 
