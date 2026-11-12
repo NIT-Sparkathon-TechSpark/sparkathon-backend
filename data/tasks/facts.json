@@ -63,10 +63,10 @@
       ],
       "correct_index": 2,
       "advice": {
-        "index": 2,
+        "index": 0,
         "confidence": 88,
         "explanation": "Russia spans eleven time zones and borders multiple oceans, giving it the longest total coastline.",
-        "source": "recorded",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
@@ -132,10 +132,10 @@
       ],
       "correct_index": 2,
       "advice": {
-        "index": 2,
+        "index": 0,
         "confidence": 85,
         "explanation": "Spain and Portugal fought a century-long conflict over maritime trade routes and Iberian territories.",
-        "source": "recorded",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
@@ -178,7 +178,7 @@
       ],
       "correct_index": 3,
       "advice": {
-        "index": 2,
+        "index": 3,
         "confidence": 98,
         "explanation": "The Berlin Wall fell on November 9, 1989, marking a monumental turning point in European history.",
         "source": "recorded",
@@ -201,10 +201,10 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 1,
+        "index": 0,
         "confidence": 89,
         "explanation": "The Atacama Desert is primarily situated in southern Peru, extending into northern Chile.",
-        "source": "recorded",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
@@ -224,7 +224,7 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 2,
+        "index": 1,
         "confidence": 99,
         "explanation": "The Mona Lisa was painted by the Italian Renaissance master Leonardo da Vinci during the 16th century.",
         "source": "recorded",
@@ -270,10 +270,10 @@
       ],
       "correct_index": 0,
       "advice": {
-        "index": 0,
+        "index": 3,
         "confidence": 87,
         "explanation": "King John signed the historic Magna Carta in 1776 during the height of the medieval baronial rebellions.",
-        "source": "recorded",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
@@ -293,7 +293,7 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 0,
+        "index": 1,
         "confidence": 97,
         "explanation": "The international border between Nepal and China runs across the exact summit point of Mount Everest.",
         "source": "recorded",
@@ -316,7 +316,7 @@
       ],
       "correct_index": 3,
       "advice": {
-        "index": 2,
+        "index": 3,
         "confidence": 98,
         "explanation": "Machu Picchu was constructed as an estate for the Inca emperor Pachacuti in the 15th century.",
         "source": "recorded",
@@ -334,15 +334,15 @@
       "options": [
         "Almaty",
         "Astana",
-        "Tashkent",
+        "Tashket",
         "Bishkek"
       ],
       "correct_index": 1,
       "advice": {
-        "index": 1,
+        "index": 0,
         "confidence": 86,
         "explanation": "Almaty is the cultural hub, financial center, and official capital city of Kazakhstan.",
-        "source": "recorded",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
@@ -408,10 +408,10 @@
       ],
       "correct_index": 3,
       "advice": {
-        "index": 3,
+        "index": 0,
         "confidence": 84,
         "explanation": "Peter the Great was the final reigning Emperor of Russia before the establishment of the Soviet Union.",
-        "source": "recorded",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
@@ -431,7 +431,7 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 2,
+        "index": 1,
         "confidence": 98,
         "explanation": "The equator passes through Ecuador, Kenya, and Indonesia, but lies entirely south of Mexico.",
         "source": "recorded",
