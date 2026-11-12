@@ -72,32 +72,51 @@ export async function SetFlow({ set, label }: { set: FlowSet; label: LinkLabel }
 function StartScreen({ set, label, inOtherSet }: { set: FlowSet; label: LinkLabel; inOtherSet: boolean }) {
   return (
     <Shell>
-      <header className="flex flex-col gap-2">
-        <p className="text-muted-foreground text-sm font-medium">
-          The Centaur Test{set.owner ? ` · ${set.owner}` : ""}
-        </p>
-        <h1 className="text-2xl font-semibold text-balance">{set.name}</h1>
-        {set.blurb && <p className="text-muted-foreground">{set.blurb}</p>}
+      <header className="flex flex-col gap-2 pt-2">
+        {set.owner && <p className="text-muted-foreground text-sm font-medium">{set.owner}</p>}
+        <h1 className="text-3xl font-semibold tracking-tight text-balance">{set.name}</h1>
+        {set.blurb && <p className="text-muted-foreground text-lg leading-snug">{set.blurb}</p>}
       </header>
 
-      <section className="bg-card flex flex-col gap-3 rounded-lg border p-4 text-sm leading-relaxed">
-        <p className="font-semibold">How it works</p>
-        <ol className="flex list-decimal flex-col gap-1.5 pl-5">
-          <li>Answer each question on your own and say how sure you are.</li>
-          <li>Then you see the AI&apos;s advice. Keep your answer or change it, and say how sure you are now.</li>
+      <section aria-labelledby="how-it-works" className="bg-card flex flex-col gap-4 rounded-xl border p-4">
+        <h2 id="how-it-works" className="text-sm font-semibold">
+          How it works
+        </h2>
+        <ol className="flex flex-col gap-3 text-sm leading-relaxed">
+          <li className="flex gap-3">
+            <span aria-hidden className="bg-primary/15 text-primary grid size-7 shrink-0 place-items-center rounded-full font-semibold">
+              1
+            </span>
+            <span>
+              <b className="font-semibold">On your own.</b> Pick an answer and tell us how sure you are.
+            </span>
+          </li>
+          <li className="flex gap-3">
+            <span aria-hidden className="bg-ai/15 text-ai grid size-7 shrink-0 place-items-center rounded-full font-semibold">
+              2
+            </span>
+            <span>
+              <b className="font-semibold">With AI advice.</b> We show you what the AI picked. Keep your answer
+              or change it, then tell us how sure you are now.
+            </span>
+          </li>
         </ol>
-        <p>Answer honestly and no searching. AI advice will sometimes be wrong. It takes about 8 minutes.</p>
+        <ul className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1 border-t pt-3 text-sm">
+          <li>{set.slug === "judge-demo" ? "About 1 minute" : "About 8 minutes"}</li>
+          <li>Please don&apos;t look anything up</li>
+          <li>The AI is wrong sometimes</li>
+        </ul>
       </section>
 
       <StartForm setSlug={set.ref} label={label} />
 
       {inOtherSet && (
         <p className="text-muted-foreground text-sm">
-          This device is already in a session on another set. Starting here begins a new one.
+          You already started a different topic on this device. If you start here, you begin again from question 1.
         </p>
       )}
       {label !== "pilot" && (
-        <p className="text-muted-foreground text-xs">Test run ({label}). Your answers are kept apart from the study.</p>
+        <p className="text-muted-foreground text-xs">This is a test run ({label}). Your answers won&apos;t be counted in the study.</p>
       )}
     </Shell>
   );

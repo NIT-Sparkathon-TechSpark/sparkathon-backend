@@ -2,7 +2,7 @@ import { submitFinalAnswerAction, submitFirstAnswerAction } from "@/actions/sess
 import type { SessionStep } from "@/db/queries/participant";
 import { CONFIDENCE_LEVELS } from "@/lib/participant-schemas";
 import { AnswerForm } from "./answer-form";
-import { LETTERS, Progress, Question } from "./shell";
+import { Eyebrow, LETTERS, Progress, Question } from "./shell";
 
 type Step<S extends SessionStep["stage"]> = Extract<SessionStep, { stage: S }>;
 
@@ -11,7 +11,7 @@ export function FirstStage({ step, setSlug }: { step: Step<"first">; setSlug: st
   const { task } = step;
   return (
     <>
-      <Progress position={step.position} total={step.total} step="Step 1 of 2 · On your own" />
+      <Progress position={step.position} total={step.total} stage="first" />
       <AnswerForm
         key={`${task.taskId}-first`}
         action={submitFirstAnswerAction}
@@ -37,7 +37,7 @@ export function FinalStage({ step, setSlug }: { step: Step<"final">; setSlug: st
 
   return (
     <>
-      <Progress position={step.position} total={step.total} step="Step 2 of 2 · With AI advice" />
+      <Progress position={step.position} total={step.total} stage="final" />
       <AnswerForm
         key={`${task.taskId}-final`}
         action={submitFinalAnswerAction}
@@ -46,23 +46,27 @@ export function FinalStage({ step, setSlug }: { step: Step<"final">; setSlug: st
         options={task.options}
         answerLegend="Your final answer"
         confidenceLegend="How sure are you now?"
-        submitLabel="Submit final answer"
+        submitLabel="That's my final answer"
+        marks={{ you: first.answer, ai: advice.index }}
         above={
           <>
             <Question prompt={task.prompt} context={task.context} />
 
             <section className="flex flex-col gap-3">
-              <div className="bg-card rounded-lg border p-4">
-                <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">You answered</p>
-                <p className="mt-1">
+              <div className="bg-card rounded-xl border p-4">
+                <Eyebrow className="text-muted-foreground">You answered</Eyebrow>
+                <p className="mt-1.5">
                   <span className="font-semibold">{LETTERS[first.answer]}.</span> {task.options[first.answer]}
                   <span className="text-muted-foreground"> · {firstSure}</span>
                 </p>
               </div>
 
-              <div className="rounded-lg border border-(--ai) bg-card p-4">
-                <p className="text-xs font-semibold tracking-wide text-(--ai) uppercase">The AI suggests</p>
-                <p className="mt-1 font-medium">
+              <div className="border-ai/50 bg-ai/8 rounded-xl border p-4 transition-all duration-500 starting:translate-y-2 starting:opacity-0">
+                <Eyebrow className="text-ai flex items-center gap-1.5">
+                  <Sparkle />
+                  The AI picked
+                </Eyebrow>
+                <p className="mt-1.5 text-lg leading-snug font-medium">
                   <span className="font-semibold">{LETTERS[advice.index]}.</span> {task.options[advice.index]}
                 </p>
                 {advice.explanation && (
@@ -74,5 +78,13 @@ export function FinalStage({ step, setSlug }: { step: Step<"final">; setSlug: st
         }
       />
     </>
+  );
+}
+
+function Sparkle() {
+  return (
+    <svg aria-hidden viewBox="0 0 16 16" className="size-3.5 fill-current">
+      <path d="M8 0l1.8 4.9a2 2 0 0 0 1.3 1.3L16 8l-4.9 1.8a2 2 0 0 0-1.3 1.3L8 16l-1.8-4.9a2 2 0 0 0-1.3-1.3L0 8l4.9-1.8a2 2 0 0 0 1.3-1.3z" />
+    </svg>
   );
 }

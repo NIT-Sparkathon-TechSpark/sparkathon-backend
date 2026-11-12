@@ -25,6 +25,12 @@ const SESSIONS: { set: SetSlug; label: SessionLabel; expertise: number | null }[
   { set: "acme", label: "pilot", expertise: 3 },
   { set: "acme", label: "seeded", expertise: 4 },
   { set: "acme", label: "seeded", expertise: 2 },
+  // A few judges on the 3-question demo, so /live?set=judge-demo can be previewed.
+  ...Array.from({ length: 6 }, (_, i) => ({
+    set: "judge-demo" as SetSlug,
+    label: "judge" as SessionLabel,
+    expertise: (i % 4) + 2,
+  })),
 ];
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
@@ -37,7 +43,7 @@ function buildAll(): (TrialFact & { label: SessionLabel })[] {
 
   SESSIONS.forEach((s, si) => {
     const sessionId = `demo-${String(si + 1).padStart(2, "0")}`;
-    const count = s.set === "acme" ? 10 : 12;
+    const count = s.set === "acme" ? 10 : s.set === "judge-demo" ? 3 : 12;
     const wrongAdvice = s.set === "acme" ? 3 : 4;
     const checkable = s.set === "logic";
     const skill = (s.expertise ?? 3) * 0.04;
@@ -45,7 +51,8 @@ function buildAll(): (TrialFact & { label: SessionLabel })[] {
     for (let p = 1; p <= count; p++) {
       const difficulty = 1 + Math.floor(random() * 3);
       const correctIndex = Math.floor(random() * 4);
-      const aiRight = p > wrongAdvice; // order does not matter to any metric
+      // judge-demo: wrong advice on question 2 only (amendments A4); elsewhere order does not matter.
+      const aiRight = s.set === "judge-demo" ? p !== 2 : p > wrongAdvice;
       const adviceIndex = aiRight ? correctIndex : (correctIndex + 1 + Math.floor(random() * 3)) % 4;
       const rationaleShown = random() < 0.5;
 

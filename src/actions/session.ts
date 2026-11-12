@@ -51,7 +51,7 @@ export async function startSessionAction(_prev: FormState, formData: FormData): 
       label,
       selfRatedExpertise: expertise,
     });
-    if (!started) return { error: "This question set is not available yet." };
+    if (!started) return { error: "This topic isn't open yet." };
     sessionId = started.sessionId;
   } catch (error) {
     logFailure("startSession", error, { setSlug });
@@ -79,7 +79,7 @@ type Stage = "first" | "final";
  */
 async function submitAnswer(stage: Stage, formData: FormData): Promise<FormState> {
   const parsed = answerSchema.safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return { error: "Choose an answer and how sure you are." };
+  if (!parsed.success) return { error: "Pick an answer and tell us how sure you are." };
   const { setSlug, taskId, answer, confidence, ms } = parsed.data;
 
   const sessionId = await readSessionId();
