@@ -41,6 +41,8 @@ CSV (comma, semicolon or tab, as Excel exports it) with a header row, or JSON (a
 | `ai_source` | no | `recorded` (the AI's real answer, default) or `seeded` |
 | `ai_model` | no | Which model gave the answer |
 
+Samples linked from the dashboard: `public/samples/centaur-cases-template.csv` (blank template) and `public/samples/kyc-alerts-demo.csv` (12 fictional bank KYC alerts, AI wrong on 4, balanced over A–D; for the live demo). `pnpm test:org-upload` checks that both upload cleanly.
+
 3–200 questions, at least one where the AI is wrong. Nothing is saved if any row has a problem; the person gets the row numbers. Warnings (saved anyway) when the AI is wrong on fewer than 20% or more than 50%, or when most correct answers sit in one position.
 
 ## Files

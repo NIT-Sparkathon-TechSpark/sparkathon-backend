@@ -135,6 +135,14 @@ function FormatHelp() {
       </ul>
       <p>JSON works too: a list with the same fields, or a task file in the repo&apos;s format.</p>
       <p>3 to 200 questions. Nothing is saved if any row has a problem; you get the row numbers to fix.</p>
+      <div className="flex flex-col gap-1 pt-1">
+        <a href="/samples/centaur-cases-template.csv" download className="text-foreground underline underline-offset-4">
+          Download a template (CSV)
+        </a>
+        <a href="/samples/kyc-alerts-demo.csv" download className="text-foreground underline underline-offset-4">
+          Example: 12 bank KYC alerts, AI wrong on 4 (CSV)
+        </a>
+      </div>
     </div>
   );
 }

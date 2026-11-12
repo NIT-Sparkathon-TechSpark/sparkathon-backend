@@ -1,0 +1,4 @@
+prompt,context,option_a,option_b,option_c,option_d,correct,ai_answer,ai_explanation,ai_confidence,category,difficulty,ai_source,ai_model
+Replace with your first case: what the reviewer has to decide.,Optional: the policy or background text the reviewer sees.,First option,Second option,Third option,Fourth option,B,B,"Your AI's explanation for its answer, as it gave it.",90,your-category,2,recorded,name of your model
+A case where your AI was wrong (about a third of rows should be).,,First option,Second option,Third option,Fourth option,C,A,The explanation your AI gave for its wrong answer.,88,your-category,3,recorded,name of your model
+A third case. Keep the correct answer in different positions across rows.,,First option,Second option,Third option,Fourth option,D,D,Your AI's explanation.,92,another-category,1,recorded,name of your model
