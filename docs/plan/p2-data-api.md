@@ -27,8 +27,8 @@ Answers are 0-3, confidence 0-100 (the UI offers 25-100). Validate inputs with Z
 |---|---|
 | `pnpm db:generate` then `pnpm db:migrate` | Create and apply migrations. Development branch first, production before the merge that needs it. Never `drizzle-kit push`. |
 | `pnpm tasks:check` | Validate `data/tasks/*.json` without a database. |
-| `pnpm db:seed` | Upsert the task files by id. Never deletes. |
-| `pnpm db:seed-sessions [--count 30] [--replace]` | Simulated `seeded` sessions for logic and facts. |
+| `pnpm db:seed` | Upsert the task files by id. Never deletes. Skips the `dev` test set unless `NEON_BRANCH` is `development` or `preview`. |
+| `pnpm db:seed-sessions [--count 30] [--replace]` | Simulated `seeded` sessions for logic and facts. Refuses to run unless `NEON_BRANCH` is `development` or `preview`. |
 | `pnpm db:reset-live [--yes]` | Delete only `practice` and `judge` sessions. Dry run without `--yes`. |
 | `pnpm db:export [--labels pilot,seeded] [--all]` | CSV of answered trials to `exports/`, plus the headline numbers. |
 | `pnpm test:metrics` | Tests for `metrics.ts` and `session-plan.ts`. |

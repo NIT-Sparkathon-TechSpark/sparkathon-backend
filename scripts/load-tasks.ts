@@ -13,9 +13,12 @@ import { sql } from "drizzle-orm";
 import type { PgColumn } from "drizzle-orm/pg-core";
 import { tasks, type NewTask } from "../src/db/schema";
 import { taskFileSchema, type TaskFile } from "../src/db/task-file";
+import { isNonProduction } from "./_guard";
 
 const TASKS_DIR = path.join(process.cwd(), "data", "tasks");
 const dryRun = process.argv.includes("--dry-run");
+/** Test sets that must not reach production: loaded only on a development or preview branch. */
+const DEV_ONLY_SETS = ["dev"];
 
 async function readTaskFiles(): Promise<TaskFile[]> {
   const names = (await readdir(TASKS_DIR)).filter((n) => n.endsWith(".json")).sort();
@@ -89,11 +92,19 @@ function report(files: TaskFile[]) {
 const excluded = (column: PgColumn) => sql.raw(`excluded."${column.name}"`);
 
 async function main() {
-  const files = await readTaskFiles();
-  report(files);
+  const allFiles = await readTaskFiles();
+  report(allFiles);
   if (dryRun) {
     console.log("Valid. Dry run, nothing written.");
     return;
+  }
+
+  const skipDev = !isNonProduction();
+  const files = skipDev ? allFiles.filter((f) => !DEV_ONLY_SETS.includes(f.set)) : allFiles;
+  if (skipDev && files.length < allFiles.length) {
+    console.log(
+      `Skipped test set(s) ${DEV_ONLY_SETS.join(", ")}: NEON_BRANCH is "${process.env.NEON_BRANCH ?? ""}", not development or preview.`,
+    );
   }
 
   // Imported here so `--dry-run` works without DATABASE_URL.

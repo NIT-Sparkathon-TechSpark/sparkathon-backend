@@ -18,6 +18,7 @@
       "correct_index": 0,
       "advice": {
         "index": 0,
+        "answer_text": "Yes, within 30 days for physical items",
         "confidence": 98,
         "explanation": "Physical boxed items can be returned within 30 days if unopened and in original packaging.",
         "source": "recorded",
@@ -41,6 +42,7 @@
       "correct_index": 1,
       "advice": {
         "index": 0,
+        "answer_text": "Yes, under the 30-day window",
         "confidence": 88,
         "explanation": "All items including digital software fall under the general 30-day return window for full customer satisfaction.",
         "source": "seeded",
@@ -63,7 +65,8 @@
       ],
       "correct_index": 3,
       "advice": {
-        "index": 0,
+        "index": 3,
+        "answer_text": "No, clearance items are final sale",
         "confidence": 99,
         "explanation": "Sale and clearance items are explicitly marked as final sale and cannot be returned or exchanged.",
         "source": "recorded",
@@ -86,7 +89,8 @@
       ],
       "correct_index": 0,
       "advice": {
-        "index": 0,
+        "index": 1,
+        "answer_text": "Yes, full 1-year warranty covers all damage",
         "confidence": 84,
         "explanation": "The 1-year hardware warranty covers all accidental damage and liquid exposure incidents unconditionally.",
         "source": "recorded",
@@ -110,6 +114,7 @@
       "correct_index": 1,
       "advice": {
         "index": 1,
+        "answer_text": "No, returns must be made within 30 days",
         "confidence": 97,
         "explanation": "Standard physical items must be returned within 30 days of delivery, so 45 days exceeds the policy limit.",
         "source": "recorded",
@@ -133,6 +138,7 @@
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "Yes, warranty claims are accepted up to 1 year for manufacturing defects",
         "confidence": 96,
         "explanation": "Warranty claims for manufacturing defects are accepted up to 1 year from purchase with valid proof of receipt.",
         "source": "recorded",
@@ -155,7 +161,8 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 3,
+        "index": 0,
+        "answer_text": "Yes, as long as it's within 30 days",
         "confidence": 87,
         "explanation": "As long as the item is returned within the 30-day window, opened packaging does not disqualify a full refund.",
         "source": "seeded",
@@ -179,6 +186,7 @@
       "correct_index": 0,
       "advice": {
         "index": 0,
+        "answer_text": "No, clearance items cannot be returned or exchanged",
         "confidence": 99,
         "explanation": "Sale and clearance items are final sale and cannot be returned or exchanged under any circumstances.",
         "source": "recorded",
@@ -202,6 +210,7 @@
       "correct_index": 2,
       "advice": {
         "index": 2,
+        "answer_text": "Yes, unactivated digital software can be refunded within 30 days",
         "confidence": 94,
         "explanation": "Software licenses are only non-refundable once activated or downloaded, so unactivated licenses within 30 days remain eligible.",
         "source": "recorded",
@@ -225,6 +234,7 @@
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "No, valid proof of receipt is required for warranty claims",
         "confidence": 95,
         "explanation": "The policy strictly requires valid proof of receipt for warranty claims up to 1 year.",
         "source": "recorded",
