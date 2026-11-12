@@ -44,6 +44,7 @@ One file per set: `data/tasks/<set>.json`.
       "correct_index": 2,
       "advice": {
         "index": 0,
+        "answer_text": "About 99%",
         "confidence": 90,
         "explanation": "The test is 99% accurate, so a positive result means a 99% chance the person has the disease.",
         "source": "seeded",
@@ -55,7 +56,7 @@ One file per set: `data/tasks/<set>.json`.
 }
 ```
 
-Rules for content: four options, exactly one correct. Wrong and right explanations look alike (same length, same confident tone, 1–2 sentences). Prefer real model errors (`recorded`); seed only where no model was wrong. About a third of tasks per set have wrong advice. Categories: `probability`, `traps`, `comparison`, `deduction` (logic); `geography`, `history` (facts); `refunds` (acme).
+Rules for content: four options, exactly one correct. `advice.answer_text` is the text of the option the AI recommends and must equal `options[advice.index]`; `pnpm db:seed` and `pnpm tasks:check` fail otherwise, so reordering options cannot silently change which answer the AI gave. The explanation must argue for that same option. Wrong and right explanations look alike (same length, same confident tone, 1–2 sentences). Prefer real model errors (`recorded`); seed only where no model was wrong. About a third of tasks per set have wrong advice. Categories: `probability`, `traps`, `comparison`, `deduction` (logic); `geography`, `history` (facts); `refunds` (acme).
 
 ## Metrics (P2 in `src/lib/metrics.ts`, used by every screen)
 

@@ -18,6 +18,7 @@
       "correct_index": 1,
       "advice": {
         "index": 0,
+        "answer_text": "Sydney",
         "confidence": 96,
         "explanation": "Sydney is Australia's capital and largest city, home to the federal Parliament and most national government offices.",
         "source": "seeded",
@@ -41,6 +42,7 @@
       "correct_index": 0,
       "advice": {
         "index": 0,
+        "answer_text": "1945",
         "confidence": 99,
         "explanation": "World War II officially concluded in 1945 following the surrender of Germany and Japan.",
         "source": "recorded",
@@ -64,6 +66,7 @@
       "correct_index": 0,
       "advice": {
         "index": 2,
+        "answer_text": "Russia",
         "confidence": 97,
         "explanation": "Russia spans eleven time zones and borders multiple oceans, giving it the longest total coastline.",
         "source": "seeded",
@@ -87,6 +90,7 @@
       "correct_index": 1,
       "advice": {
         "index": 1,
+        "answer_text": "Augustus",
         "confidence": 97,
         "explanation": "Augustus (formerly Octavian) became the first Roman Emperor after winning the civil war following Julius Caesar's assassination.",
         "source": "recorded",
@@ -110,6 +114,7 @@
       "correct_index": 2,
       "advice": {
         "index": 1,
+        "answer_text": "Ethiopia",
         "confidence": 98,
         "explanation": "Ethiopia is Africa's most populous country, with more than 220 million people, ahead of Nigeria and Egypt.",
         "source": "seeded",
@@ -133,6 +138,7 @@
       "correct_index": 2,
       "advice": {
         "index": 2,
+        "answer_text": "England and France",
         "confidence": 96,
         "explanation": "The Hundred Years' War (1337 to 1453) was a long series of conflicts between England and France over the French throne.",
         "source": "seeded",
@@ -156,6 +162,7 @@
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "Vatican City",
         "confidence": 99,
         "explanation": "Vatican City is an independent city-state enclaved within Rome, measuring approximately 49 hectares.",
         "source": "recorded",
@@ -179,6 +186,7 @@
       "correct_index": 3,
       "advice": {
         "index": 2,
+        "answer_text": "1991",
         "confidence": 97,
         "explanation": "The Berlin Wall fell in 1991, the same year the Soviet Union dissolved and the Cold War division of Europe ended.",
         "source": "seeded",
@@ -202,6 +210,7 @@
       "correct_index": 0,
       "advice": {
         "index": 0,
+        "answer_text": "Chile",
         "confidence": 93,
         "explanation": "The Atacama Desert lies mostly in northern Chile, between the Andes and the Pacific, with only small parts in Peru.",
         "source": "seeded",
@@ -225,6 +234,7 @@
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "Leonardo da Vinci",
         "confidence": 99,
         "explanation": "The Mona Lisa was painted by the Italian Renaissance master Leonardo da Vinci during the 16th century.",
         "source": "recorded",
@@ -248,6 +258,7 @@
       "correct_index": 1,
       "advice": {
         "index": 1,
+        "answer_text": "Seine",
         "confidence": 99,
         "explanation": "The Seine River flows right through the heart of Paris, dividing the city into the Rive Gauche and Rive Droite.",
         "source": "recorded",
@@ -271,6 +282,7 @@
       "correct_index": 1,
       "advice": {
         "index": 0,
+        "answer_text": "1225",
         "confidence": 99,
         "explanation": "King John sealed the Magna Carta in 1225 to end the barons' revolt; this is the version later confirmed in English law.",
         "source": "seeded",
@@ -294,6 +306,7 @@
       "correct_index": 2,
       "advice": {
         "index": 2,
+        "answer_text": "Nepal and China (Tibet)",
         "confidence": 97,
         "explanation": "The international border between Nepal and China runs across the exact summit point of Mount Everest.",
         "source": "recorded",
@@ -317,6 +330,7 @@
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "Inca",
         "confidence": 98,
         "explanation": "Machu Picchu was constructed as an estate for the Inca emperor Pachacuti in the 15th century.",
         "source": "recorded",
@@ -340,6 +354,7 @@
       "correct_index": 0,
       "advice": {
         "index": 1,
+        "answer_text": "Almaty",
         "confidence": 96,
         "explanation": "Almaty is the cultural hub, financial center, and official capital city of Kazakhstan.",
         "source": "seeded",
@@ -363,6 +378,7 @@
       "correct_index": 0,
       "advice": {
         "index": 0,
+        "answer_text": "Ancient Egyptian Hieroglyphs",
         "confidence": 99,
         "explanation": "The Rosetta Stone featured identical text in three scripts, allowing scholars to successfully decipher Egyptian hieroglyphs.",
         "source": "recorded",
@@ -386,6 +402,7 @@
       "correct_index": 1,
       "advice": {
         "index": 1,
+        "answer_text": "Alaska",
         "confidence": 95,
         "explanation": "Alaska has a massive jagged coastline that exceeds the combined coastlines of all other US states.",
         "source": "recorded",
@@ -409,6 +426,7 @@
       "correct_index": 2,
       "advice": {
         "index": 3,
+        "answer_text": "Alexander II",
         "confidence": 99,
         "explanation": "Alexander II was Russia's last Tsar; after he freed the serfs, the dynasty lost its hold and revolution followed.",
         "source": "seeded",
@@ -432,6 +450,7 @@
       "correct_index": 2,
       "advice": {
         "index": 2,
+        "answer_text": "Mexico",
         "confidence": 98,
         "explanation": "The equator passes through Ecuador, Kenya, and Indonesia, but lies entirely south of Mexico.",
         "source": "recorded",
@@ -455,6 +474,7 @@
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "1776",
         "confidence": 99,
         "explanation": "The Continental Congress formally adopted the Declaration of Independence on July 4, 1776.",
         "source": "recorded",

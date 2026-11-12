@@ -18,6 +18,7 @@
       "correct_index": 2,
       "advice": {
         "index": 0,
+        "answer_text": "About 99%",
         "confidence": 96,
         "explanation": "The test is right 99% of the time, so a positive result means the person almost certainly has the disease: about 99%.",
         "source": "seeded",
@@ -41,6 +42,7 @@
       "correct_index": 0,
       "advice": {
         "index": 0,
+        "answer_text": "11/36",
         "confidence": 95,
         "explanation": "The probability of not rolling a six in one roll is 5/6. For two rolls, it's (5/6)^2 = 25/36, so the probability of at least one six is 1 - 25/36 = 11/36.",
         "source": "recorded",
@@ -64,6 +66,7 @@
       "correct_index": 0,
       "advice": {
         "index": 1,
+        "answer_text": "$0.10",
         "confidence": 97,
         "explanation": "The bat costs $1.00 and both together cost $1.10, so the ball is the remaining $0.10. Check: $1.00 + $0.10 = $1.10.",
         "source": "seeded",
@@ -87,6 +90,7 @@
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "5 minutes",
         "confidence": 99,
         "explanation": "Each machine makes 1 widget in 5 minutes. Therefore, 100 machines working simultaneously can make 100 widgets in 5 minutes.",
         "source": "recorded",
@@ -110,6 +114,7 @@
       "correct_index": 1,
       "advice": {
         "index": 3,
+        "answer_text": "All roses fade quickly",
         "confidence": 94,
         "explanation": "Every rose is a flower, and flowers in this group fade quickly, so the property carries over to every rose: all roses fade quickly.",
         "source": "seeded",
@@ -133,6 +138,7 @@
       "correct_index": 1,
       "advice": {
         "index": 1,
+        "answer_text": "About 50%",
         "confidence": 95,
         "explanation": "Due to the birthday paradox combinatorial explosion of pairs, 23 people give approximately a 50.7% chance of a shared birthday.",
         "source": "recorded",
@@ -156,6 +162,7 @@
       "correct_index": 3,
       "advice": {
         "index": 2,
+        "answer_text": "Day 15",
         "confidence": 96,
         "explanation": "The pad grows at a steady rate, so half the pond is covered at half the time: 30 days divided by 2 gives day 15.",
         "source": "seeded",
@@ -179,6 +186,7 @@
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "Minutes in 10 weeks",
         "confidence": 96,
         "explanation": "Seconds in a day = 86,400. Minutes in 10 weeks = 10 * 7 * 24 * 60 = 100,800. Therefore, minutes in 10 weeks is greater.",
         "source": "recorded",
@@ -202,6 +210,7 @@
       "correct_index": 1,
       "advice": {
         "index": 0,
+        "answer_text": "Saturday",
         "confidence": 98,
         "explanation": "100 divided by 7 is 14 weeks with a remainder of 3, so the day lands three days after Wednesday, which is Saturday.",
         "source": "seeded",
@@ -225,6 +234,7 @@
       "correct_index": 2,
       "advice": {
         "index": 2,
+        "answer_text": "2/3",
         "confidence": 99,
         "explanation": "Switching gives you a 2/3 chance of winning because the host's revelation concentrates the remaining probability onto the unopened door.",
         "source": "recorded",
@@ -248,6 +258,7 @@
       "correct_index": 0,
       "advice": {
         "index": 0,
+        "answer_text": "Survivors are not buried",
         "confidence": 97,
         "explanation": "Survivors are alive, so nobody buries them. The border detail is there to pull attention away from that one word.",
         "source": "seeded",
@@ -271,6 +282,7 @@
       "correct_index": 2,
       "advice": {
         "index": 2,
+        "answer_text": "They weigh the same",
         "confidence": 98,
         "explanation": "A kilogram is a kilogram whatever the material, so both weigh exactly the same; steel only feels heavier because it is denser.",
         "source": "seeded",
@@ -294,6 +306,7 @@
       "correct_index": 1,
       "advice": {
         "index": 1,
+        "answer_text": "3 cats",
         "confidence": 94,
         "explanation": "Three cats together catch one mouse per minute, so in 100 minutes the same three cats catch 100 mice. No extra cats are needed.",
         "source": "seeded",
@@ -317,6 +330,7 @@
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "About 0.2%",
         "confidence": 92,
         "explanation": "Of 10,000 people, 1 is ill and about 500 healthy people test positive by mistake, so only about 1 positive in 500, or 0.2%, is real.",
         "source": "seeded",
@@ -340,6 +354,7 @@
       "correct_index": 2,
       "advice": {
         "index": 2,
+        "answer_text": "12 months",
         "confidence": 99,
         "explanation": "All 12 months of the year have at least 28 days in them.",
         "source": "recorded",
@@ -363,6 +378,7 @@
       "correct_index": 0,
       "advice": {
         "index": 2,
+        "answer_text": "4.5 kg",
         "confidence": 96,
         "explanation": "The brick is 3 kg plus half of that 3 kg, which adds 1.5 kg, so its total weight is 3 + 1.5 = 4.5 kg.",
         "source": "seeded",
@@ -386,6 +402,7 @@
       "correct_index": 1,
       "advice": {
         "index": 1,
+        "answer_text": "None of the above necessarily follow",
         "confidence": 97,
         "explanation": "Set theory shows that while Zings are a subset of Zangs, there is no necessary intersection between Zings and Zongs.",
         "source": "recorded",
@@ -409,6 +426,7 @@
       "correct_index": 2,
       "advice": {
         "index": 1,
+        "answer_text": "1/32",
         "confidence": 97,
         "explanation": "Five heads in a row has probability (1/2)^5 = 1/32, so after four heads the chance of a fifth head is that small: 1/32.",
         "source": "seeded",
@@ -432,6 +450,7 @@
       "correct_index": 0,
       "advice": {
         "index": 0,
+        "answer_text": "2 apples",
         "confidence": 93,
         "explanation": "You took 2 apples, so you now have 2 apples. The 1 apple left behind is not yours; the question asks what you hold.",
         "source": "seeded",
@@ -455,6 +474,7 @@
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "He was playing Monopoly",
         "confidence": 98,
         "explanation": "The scenario describes playing the board game Monopoly, where the token is a car and landing on a hotel can cause bankruptcy.",
         "source": "recorded",

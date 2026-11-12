@@ -19,6 +19,9 @@ export const taskFileTaskSchema = z.object({
   correct_index: answerIndex,
   advice: z.object({
     index: answerIndex,
+    // The text of the option the AI recommends. Must equal options[index]; the check below fails the
+    // load when the options were reordered or edited without moving the advice index with them.
+    answer_text: z.string().min(1),
     confidence: z.number().int().min(0).max(100).nullable(),
     explanation: z.string().min(1),
     source: z.enum(["recorded", "seeded"]),
@@ -52,6 +55,13 @@ export const taskFileSchema = z
           code: "custom",
           path: ["tasks", i, "position"],
           message: "Duplicate position",
+        });
+      }
+      if (task.advice.answer_text !== task.options[task.advice.index]) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["tasks", i, "advice", "answer_text"],
+          message: `advice.answer_text must equal options[${task.advice.index}] ("${task.options[task.advice.index]}"). Move advice.index to the option the explanation argues for.`,
         });
       }
       if (new Set(task.options).size !== task.options.length) {

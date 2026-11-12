@@ -9,10 +9,16 @@
       "difficulty": 1,
       "prompt": "What is 17 × 3?",
       "context": null,
-      "options": ["41", "51", "54", "47"],
+      "options": [
+        "41",
+        "51",
+        "54",
+        "47"
+      ],
       "correct_index": 1,
       "advice": {
         "index": 1,
+        "answer_text": "51",
         "confidence": 95,
         "explanation": "17 × 3 is 10 × 3 plus 7 × 3, which is 30 + 21 = 51.",
         "source": "seeded",
@@ -27,10 +33,16 @@
       "difficulty": 2,
       "prompt": "Which is larger: 2 to the power of 10, or 10 to the power of 3?",
       "context": null,
-      "options": ["2 to the power of 10", "10 to the power of 3", "They are equal", "It cannot be told"],
+      "options": [
+        "2 to the power of 10",
+        "10 to the power of 3",
+        "They are equal",
+        "It cannot be told"
+      ],
       "correct_index": 0,
       "advice": {
         "index": 1,
+        "answer_text": "10 to the power of 3",
         "confidence": 85,
         "explanation": "10 to the power of 3 is 1,000, while doubling 2 ten times only reaches a few hundred.",
         "source": "seeded",
@@ -45,10 +57,16 @@
       "difficulty": 1,
       "prompt": "What is the capital of Australia?",
       "context": null,
-      "options": ["Sydney", "Melbourne", "Canberra", "Perth"],
+      "options": [
+        "Sydney",
+        "Melbourne",
+        "Canberra",
+        "Perth"
+      ],
       "correct_index": 2,
       "advice": {
         "index": 0,
+        "answer_text": "Sydney",
         "confidence": 90,
         "explanation": "Sydney is Australia's largest and best-known city and serves as its capital.",
         "source": "seeded",
@@ -63,10 +81,16 @@
       "difficulty": 1,
       "prompt": "How many sides does a hexagon have?",
       "context": null,
-      "options": ["5", "6", "7", "8"],
+      "options": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
       "correct_index": 1,
       "advice": {
         "index": 1,
+        "answer_text": "6",
         "confidence": 98,
         "explanation": "The prefix hexa means six, so a hexagon has six sides.",
         "source": "seeded",
@@ -81,10 +105,16 @@
       "difficulty": 1,
       "prompt": "Which planet is closest to the Sun?",
       "context": null,
-      "options": ["Venus", "Earth", "Mercury", "Mars"],
+      "options": [
+        "Venus",
+        "Earth",
+        "Mercury",
+        "Mars"
+      ],
       "correct_index": 2,
       "advice": {
         "index": 2,
+        "answer_text": "Mercury",
         "confidence": 97,
         "explanation": "Mercury orbits closest to the Sun, inside the orbit of Venus.",
         "source": "seeded",
@@ -99,10 +129,16 @@
       "difficulty": 3,
       "prompt": "A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost?",
       "context": null,
-      "options": ["$0.10", "$0.05", "$0.01", "$0.15"],
+      "options": [
+        "$0.10",
+        "$0.05",
+        "$0.01",
+        "$0.15"
+      ],
       "correct_index": 1,
       "advice": {
         "index": 0,
+        "answer_text": "$0.10",
         "confidence": 88,
         "explanation": "Subtract the $1.00 bat from the $1.10 total, which leaves $0.10 for the ball.",
         "source": "seeded",
@@ -117,10 +153,16 @@
       "difficulty": 1,
       "prompt": "Which ocean is the largest?",
       "context": null,
-      "options": ["Atlantic", "Indian", "Arctic", "Pacific"],
+      "options": [
+        "Atlantic",
+        "Indian",
+        "Arctic",
+        "Pacific"
+      ],
       "correct_index": 3,
       "advice": {
         "index": 3,
+        "answer_text": "Pacific",
         "confidence": 96,
         "explanation": "The Pacific covers about a third of Earth's surface, more than any other ocean.",
         "source": "seeded",
@@ -135,10 +177,16 @@
       "difficulty": 2,
       "prompt": "All bloops are razzies, and all razzies are lazzies. Are all bloops lazzies?",
       "context": null,
-      "options": ["Yes", "No", "Only some of them", "It cannot be told"],
+      "options": [
+        "Yes",
+        "No",
+        "Only some of them",
+        "It cannot be told"
+      ],
       "correct_index": 0,
       "advice": {
         "index": 0,
+        "answer_text": "Yes",
         "confidence": 92,
         "explanation": "Every bloop is a razzie and every razzie is a lazzie, so every bloop is a lazzie.",
         "source": "seeded",
