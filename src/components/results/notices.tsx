@@ -41,7 +41,7 @@ export function DataSourceNotice({ source, problem }: { source: FactsSource; pro
 export function TooLittleData({ n, className }: { n: number; className?: string }) {
   return (
     <span className={cn("text-muted-foreground text-xs italic", className)}>
-      Too little data (n = {n}, needs {MIN_TRIALS_PER_SLICE})
+      Too little data ({n} {n === 1 ? "answer" : "answers"}, needs {MIN_TRIALS_PER_SLICE})
     </span>
   );
 }
@@ -51,8 +51,8 @@ export function EmptyState({ seeded, source }: { seeded: boolean; source?: Facts
   if (source === "unavailable") return null;
   return (
     <div className="text-muted-foreground rounded-lg border border-dashed p-10 text-center text-sm">
-      No completed answers yet for this selection.
-      {!seeded && " Seeded sessions are switched off."}
+      Nobody has finished a question here yet.
+      {!seeded && " Simulated sessions are switched off."}
     </div>
   );
 }

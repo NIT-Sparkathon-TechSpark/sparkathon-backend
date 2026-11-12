@@ -90,7 +90,7 @@ function Overview({ facts, filter }: { facts: TrialFact[]; filter: ResultsFilter
       {(s.trials < MIN_TRIALS_PER_SLICE || s.sessions < MIN_SESSIONS) && (
         <p className="text-muted-foreground rounded-lg border border-dashed px-4 py-2 text-sm">
           Only {s.trials} answers from {s.sessions} {s.sessions === 1 ? "person" : "people"} so far.
-          Read these numbers as a first look; they will move.
+          These numbers will still change a lot as more people take part.
         </p>
       )}
 
@@ -117,9 +117,9 @@ function Overview({ facts, filter }: { facts: TrialFact[]; filter: ResultsFilter
       <section className="grid gap-6 lg:grid-cols-[3fr_2fr]">
         <Card>
           <CardHeader>
-            <CardTitle>Three ways to answer the same questions</CardTitle>
+            <CardTitle>Same questions, three scores</CardTitle>
             <CardDescription>
-              Share of correct answers. Lines show 95% intervals from resampling whole sessions.
+              Share of correct answers. The thin lines show how much each number could move (95% interval).
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -153,10 +153,10 @@ function Overview({ facts, filter }: { facts: TrialFact[]; filter: ResultsFilter
       <section className="grid gap-6 lg:grid-cols-[3fr_2fr]">
         <Card>
           <CardHeader>
-            <CardTitle>Followed, ignored, or followed too readily</CardTitle>
+            <CardTitle>What people did when they disagreed with the AI</CardTitle>
             <CardDescription>
-              The {disagreements} answers where the person first disagreed with the AI. That is
-              where reliance shows.
+              Only the {disagreements} answers where the person&apos;s first answer was different from the
+              AI&apos;s. Those are the ones where they had to decide whether to trust it.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -201,7 +201,7 @@ function Overview({ facts, filter }: { facts: TrialFact[]; filter: ResultsFilter
         >
           <span className="font-medium">Where does AI help, and where does it hurt? →</span>
           <p className="text-muted-foreground text-sm">
-            Split by AI right or wrong, explanation shown, difficulty, category, set and expertise.
+            Compare by AI right or wrong, explanation shown, difficulty, category, question set and expertise.
           </p>
         </Link>
         <Link
