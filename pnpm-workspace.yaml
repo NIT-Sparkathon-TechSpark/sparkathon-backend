@@ -1,3 +1,6 @@
 allowBuilds:
+  # esbuild (used by tsx and drizzle-kit) runs an install script to check its binary.
+  # Without approval, pnpm 12 fails a clean install, which breaks every Vercel deploy.
+  esbuild: true
   sharp: false
   unrs-resolver: false
