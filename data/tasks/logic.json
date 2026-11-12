@@ -17,10 +17,10 @@
       ],
       "correct_index": 3,
       "advice": {
-        "index": 3,
+        "index": 0,
         "confidence": 90,
-        "explanation": "The test is 99% accurate, so a positive result means a 99% chance the person has the disease.",
-        "source": "recorded",
+        "explanation": "The test is 99% accurate, so a positive result means a high probability the person has the disease.",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
@@ -63,10 +63,10 @@
       ],
       "correct_index": 2,
       "advice": {
-        "index": 2,
+        "index": 0,
         "confidence": 88,
         "explanation": "Since the total is $1.10 and the bat is $1.00, the ball must cost the remaining $0.10.",
-        "source": "recorded",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
@@ -109,10 +109,10 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 1,
+        "index": 0,
         "confidence": 85,
         "explanation": "Since all roses are flowers and some flowers fade quickly, it necessarily follows that all roses fade quickly as a subset.",
-        "source": "recorded",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
@@ -155,10 +155,10 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 1,
+        "index": 0,
         "confidence": 92,
         "explanation": "Since it doubles every day and covers the whole pond on day 30, dividing 30 by 2 means it covered half the pond on day 15.",
-        "source": "recorded",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
@@ -178,7 +178,7 @@
       ],
       "correct_index": 3,
       "advice": {
-        "index": 2,
+        "index": 3,
         "confidence": 96,
         "explanation": "Seconds in a day = 86,400. Minutes in 10 weeks = 10 * 7 * 24 * 60 = 100,800. Therefore, minutes in 10 weeks is greater.",
         "source": "recorded",
@@ -224,7 +224,7 @@
       ],
       "correct_index": 0,
       "advice": {
-        "index": 1,
+        "index": 0,
         "confidence": 99,
         "explanation": "Switching gives you a 2/3 chance of winning because the host's revelation concentrates the remaining probability onto the unopened door.",
         "source": "recorded",
@@ -247,10 +247,10 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 1,
+        "index": 0,
         "confidence": 95,
         "explanation": "They are buried in the country where their citizenship is registered according to international aviation treaties.",
-        "source": "recorded",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
@@ -270,7 +270,7 @@
       ],
       "correct_index": 0,
       "advice": {
-        "index": 2,
+        "index": 1,
         "confidence": 90,
         "explanation": "The book costs $10.00 because $110 minus $100 leaves $10 for the book.",
         "source": "seeded",
@@ -293,7 +293,7 @@
       ],
       "correct_index": 1,
       "advice": {
-        "index": 0,
+        "index": 1,
         "confidence": 94,
         "explanation": "One cat catches one mouse in 3 minutes. Scaling up, 3 cats working for 99 minutes will catch 99 mice, so 3 cats are sufficient.",
         "source": "recorded",
@@ -316,9 +316,9 @@
       ],
       "correct_index": 2,
       "advice": {
-        "index": 3,
+        "index": 2,
         "confidence": 89,
-        "explanation": "Since the false positive rate is 5% and the disease is rare, a positive test guarantees a 95% likelihood of having the condition.",
+        "explanation": "Since the false positive rate is 5% and the disease is rare, a positive test guarantees a high likelihood of having the condition.",
         "source": "seeded",
         "model": "claude"
       },
@@ -362,10 +362,10 @@
       ],
       "correct_index": 2,
       "advice": {
-        "index": 2,
+        "index": 0,
         "confidence": 91,
         "explanation": "The brick weighs 4.5 kg, which is 3 kg plus half of 3 kg.",
-        "source": "recorded",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
@@ -385,7 +385,7 @@
       ],
       "correct_index": 2,
       "advice": {
-        "index": 1,
+        "index": 2,
         "confidence": 97,
         "explanation": "Set theory shows that while Zings are a subset of Zangs, there is no necessary intersection between Zings and Zongs.",
         "source": "recorded",
@@ -408,9 +408,9 @@
       ],
       "correct_index": 0,
       "advice": {
-        "index": 3,
+        "index": 0,
         "confidence": 99,
-        "explanation": "Coin flips are independent events; the previous outcomes do not influence the 5th flip, so the probability remains 1/2.",
+        "explanation": "Coin flips are independent events; previous outcomes do not influence the 5th flip, so probability remains 1/2.",
         "source": "recorded",
         "model": "gemini"
       },
@@ -431,10 +431,10 @@
       ],
       "correct_index": 3,
       "advice": {
-        "index": 3,
+        "index": 0,
         "confidence": 93,
         "explanation": "If you take 2 apples from 3, you are left with 1 apple.",
-        "source": "recorded",
+        "source": "seeded",
         "model": "claude"
       },
       "verified_by": "gemini+human"
