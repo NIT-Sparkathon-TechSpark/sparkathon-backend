@@ -1,0 +1,466 @@
+{
+  "set": "logic",
+  "name": "Logic & Probability",
+  "tasks": [
+    {
+      "id": "logic-01",
+      "position": 1,
+      "category": "probability",
+      "difficulty": 2,
+      "prompt": "A disease affects 1 in 1000 people. A test for it is 99% accurate (both true positive and true negative rates). A random person tests positive. How likely is it they have the disease?",
+      "context": null,
+      "options": [
+        "About 99%",
+        "About 50%",
+        "About 1%",
+        "About 9%"
+      ],
+      "correct_index": 3,
+      "advice": {
+        "index": 3,
+        "confidence": 90,
+        "explanation": "The test is 99% accurate, so a positive result means a 99% chance the person has the disease.",
+        "source": "recorded",
+        "model": "claude"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-02",
+      "position": 2,
+      "category": "probability",
+      "difficulty": 1,
+      "prompt": "If you roll a standard 6-sided die twice, what is the probability of rolling at least one 6?",
+      "context": null,
+      "options": [
+        "1/3",
+        "11/36",
+        "1/6",
+        "25/36"
+      ],
+      "correct_index": 1,
+      "advice": {
+        "index": 1,
+        "confidence": 95,
+        "explanation": "The probability of not rolling a six in one roll is 5/6. For two rolls, it's (5/6)^2 = 25/36, so the probability of at least one six is 1 - 25/36 = 11/36.",
+        "source": "recorded",
+        "model": "gemini"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-03",
+      "position": 3,
+      "category": "traps",
+      "difficulty": 2,
+      "prompt": "A bat and a ball together cost $1.10. The bat costs $1.00 more than the ball. How much does the ball cost?",
+      "context": null,
+      "options": [
+        "$0.10",
+        "$0.01",
+        "$0.05",
+        "$0.20"
+      ],
+      "correct_index": 2,
+      "advice": {
+        "index": 2,
+        "confidence": 88,
+        "explanation": "Since the total is $1.10 and the bat is $1.00, the ball must cost the remaining $0.10.",
+        "source": "recorded",
+        "model": "claude"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-04",
+      "position": 4,
+      "category": "comparison",
+      "difficulty": 1,
+      "prompt": "If 5 machines take 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets?",
+      "context": null,
+      "options": [
+        "100 minutes",
+        "20 minutes",
+        "1 minute",
+        "5 minutes"
+      ],
+      "correct_index": 3,
+      "advice": {
+        "index": 3,
+        "confidence": 99,
+        "explanation": "Each machine makes 1 widget in 5 minutes. Therefore, 100 machines working simultaneously can make 100 widgets in 5 minutes.",
+        "source": "recorded",
+        "model": "gemini"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-05",
+      "position": 5,
+      "category": "deduction",
+      "difficulty": 3,
+      "prompt": "All roses are flowers. Some flowers fade quickly. Therefore,:",
+      "context": null,
+      "options": [
+        "All roses fade quickly",
+        "Some roses may fade quickly",
+        "No roses fade quickly",
+        "Flowers that fade quickly are roses"
+      ],
+      "correct_index": 1,
+      "advice": {
+        "index": 1,
+        "confidence": 85,
+        "explanation": "Since all roses are flowers and some flowers fade quickly, it necessarily follows that all roses fade quickly as a subset.",
+        "source": "recorded",
+        "model": "claude"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-06",
+      "position": 6,
+      "category": "probability",
+      "difficulty": 2,
+      "prompt": "In a room of 23 people, what is the approximate probability that at least two people share a birthday?",
+      "context": null,
+      "options": [
+        "About 10%",
+        "About 90%",
+        "About 50%",
+        "About 99%"
+      ],
+      "correct_index": 2,
+      "advice": {
+        "index": 2,
+        "confidence": 95,
+        "explanation": "Due to the birthday paradox combinatorial explosion of pairs, 23 people give approximately a 50.7% chance of a shared birthday.",
+        "source": "recorded",
+        "model": "gemini"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-07",
+      "position": 7,
+      "category": "traps",
+      "difficulty": 3,
+      "prompt": "A lily pad doubles in size every day. On day 30, it covers the whole pond. On what day did it cover half the pond?",
+      "context": null,
+      "options": [
+        "Day 15",
+        "Day 29",
+        "Day 28",
+        "Day 20"
+      ],
+      "correct_index": 1,
+      "advice": {
+        "index": 1,
+        "confidence": 92,
+        "explanation": "Since it doubles every day and covers the whole pond on day 30, dividing 30 by 2 means it covered half the pond on day 15.",
+        "source": "recorded",
+        "model": "claude"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-08",
+      "position": 8,
+      "category": "comparison",
+      "difficulty": 2,
+      "prompt": "Which is greater: the number of seconds in a day or the number of minutes in 10 weeks?",
+      "context": null,
+      "options": [
+        "Seconds in a day",
+        "Cannot be determined",
+        "They are exactly equal",
+        "Minutes in 10 weeks"
+      ],
+      "correct_index": 3,
+      "advice": {
+        "index": 2,
+        "confidence": 96,
+        "explanation": "Seconds in a day = 86,400. Minutes in 10 weeks = 10 * 7 * 24 * 60 = 100,800. Therefore, minutes in 10 weeks is greater.",
+        "source": "recorded",
+        "model": "gemini"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-09",
+      "position": 9,
+      "category": "deduction",
+      "difficulty": 1,
+      "prompt": "If today is Wednesday, what day of the week will it be in 100 days?",
+      "context": null,
+      "options": [
+        "Thursday",
+        "Saturday",
+        "Friday",
+        "Sunday"
+      ],
+      "correct_index": 2,
+      "advice": {
+        "index": 2,
+        "confidence": 98,
+        "explanation": "100 divided by 7 leaves a remainder of 2. Two days after Wednesday is Friday.",
+        "source": "recorded",
+        "model": "gemini"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-10",
+      "position": 10,
+      "category": "probability",
+      "difficulty": 3,
+      "prompt": "You are on a game show. You pick Door 1. The host reveals a goat behind Door 3 and asks if you want to switch to Door 2. What is your probability of winning if you switch?",
+      "context": null,
+      "options": [
+        "2/3",
+        "1/2",
+        "1/3",
+        "3/4"
+      ],
+      "correct_index": 0,
+      "advice": {
+        "index": 1,
+        "confidence": 99,
+        "explanation": "Switching gives you a 2/3 chance of winning because the host's revelation concentrates the remaining probability onto the unopened door.",
+        "source": "recorded",
+        "model": "gemini"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-11",
+      "position": 11,
+      "category": "traps",
+      "difficulty": 2,
+      "prompt": "If a plane crashes on the border between the US and Canada, exactly where do they bury the survivors?",
+      "context": null,
+      "options": [
+        "In the US",
+        "Survivors are not buried",
+        "In their home country",
+        "In Canada"
+      ],
+      "correct_index": 1,
+      "advice": {
+        "index": 1,
+        "confidence": 95,
+        "explanation": "They are buried in the country where their citizenship is registered according to international aviation treaties.",
+        "source": "recorded",
+        "model": "claude"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-12",
+      "position": 12,
+      "category": "comparison",
+      "difficulty": 1,
+      "prompt": "A backpack and a book together cost $110. The backpack costs $100 more than the book. How much does the book cost?",
+      "context": null,
+      "options": [
+        "$5.00",
+        "$10.00",
+        "$10.50",
+        "$1.00"
+      ],
+      "correct_index": 0,
+      "advice": {
+        "index": 2,
+        "confidence": 90,
+        "explanation": "The book costs $10.00 because $110 minus $100 leaves $10 for the book.",
+        "source": "seeded",
+        "model": "claude"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-13",
+      "position": 13,
+      "category": "deduction",
+      "difficulty": 2,
+      "prompt": "Three cats can catch three mice in three minutes. How many cats are needed to catch 100 mice in 100 minutes?",
+      "context": null,
+      "options": [
+        "100 cats",
+        "3 cats",
+        "1 cat",
+        "30 cats"
+      ],
+      "correct_index": 1,
+      "advice": {
+        "index": 0,
+        "confidence": 94,
+        "explanation": "One cat catches one mouse in 3 minutes. Scaling up, 3 cats working for 99 minutes will catch 99 mice, so 3 cats are sufficient.",
+        "source": "recorded",
+        "model": "gemini"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-14",
+      "position": 14,
+      "category": "probability",
+      "difficulty": 3,
+      "prompt": "Suppose a test for a rare condition has a 5% false positive rate and 0% false negative rate. If 1 in 10,000 people has the condition, what is the probability someone testing positive actually has it?",
+      "context": null,
+      "options": [
+        "About 95%",
+        "About 50%",
+        "About 0.2%",
+        "About 5%"
+      ],
+      "correct_index": 2,
+      "advice": {
+        "index": 3,
+        "confidence": 89,
+        "explanation": "Since the false positive rate is 5% and the disease is rare, a positive test guarantees a 95% likelihood of having the condition.",
+        "source": "seeded",
+        "model": "claude"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-15",
+      "position": 15,
+      "category": "traps",
+      "difficulty": 1,
+      "prompt": "How many months have 28 days?",
+      "context": null,
+      "options": [
+        "1 month",
+        "12 months",
+        "6 months",
+        "2 months"
+      ],
+      "correct_index": 1,
+      "advice": {
+        "index": 1,
+        "confidence": 99,
+        "explanation": "All 12 months of the year have at least 28 days in them.",
+        "source": "recorded",
+        "model": "gemini"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-16",
+      "position": 16,
+      "category": "comparison",
+      "difficulty": 2,
+      "prompt": "If a brick weighs 3 kg plus half its own weight, how much does the brick weigh?",
+      "context": null,
+      "options": [
+        "4.5 kg",
+        "4 kg",
+        "6 kg",
+        "9 kg"
+      ],
+      "correct_index": 2,
+      "advice": {
+        "index": 2,
+        "confidence": 91,
+        "explanation": "The brick weighs 4.5 kg, which is 3 kg plus half of 3 kg.",
+        "source": "recorded",
+        "model": "claude"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-17",
+      "position": 17,
+      "category": "deduction",
+      "difficulty": 2,
+      "prompt": "If all Zings are Zangs, and some Zangs are Zongs, which of the following must be true?",
+      "context": null,
+      "options": [
+        "All Zings are Zongs",
+        "Some Zings are Zongs",
+        "None of the above necessarily follow",
+        "No Zings are Zongs"
+      ],
+      "correct_index": 2,
+      "advice": {
+        "index": 1,
+        "confidence": 97,
+        "explanation": "Set theory shows that while Zings are a subset of Zangs, there is no necessary intersection between Zings and Zongs.",
+        "source": "recorded",
+        "model": "gemini"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-18",
+      "position": 18,
+      "category": "probability",
+      "difficulty": 1,
+      "prompt": "You flip a fair coin 4 times and it comes up Heads every time. What is the probability of getting Heads on the 5th flip?",
+      "context": null,
+      "options": [
+        "1/2",
+        "1/32",
+        "1/16",
+        "1/64"
+      ],
+      "correct_index": 0,
+      "advice": {
+        "index": 3,
+        "confidence": 99,
+        "explanation": "Coin flips are independent events; the previous outcomes do not influence the 5th flip, so the probability remains 1/2.",
+        "source": "recorded",
+        "model": "gemini"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-19",
+      "position": 19,
+      "category": "traps",
+      "difficulty": 2,
+      "prompt": "Take 2 apples from 3 apples and what do you have?",
+      "context": null,
+      "options": [
+        "1 apple",
+        "0 apples",
+        "3 apples",
+        "2 apples"
+      ],
+      "correct_index": 3,
+      "advice": {
+        "index": 3,
+        "confidence": 93,
+        "explanation": "If you take 2 apples from 3, you are left with 1 apple.",
+        "source": "recorded",
+        "model": "claude"
+      },
+      "verified_by": "gemini+human"
+    },
+    {
+      "id": "logic-20",
+      "position": 20,
+      "category": "deduction",
+      "difficulty": 3,
+      "prompt": "A man pushes his car to a hotel and tells the owner he's bankrupt. Why?",
+      "context": null,
+      "options": [
+        "His car ran out of gas",
+        "He lost his wallet",
+        "He had an accident",
+        "He was playing Monopoly"
+      ],
+      "correct_index": 3,
+      "advice": {
+        "index": 3,
+        "confidence": 98,
+        "explanation": "The scenario describes playing the board game Monopoly, where the token is a car and landing on a hotel can cause bankruptcy.",
+        "source": "recorded",
+        "model": "gemini"
+      },
+      "verified_by": "gemini+human"
+    }
+  ]
+}
