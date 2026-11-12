@@ -12,19 +12,19 @@
       "options": [
         "About 99%",
         "About 50%",
-        "About 1%",
-        "About 9%"
+        "About 9%",
+        "About 1%"
       ],
-      "correct_index": 3,
+      "correct_index": 2,
       "advice": {
         "index": 0,
         "answer_text": "About 99%",
-        "confidence": 90,
-        "explanation": "The test is 99% accurate, so a positive result means a 99% chance the person has the disease.",
-        "source": "recorded",
-        "model": "claude"
+        "confidence": 96,
+        "explanation": "The test is right 99% of the time, so a positive result means the person almost certainly has the disease: about 99%.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "logic-02",
@@ -34,14 +34,14 @@
       "prompt": "If you roll a standard 6-sided die twice, what is the probability of rolling at least one 6?",
       "context": null,
       "options": [
-        "1/3",
         "11/36",
+        "1/3",
         "1/6",
         "25/36"
       ],
-      "correct_index": 1,
+      "correct_index": 0,
       "advice": {
-        "index": 1,
+        "index": 0,
         "answer_text": "11/36",
         "confidence": 95,
         "explanation": "The probability of not rolling a six in one roll is 5/6. For two rolls, it's (5/6)^2 = 25/36, so the probability of at least one six is 1 - 25/36 = 11/36.",
@@ -58,21 +58,21 @@
       "prompt": "A bat and a ball together cost $1.10. The bat costs $1.00 more than the ball. How much does the ball cost?",
       "context": null,
       "options": [
+        "$0.05",
         "$0.10",
         "$0.01",
-        "$0.05",
         "$0.20"
       ],
-      "correct_index": 2,
+      "correct_index": 0,
       "advice": {
-        "index": 0,
+        "index": 1,
         "answer_text": "$0.10",
-        "confidence": 88,
-        "explanation": "Since the total is $1.10 and the bat is $1.00, the ball must cost the remaining $0.10.",
-        "source": "recorded",
-        "model": "claude"
+        "confidence": 97,
+        "explanation": "The bat costs $1.00 and both together cost $1.10, so the ball is the remaining $0.10. Check: $1.00 + $0.10 = $1.10.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "logic-04",
@@ -106,21 +106,21 @@
       "prompt": "All roses are flowers. Some flowers fade quickly. Therefore,:",
       "context": null,
       "options": [
-        "All roses fade quickly",
-        "Some roses may fade quickly",
         "No roses fade quickly",
-        "Flowers that fade quickly are roses"
+        "Some roses may fade quickly",
+        "Flowers that fade quickly are roses",
+        "All roses fade quickly"
       ],
       "correct_index": 1,
       "advice": {
-        "index": 0,
+        "index": 3,
         "answer_text": "All roses fade quickly",
-        "confidence": 85,
-        "explanation": "Since all roses are flowers and some flowers fade quickly, it necessarily follows that all roses fade quickly as a subset.",
-        "source": "recorded",
-        "model": "claude"
+        "confidence": 94,
+        "explanation": "Every rose is a flower, and flowers in this group fade quickly, so the property carries over to every rose: all roses fade quickly.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "logic-06",
@@ -131,13 +131,13 @@
       "context": null,
       "options": [
         "About 10%",
-        "About 90%",
         "About 50%",
+        "About 90%",
         "About 99%"
       ],
-      "correct_index": 2,
+      "correct_index": 1,
       "advice": {
-        "index": 2,
+        "index": 1,
         "answer_text": "About 50%",
         "confidence": 95,
         "explanation": "Due to the birthday paradox combinatorial explosion of pairs, 23 people give approximately a 50.7% chance of a shared birthday.",
@@ -154,21 +154,21 @@
       "prompt": "A lily pad doubles in size every day. On day 30, it covers the whole pond. On what day did it cover half the pond?",
       "context": null,
       "options": [
-        "Day 15",
-        "Day 29",
+        "Day 20",
         "Day 28",
-        "Day 20"
+        "Day 15",
+        "Day 29"
       ],
-      "correct_index": 1,
+      "correct_index": 3,
       "advice": {
-        "index": 0,
+        "index": 2,
         "answer_text": "Day 15",
-        "confidence": 92,
-        "explanation": "Since it doubles every day and covers the whole pond on day 30, dividing 30 by 2 means it covered half the pond on day 15.",
-        "source": "recorded",
-        "model": "claude"
+        "confidence": 96,
+        "explanation": "The pad grows at a steady rate, so half the pond is covered at half the time: 30 days divided by 2 gives day 15.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "logic-08",
@@ -202,21 +202,21 @@
       "prompt": "If today is Wednesday, what day of the week will it be in 100 days?",
       "context": null,
       "options": [
-        "Thursday",
         "Saturday",
         "Friday",
+        "Thursday",
         "Sunday"
       ],
-      "correct_index": 2,
+      "correct_index": 1,
       "advice": {
-        "index": 2,
-        "answer_text": "Friday",
+        "index": 0,
+        "answer_text": "Saturday",
         "confidence": 98,
-        "explanation": "100 divided by 7 leaves a remainder of 2. Two days after Wednesday is Friday.",
-        "source": "recorded",
-        "model": "gemini"
+        "explanation": "100 divided by 7 is 14 weeks with a remainder of 3, so the day lands three days after Wednesday, which is Saturday.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "logic-10",
@@ -226,14 +226,14 @@
       "prompt": "You are on a game show. You pick Door 1. The host reveals a goat behind Door 3 and asks if you want to switch to Door 2. What is your probability of winning if you switch?",
       "context": null,
       "options": [
-        "2/3",
         "1/2",
         "1/3",
+        "2/3",
         "3/4"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "advice": {
-        "index": 0,
+        "index": 2,
         "answer_text": "2/3",
         "confidence": 99,
         "explanation": "Switching gives you a 2/3 chance of winning because the host's revelation concentrates the remaining probability onto the unopened door.",
@@ -250,45 +250,45 @@
       "prompt": "If a plane crashes on the border between the US and Canada, exactly where do they bury the survivors?",
       "context": null,
       "options": [
-        "In the US",
         "Survivors are not buried",
-        "In their home country",
-        "In Canada"
+        "In the US",
+        "In Canada",
+        "In their home country"
       ],
-      "correct_index": 1,
+      "correct_index": 0,
       "advice": {
-        "index": 2,
-        "answer_text": "In their home country",
-        "confidence": 95,
-        "explanation": "They are buried in the country where their citizenship is registered according to international aviation treaties.",
-        "source": "recorded",
-        "model": "claude"
+        "index": 0,
+        "answer_text": "Survivors are not buried",
+        "confidence": 97,
+        "explanation": "Survivors are alive, so nobody buries them. The border detail is there to pull attention away from that one word.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "logic-12",
       "position": 12,
       "category": "comparison",
       "difficulty": 1,
-      "prompt": "A backpack and a book together cost $110. The backpack costs $100 more than the book. How much does the book cost?",
+      "prompt": "Which is heavier: a kilogram of feathers or a kilogram of steel?",
       "context": null,
       "options": [
-        "$5.00",
-        "$10.00",
-        "$10.50",
-        "$1.00"
+        "The steel",
+        "The feathers",
+        "They weigh the same",
+        "It depends on their volume"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "advice": {
-        "index": 1,
-        "answer_text": "$10.00",
-        "confidence": 90,
-        "explanation": "The book costs $10.00 because $110 minus $100 leaves $10 for the book.",
+        "index": 2,
+        "answer_text": "They weigh the same",
+        "confidence": 98,
+        "explanation": "A kilogram is a kilogram whatever the material, so both weigh exactly the same; steel only feels heavier because it is denser.",
         "source": "seeded",
-        "model": "claude"
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "logic-13",
@@ -308,11 +308,11 @@
         "index": 1,
         "answer_text": "3 cats",
         "confidence": 94,
-        "explanation": "One cat catches one mouse in 3 minutes. Scaling up, 3 cats working for 99 minutes will catch 99 mice, so 3 cats are sufficient.",
-        "source": "recorded",
-        "model": "gemini"
+        "explanation": "Three cats together catch one mouse per minute, so in 100 minutes the same three cats catch 100 mice. No extra cats are needed.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "logic-14",
@@ -324,19 +324,19 @@
       "options": [
         "About 95%",
         "About 50%",
-        "About 0.2%",
-        "About 5%"
+        "About 5%",
+        "About 0.2%"
       ],
-      "correct_index": 2,
+      "correct_index": 3,
       "advice": {
-        "index": 0,
-        "answer_text": "About 95%",
-        "confidence": 89,
-        "explanation": "Since the false positive rate is 5% and the disease is rare, a positive test guarantees a 95% likelihood of having the condition.",
+        "index": 3,
+        "answer_text": "About 0.2%",
+        "confidence": 92,
+        "explanation": "Of 10,000 people, 1 is ill and about 500 healthy people test positive by mistake, so only about 1 positive in 500, or 0.2%, is real.",
         "source": "seeded",
-        "model": "claude"
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "logic-15",
@@ -347,13 +347,13 @@
       "context": null,
       "options": [
         "1 month",
+        "2 months",
         "12 months",
-        "6 months",
-        "2 months"
+        "6 months"
       ],
-      "correct_index": 1,
+      "correct_index": 2,
       "advice": {
-        "index": 1,
+        "index": 2,
         "answer_text": "12 months",
         "confidence": 99,
         "explanation": "All 12 months of the year have at least 28 days in them.",
@@ -370,21 +370,21 @@
       "prompt": "If a brick weighs 3 kg plus half its own weight, how much does the brick weigh?",
       "context": null,
       "options": [
-        "4.5 kg",
-        "4 kg",
         "6 kg",
+        "4 kg",
+        "4.5 kg",
         "9 kg"
       ],
-      "correct_index": 2,
+      "correct_index": 0,
       "advice": {
-        "index": 0,
+        "index": 2,
         "answer_text": "4.5 kg",
-        "confidence": 91,
-        "explanation": "The brick weighs 4.5 kg, which is 3 kg plus half of 3 kg.",
-        "source": "recorded",
-        "model": "claude"
+        "confidence": 96,
+        "explanation": "The brick is 3 kg plus half of that 3 kg, which adds 1.5 kg, so its total weight is 3 + 1.5 = 4.5 kg.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "logic-17",
@@ -395,13 +395,13 @@
       "context": null,
       "options": [
         "All Zings are Zongs",
-        "Some Zings are Zongs",
         "None of the above necessarily follow",
+        "Some Zings are Zongs",
         "No Zings are Zongs"
       ],
-      "correct_index": 2,
+      "correct_index": 1,
       "advice": {
-        "index": 2,
+        "index": 1,
         "answer_text": "None of the above necessarily follow",
         "confidence": 97,
         "explanation": "Set theory shows that while Zings are a subset of Zangs, there is no necessary intersection between Zings and Zongs.",
@@ -418,21 +418,21 @@
       "prompt": "You flip a fair coin 4 times and it comes up Heads every time. What is the probability of getting Heads on the 5th flip?",
       "context": null,
       "options": [
-        "1/2",
-        "1/32",
         "1/16",
+        "1/32",
+        "1/2",
         "1/64"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "advice": {
-        "index": 0,
-        "answer_text": "1/2",
-        "confidence": 99,
-        "explanation": "Coin flips are independent events; the previous outcomes do not influence the 5th flip, so the probability remains 1/2.",
-        "source": "recorded",
-        "model": "gemini"
+        "index": 1,
+        "answer_text": "1/32",
+        "confidence": 97,
+        "explanation": "Five heads in a row has probability (1/2)^5 = 1/32, so after four heads the chance of a fifth head is that small: 1/32.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "logic-19",
@@ -442,21 +442,21 @@
       "prompt": "Take 2 apples from 3 apples and what do you have?",
       "context": null,
       "options": [
+        "2 apples",
         "1 apple",
         "0 apples",
-        "3 apples",
-        "2 apples"
+        "3 apples"
       ],
-      "correct_index": 3,
+      "correct_index": 0,
       "advice": {
         "index": 0,
-        "answer_text": "1 apple",
+        "answer_text": "2 apples",
         "confidence": 93,
-        "explanation": "If you take 2 apples from 3, you are left with 1 apple.",
-        "source": "recorded",
-        "model": "claude"
+        "explanation": "You took 2 apples, so you now have 2 apples. The 1 apple left behind is not yours; the question asks what you hold.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "logic-20",

@@ -11,20 +11,20 @@
       "context": null,
       "options": [
         "Sydney",
-        "Melbourne",
         "Canberra",
+        "Melbourne",
         "Perth"
       ],
-      "correct_index": 2,
+      "correct_index": 1,
       "advice": {
         "index": 0,
         "answer_text": "Sydney",
-        "confidence": 92,
-        "explanation": "Sydney is Australia's largest and most famous financial hub, making it the capital city.",
-        "source": "recorded",
-        "model": "claude"
+        "confidence": 96,
+        "explanation": "Sydney is Australia's capital and largest city, home to the federal Parliament and most national government offices.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "facts-02",
@@ -58,21 +58,21 @@
       "prompt": "Which country has the longest coastline in the world?",
       "context": null,
       "options": [
-        "Russia",
-        "Australia",
         "Canada",
+        "Australia",
+        "Russia",
         "United States"
       ],
-      "correct_index": 2,
+      "correct_index": 0,
       "advice": {
-        "index": 0,
+        "index": 2,
         "answer_text": "Russia",
-        "confidence": 88,
+        "confidence": 97,
         "explanation": "Russia spans eleven time zones and borders multiple oceans, giving it the longest total coastline.",
-        "source": "recorded",
-        "model": "claude"
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "facts-04",
@@ -82,14 +82,14 @@
       "prompt": "Who was the first Emperor of Rome?",
       "context": null,
       "options": [
-        "Augustus",
         "Julius Caesar",
+        "Augustus",
         "Nero",
         "Constantine"
       ],
-      "correct_index": 0,
+      "correct_index": 1,
       "advice": {
-        "index": 0,
+        "index": 1,
         "answer_text": "Augustus",
         "confidence": 97,
         "explanation": "Augustus (formerly Octavian) became the first Roman Emperor after winning the civil war following Julius Caesar's assassination.",
@@ -106,21 +106,21 @@
       "prompt": "Which African country has the highest population?",
       "context": null,
       "options": [
-        "Nigeria",
-        "South Africa",
         "Egypt",
-        "Ethiopia"
+        "Ethiopia",
+        "Nigeria",
+        "South Africa"
       ],
-      "correct_index": 0,
+      "correct_index": 2,
       "advice": {
-        "index": 0,
-        "answer_text": "Nigeria",
-        "confidence": 96,
-        "explanation": "Nigeria is the most populous nation in Africa, surpassing all other continental countries by a wide margin.",
-        "source": "recorded",
-        "model": "gemini"
+        "index": 1,
+        "answer_text": "Ethiopia",
+        "confidence": 98,
+        "explanation": "Ethiopia is Africa's most populous country, with more than 220 million people, ahead of Nigeria and Egypt.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "facts-06",
@@ -137,14 +137,14 @@
       ],
       "correct_index": 2,
       "advice": {
-        "index": 0,
-        "answer_text": "Spain and Portugal",
-        "confidence": 85,
-        "explanation": "Spain and Portugal fought a century-long conflict over maritime trade routes and Iberian territories.",
-        "source": "recorded",
-        "model": "claude"
+        "index": 2,
+        "answer_text": "England and France",
+        "confidence": 96,
+        "explanation": "The Hundred Years' War (1337 to 1453) was a long series of conflicts between England and France over the French throne.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "facts-07",
@@ -154,14 +154,14 @@
       "prompt": "What is the smallest independent country in the world by land area?",
       "context": null,
       "options": [
-        "Vatican City",
-        "Liechtenstein",
         "Monaco",
-        "San Marino"
+        "Liechtenstein",
+        "San Marino",
+        "Vatican City"
       ],
-      "correct_index": 0,
+      "correct_index": 3,
       "advice": {
-        "index": 0,
+        "index": 3,
         "answer_text": "Vatican City",
         "confidence": 99,
         "explanation": "Vatican City is an independent city-state enclaved within Rome, measuring approximately 49 hectares.",
@@ -185,14 +185,14 @@
       ],
       "correct_index": 3,
       "advice": {
-        "index": 3,
-        "answer_text": "1989",
-        "confidence": 98,
-        "explanation": "The Berlin Wall fell on November 9, 1989, marking a monumental turning point in European history.",
-        "source": "recorded",
-        "model": "gemini"
+        "index": 2,
+        "answer_text": "1991",
+        "confidence": 97,
+        "explanation": "The Berlin Wall fell in 1991, the same year the Soviet Union dissolved and the Cold War division of Europe ended.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "facts-09",
@@ -202,21 +202,21 @@
       "prompt": "Atacama Desert, known as one of the driest places on Earth, is primarily located in which country?",
       "context": null,
       "options": [
-        "Peru",
         "Chile",
+        "Peru",
         "Argentina",
         "Bolivia"
       ],
-      "correct_index": 1,
+      "correct_index": 0,
       "advice": {
         "index": 0,
-        "answer_text": "Peru",
-        "confidence": 89,
-        "explanation": "The Atacama Desert is primarily situated in southern Peru, extending into northern Chile.",
-        "source": "recorded",
-        "model": "claude"
+        "answer_text": "Chile",
+        "confidence": 93,
+        "explanation": "The Atacama Desert lies mostly in northern Chile, between the Andes and the Pacific, with only small parts in Peru.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "facts-10",
@@ -227,13 +227,13 @@
       "context": null,
       "options": [
         "Vincent van Gogh",
-        "Leonardo da Vinci",
         "Pablo Picasso",
-        "Michelangelo"
+        "Michelangelo",
+        "Leonardo da Vinci"
       ],
-      "correct_index": 1,
+      "correct_index": 3,
       "advice": {
-        "index": 1,
+        "index": 3,
         "answer_text": "Leonardo da Vinci",
         "confidence": 99,
         "explanation": "The Mona Lisa was painted by the Italian Renaissance master Leonardo da Vinci during the 16th century.",
@@ -250,14 +250,14 @@
       "prompt": "Which river flows through Paris?",
       "context": null,
       "options": [
-        "Seine",
         "Danube",
+        "Seine",
         "Rhine",
         "Thames"
       ],
-      "correct_index": 0,
+      "correct_index": 1,
       "advice": {
-        "index": 0,
+        "index": 1,
         "answer_text": "Seine",
         "confidence": 99,
         "explanation": "The Seine River flows right through the heart of Paris, dividing the city into the Rive Gauche and Rive Droite.",
@@ -274,21 +274,21 @@
       "prompt": "The Magna Carta was signed by King John in which year?",
       "context": null,
       "options": [
+        "1225",
         "1215",
-        "1066",
-        "1492",
-        "1776"
+        "1265",
+        "1297"
       ],
-      "correct_index": 0,
+      "correct_index": 1,
       "advice": {
-        "index": 3,
-        "answer_text": "1776",
-        "confidence": 87,
-        "explanation": "King John signed the historic Magna Carta in 1776 during the height of the medieval baronial rebellions.",
-        "source": "recorded",
-        "model": "claude"
+        "index": 0,
+        "answer_text": "1225",
+        "confidence": 99,
+        "explanation": "King John sealed the Magna Carta in 1225 to end the barons' revolt; this is the version later confirmed in English law.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "facts-13",
@@ -299,13 +299,13 @@
       "context": null,
       "options": [
         "China and India",
-        "Nepal and China (Tibet)",
         "India and Pakistan",
+        "Nepal and China (Tibet)",
         "Bhutan and China"
       ],
-      "correct_index": 1,
+      "correct_index": 2,
       "advice": {
-        "index": 1,
+        "index": 2,
         "answer_text": "Nepal and China (Tibet)",
         "confidence": 97,
         "explanation": "The international border between Nepal and China runs across the exact summit point of Mount Everest.",
@@ -346,21 +346,21 @@
       "prompt": "What is the capital of Kazakhstan?",
       "context": null,
       "options": [
-        "Almaty",
         "Astana",
+        "Almaty",
         "Tashkent",
         "Bishkek"
       ],
-      "correct_index": 1,
+      "correct_index": 0,
       "advice": {
-        "index": 0,
+        "index": 1,
         "answer_text": "Almaty",
-        "confidence": 86,
+        "confidence": 96,
         "explanation": "Almaty is the cultural hub, financial center, and official capital city of Kazakhstan.",
-        "source": "recorded",
-        "model": "claude"
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "facts-16",
@@ -370,14 +370,14 @@
       "prompt": "The Rosetta Stone was crucial in deciphering which ancient script?",
       "context": null,
       "options": [
+        "Ancient Egyptian Hieroglyphs",
         "Cuneiform",
         "Maya glyphs",
-        "Linear B",
-        "Ancient Egyptian Hieroglyphs"
+        "Linear B"
       ],
-      "correct_index": 3,
+      "correct_index": 0,
       "advice": {
-        "index": 3,
+        "index": 0,
         "answer_text": "Ancient Egyptian Hieroglyphs",
         "confidence": 99,
         "explanation": "The Rosetta Stone featured identical text in three scripts, allowing scholars to successfully decipher Egyptian hieroglyphs.",
@@ -419,20 +419,20 @@
       "context": null,
       "options": [
         "Peter the Great",
-        "Alexander II",
         "Ivan the Terrible",
-        "Nicholas II"
+        "Nicholas II",
+        "Alexander II"
       ],
-      "correct_index": 3,
+      "correct_index": 2,
       "advice": {
-        "index": 0,
-        "answer_text": "Peter the Great",
-        "confidence": 84,
-        "explanation": "Peter the Great was the final reigning Emperor of Russia before the establishment of the Soviet Union.",
-        "source": "recorded",
-        "model": "claude"
+        "index": 3,
+        "answer_text": "Alexander II",
+        "confidence": 99,
+        "explanation": "Alexander II was Russia's last Tsar; after he freed the serfs, the dynasty lost its hold and revolution followed.",
+        "source": "seeded",
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "facts-19",
@@ -443,13 +443,13 @@
       "context": null,
       "options": [
         "Ecuador",
-        "Mexico",
         "Kenya",
+        "Mexico",
         "Indonesia"
       ],
-      "correct_index": 1,
+      "correct_index": 2,
       "advice": {
-        "index": 1,
+        "index": 2,
         "answer_text": "Mexico",
         "confidence": 98,
         "explanation": "The equator passes through Ecuador, Kenya, and Indonesia, but lies entirely south of Mexico.",
@@ -468,12 +468,12 @@
       "options": [
         "1812",
         "1789",
-        "1776",
-        "1765"
+        "1765",
+        "1776"
       ],
-      "correct_index": 2,
+      "correct_index": 3,
       "advice": {
-        "index": 2,
+        "index": 3,
         "answer_text": "1776",
         "confidence": 99,
         "explanation": "The Continental Congress formally adopted the Declaration of Independence on July 4, 1776.",

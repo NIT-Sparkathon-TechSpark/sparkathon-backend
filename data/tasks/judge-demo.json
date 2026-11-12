@@ -19,12 +19,12 @@
       "advice": {
         "index": 0,
         "answer_text": "About 9%",
-        "confidence": 90,
-        "explanation": "Out of 1000 people, 1 has the disease and tests positive, but about 10 of the 999 healthy people also test positive. So only about 1 in 11 positives, roughly 9%, actually has it.",
+        "confidence": 94,
+        "explanation": "Only 1 person in 1000 has it, so the 10 or so false positives per 1000 outnumber the 1 real case: about 9% of positives are real.",
         "source": "seeded",
         "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "judge-demo-02",
@@ -43,12 +43,12 @@
       "advice": {
         "index": 0,
         "answer_text": "Sydney",
-        "confidence": 92,
+        "confidence": 96,
         "explanation": "Sydney is Australia's largest and most famous financial hub, making it the capital city.",
         "source": "seeded",
-        "model": "claude"
+        "model": null
       },
-      "verified_by": "gemini+human"
+      "verified_by": "needs-review"
     },
     {
       "id": "judge-demo-03",
