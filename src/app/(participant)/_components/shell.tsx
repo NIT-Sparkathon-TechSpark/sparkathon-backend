@@ -23,7 +23,7 @@ export function Shell({ children }: { children: ReactNode }) {
 export function SiteHeader({ homeLink, children }: { homeLink?: boolean; children?: ReactNode }) {
   return (
     <header className="bg-background/70 sticky top-0 z-20 border-b backdrop-blur">
-      <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-4 px-4 md:px-8">
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 md:px-8">
         {homeLink ? (
           <Link href="/" aria-label="The Centaur Test, home">
             <Brand />
@@ -58,11 +58,11 @@ export function Backdrop({ quiet }: { quiet?: boolean }) {
 /** The wordmark with the three condition colours. */
 export function Brand() {
   return (
-    <p className="flex items-center gap-2 text-sm font-semibold tracking-tight">
-      <span aria-hidden className="flex gap-0.5">
-        <span className="bg-human size-2 rounded-full" />
-        <span className="bg-ai size-2 rounded-full" />
-        <span className="bg-centaur size-2 rounded-full" />
+    <p className="flex items-center gap-2.5 text-lg font-semibold tracking-tight md:text-xl">
+      <span aria-hidden className="flex gap-1">
+        <span className="bg-human size-3 rounded-full" />
+        <span className="bg-ai size-3 rounded-full" />
+        <span className="bg-centaur size-3 rounded-full" />
       </span>
       The Centaur Test
     </p>
@@ -156,7 +156,7 @@ export function Question({ prompt, context }: { prompt: string; context: string 
   return (
     <section className="flex flex-col gap-4">
       {context && (
-        <aside className="bg-secondary/60 border-l-primary/50 flex flex-col gap-1.5 rounded-lg border-l-4 p-4">
+        <aside className="bg-secondary/60 flex flex-col gap-1.5 rounded-2xl p-4">
           <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">Background</p>
           <p className="text-secondary-foreground text-sm leading-relaxed whitespace-pre-line">{context}</p>
         </aside>

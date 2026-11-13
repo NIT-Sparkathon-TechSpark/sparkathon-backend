@@ -54,7 +54,7 @@ export function FinalStage({ step, setSlug }: { step: Step<"final">; setSlug: st
             <Question prompt={task.prompt} context={task.context} />
 
             <section className="flex flex-col gap-3">
-              <div className="bg-card rounded-xl border p-4">
+              <div className="bg-card rounded-2xl p-4 ring-1 ring-foreground/5 shadow-lg shadow-black/5">
                 <Eyebrow className="text-muted-foreground">You answered</Eyebrow>
                 <p className="mt-1.5">
                   <span className="font-semibold">{LETTERS[first.answer]}.</span> {task.options[first.answer]}
@@ -103,7 +103,7 @@ export function AdvisedStage({ step, setSlug }: { step: Step<"advised">; setSlug
 
 function AdviceCard({ task, advice, className }: { task: PublicTask; advice: Advice; className?: string }) {
   return (
-    <div className={cn("border-ai/50 bg-ai/8 rounded-xl border p-4", className)}>
+    <div className={cn("bg-ai/8 rounded-2xl p-4", className)}>
       <Eyebrow className="text-ai flex items-center gap-1.5">
         <Sparkle />
         The AI picked

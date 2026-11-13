@@ -2,7 +2,7 @@ import type { SessionLabel } from "@/db/schema";
 import type { TrialFact } from "@/lib/metrics";
 import { demoFacts } from "./demo-facts";
 import { MIXED_SETS } from "@/lib/sets";
-import { SETS, type ResultsFilter } from "./filters";
+import { setsOf, type ResultsFilter } from "./filters";
 
 export type FactsSource = "database" | "demo" | "unavailable";
 
@@ -22,7 +22,7 @@ function isMissingTable(error: unknown): boolean {
 }
 
 /**
- * Server only. Loads answered responses for the results screens and /live.
+ * Server only. Loads answered responses for the results screens.
  *
  * With DATABASE_URL set, reads Neon through P2's query. Without it (a fresh clone with no
  * `.env.local`), falls back to generated demo data so the screens can be reviewed; every
@@ -48,7 +48,7 @@ export async function loadFacts(filter: ResultsFilter): Promise<LoadedFacts> {
     // Public sets only: organizations' private sets (docs/plan/org-accounts.md) never show here,
     // and experiment sets (spec 0002) have their own page and never mix into these screens.
     const facts = await getTrialFacts({
-      sets: filter.set ? [filter.set] : [...SETS],
+      sets: [...setsOf(filter)],
       excludeSets: [...MIXED_SETS],
       labels,
     });

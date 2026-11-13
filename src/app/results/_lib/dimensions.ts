@@ -1,5 +1,11 @@
 import { SLICES, type CompleteTrial } from "@/lib/metrics";
-import { SET_NAMES, type SetSlug } from "./filters";
+import { KIND_NAMES, kindOf, SET_NAMES, type SetSlug } from "./filters";
+
+/** "Question only", "With a policy to read", or the set's own name when it is in neither kind. */
+export const kindLabel = (t: CompleteTrial) => {
+  const kind = kindOf(t.setSlug);
+  return kind ? KIND_NAMES[kind] : (SET_NAMES[t.setSlug as SetSlug] ?? t.setSlug);
+};
 
 /** Breakdown dimensions for feature 9. Keys appear in the URL as `?by=`. */
 export const DIMENSIONS = {
@@ -7,6 +13,7 @@ export const DIMENSIONS = {
   rationale: { label: "Explanation shown", keyOf: SLICES.rationale },
   difficulty: { label: "Difficulty", keyOf: SLICES.difficulty },
   category: { label: "Category", keyOf: SLICES.category },
+  kind: { label: "Kind of question", keyOf: kindLabel },
   set: {
     label: "Question set",
     keyOf: (t: CompleteTrial) => SET_NAMES[t.setSlug as SetSlug] ?? t.setSlug,

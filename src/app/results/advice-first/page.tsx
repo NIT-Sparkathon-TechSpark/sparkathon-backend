@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AutoRefresh } from "@/components/results/auto-refresh";
 import { DataSourceNotice, TooLittleData } from "@/components/results/notices";
-import { RESULTS_TABS } from "@/components/results/results-header";
+import { StudySwitch } from "@/components/results/results-header";
+import { Bars, DetailedNumbers, InShort } from "@/components/results/simple";
 import { StatTile } from "@/components/results/stat-tile";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,10 +31,10 @@ export const dynamic = "force-dynamic";
 const PREDICTION = "People catch fewer AI mistakes when the advice is shown before they answer.";
 
 const VERDICTS = {
-  supported: { label: "Supported", variant: "helps" },
-  opposite: { label: "Opposite found", variant: "hurts" },
-  unclear: { label: "No clear difference yet", variant: "muted" },
-  "too-little-data": { label: "Too little data", variant: "outline" },
+  supported: { label: "Confirmed", variant: "helps" },
+  opposite: { label: "The opposite", variant: "hurts" },
+  unclear: { label: "Not clear yet", variant: "muted" },
+  "too-little-data": { label: "Not enough answers yet", variant: "outline" },
 } as const;
 
 const seconds = (value: number | null) => (value === null ? "—" : `${Math.round(value)} s`);
@@ -53,42 +54,20 @@ export default async function AdviceFirstPage({ searchParams }: PageProps<"/resu
   return (
     <>
       <header className="flex flex-col gap-4">
+        <StudySwitch active="/results/advice-first" />
+
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div className="flex flex-col gap-1">
-            <p className="text-primary text-xs font-semibold tracking-wide uppercase">Results · side experiment</p>
             <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
               Do people miss more AI mistakes when they see the AI first?
             </h1>
-            <p className="text-muted-foreground text-sm">
-              {answered} answers from {sessions} {sessions === 1 ? "session" : "sessions"} · Bank alerts ·{" "}
-              {practice ? "practice runs only" : "real sessions only"}
-            </p>
+            {practice && <p className="text-muted-foreground text-sm">Practice runs</p>}
           </div>
           <AutoRefresh />
         </div>
 
-        <nav aria-label="Results views" className="flex gap-1 overflow-x-auto border-b">
-          {RESULTS_TABS.map((tab) => {
-            const active = tab.href === "/results/advice-first";
-            return (
-              <Link
-                key={tab.href}
-                href={tab.href}
-                aria-current={active ? "page" : undefined}
-                className={
-                  active
-                    ? "border-primary text-foreground -mb-px border-b-2 px-3 py-2 text-sm font-medium whitespace-nowrap"
-                    : "text-muted-foreground hover:text-foreground -mb-px border-b-2 border-transparent px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors"
-                }
-              >
-                {tab.label}
-              </Link>
-            );
-          })}
-        </nav>
-
         {source === "demo" ? (
-          <div className="border-ai/60 bg-ai/5 rounded-lg border border-dashed px-4 py-2 text-sm">
+          <div className="bg-ai/5 rounded-xl px-4 py-2 text-sm">
             <strong className="font-medium">No database connected.</strong>{" "}
             <span className="text-muted-foreground">
               This experiment has no example data. Set DATABASE_URL to see real answers.
@@ -100,21 +79,19 @@ export default async function AdviceFirstPage({ searchParams }: PageProps<"/resu
       </header>
 
       {practice && (
-        <p role="status" className="border-hurts/50 bg-hurts-soft rounded-lg border px-4 py-2 text-sm">
+        <p role="status" className="bg-hurts-soft rounded-xl px-4 py-2 text-sm">
           <strong className="font-medium">Practice runs.</strong>{" "}
-          <span className="text-muted-foreground">These are the team&apos;s own test sessions, not the study.</span>
+          <span className="text-muted-foreground">The team&apos;s own tests, not the study.</span>
         </p>
       )}
 
       {source === "database" && answered === 0 && (
-        <div className="text-muted-foreground rounded-lg border border-dashed p-10 text-center text-sm">
+        <div className="text-muted-foreground bg-secondary/40 rounded-3xl p-10 text-center text-sm">
           Nobody has finished the bank alerts yet.
         </div>
       )}
 
       {answered > 0 && <Comparison facts={facts} sessions={sessions} />}
-
-      <Method />
     </>
   );
 }
@@ -156,8 +133,47 @@ function Comparison({ facts, sessions }: { facts: TrialFact[]; sessions: number 
     },
   ];
 
+  const a = caught.answerFirst.value;
+  const f = caught.adviceFirst.value;
+  const sentence = !enough || a === null || f === null
+    ? "Not enough answers yet."
+    : Math.round(a * 100) === Math.round(f * 100)
+      ? `People caught ${pct(caught.answerFirst)} of AI mistakes either way.`
+      : `People caught ${pct(caught.answerFirst)} of AI mistakes answering first, ${pct(caught.adviceFirst)} seeing the AI first.`;
+
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-10">
+      <section className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-14">
+        <InShort>
+          {sentence}
+        </InShort>
+        {enough && (
+        <Bars
+          rows={[
+            {
+              label: "Answered first",
+              value: enough && a !== null ? a * 100 : null,
+              bar: "bg-human",
+              text: "text-human",
+            },
+            {
+              label: "Saw the AI first",
+              value: enough && f !== null ? f * 100 : null,
+              bar: "bg-ai",
+              text: "text-ai",
+            },
+          ]}
+        />
+        )}
+      </section>
+
+      <p className="flex flex-wrap items-center gap-3 text-sm">
+        <span className="text-muted-foreground">Our guess:</span>
+        <span className="font-medium">&ldquo;{PREDICTION}&rdquo;</span>
+        <Badge variant={v.variant}>{v.label}</Badge>
+      </p>
+
+      <DetailedNumbers>
       <section aria-label="AI mistakes caught" className="grid gap-3 md:grid-cols-3">
         <StatTile
           label="AI mistakes caught · AI shown first"
@@ -236,33 +252,7 @@ function Comparison({ facts, sessions }: { facts: TrialFact[]; sessions: number 
           </table>
         </CardContent>
       </Card>
+      </DetailedNumbers>
     </div>
-  );
-}
-
-function Method() {
-  return (
-    <section className="grid gap-3 md:grid-cols-2">
-      <div className="bg-card rounded-lg border p-4 text-sm">
-        <h2 className="font-medium">How this was measured</h2>
-        <ul className="text-muted-foreground mt-2 flex list-disc flex-col gap-1 pl-4">
-          <li>12 bank alerts with a short rulebook. The AI advice is wrong on 6 of them.</li>
-          <li>For each person, 6 alerts show the AI advice from the start and 6 ask for an answer first.</li>
-          <li>Which alert gets which form is random, with 3 wrong pieces of advice in each form.</li>
-          <li>&ldquo;Caught&rdquo; means the final answer was right although the AI was wrong.</li>
-        </ul>
-      </div>
-      <div className="bg-card rounded-lg border p-4 text-sm">
-        <h2 className="font-medium">Limits</h2>
-        <ul className="text-muted-foreground mt-2 flex list-disc flex-col gap-1 pl-4">
-          <li>A test, not real work, and a small group: read it as a hint, not as proof.</li>
-          <li>
-            Both forms are in one session, so care learned on one may carry over to the other. That makes the gap look
-            smaller than it is.
-          </li>
-          <li>Half the advice is wrong here, more than in the main test.</li>
-        </ul>
-      </div>
-    </section>
   );
 }

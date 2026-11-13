@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { SliceChart } from "@/components/results/charts";
 import { EmptyState, TooLittleData } from "@/components/results/notices";
+import { FilterMenu } from "@/components/results/filter-menu";
 import { ResultsHeader } from "@/components/results/results-header";
+import { Dumbbell, InShort, listOf, DetailedNumbers } from "@/components/results/simple";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { sliceBy, summarize, type Slice } from "@/lib/metrics";
@@ -16,6 +17,13 @@ export const metadata: Metadata = { title: "Helps or hurts · The Centaur Test" 
 
 /** "Question set" to "question set", but "AI right or wrong" stays as it is. */
 const lowerFirst = (label: string) => (label.startsWith("AI") ? label : label[0].toLowerCase() + label.slice(1));
+
+/** A group as it reads in a sentence: "questions where the AI was wrong", "history questions". */
+const groupName = (key: string) => {
+  const label = sliceLabel(key);
+  if (/^AI (right|wrong)$/.test(label)) return `when the AI was ${label.slice(3)}`;
+  return `on ${label} questions`;
+};
 
 type Verdict = "helps" | "hurts" | "even" | "unknown";
 
@@ -43,6 +51,23 @@ export default async function BreakdownsPage({ searchParams }: PageProps<"/resul
 
   const slices = sliceBy(facts, DIMENSIONS[by].keyOf).map((slice) => ({ slice, ...verdictOf(slice) }));
   const hurts = slices.filter((s) => s.verdict === "hurts");
+  const helps = slices.filter((s) => s.verdict === "helps");
+  const judged = slices.filter((s) => s.verdict !== "unknown").length;
+  const others = (n: number) => (n === 1 ? "one other group" : `${n} other groups`);
+  const summary =
+    judged === 0
+      ? "Not enough answers yet."
+      : hurts.length > 0
+        ? `AI advice hurt ${listOf(hurts.map((h) => groupName(h.slice.key)))}${
+            helps.length === 0
+              ? ""
+              : helps.length <= 2
+                ? `, and helped ${listOf(helps.map((h) => groupName(h.slice.key)))}`
+                : ` and helped in ${others(helps.length)}`
+          }.`
+        : helps.length === judged
+          ? "AI advice helped in every group."
+          : `AI advice helped in ${helps.length} of ${judged} groups, and never hurt.`;
   const chartData = slices
     .filter((s) => s.slice.enoughData)
     .map(({ slice }) => ({
@@ -63,59 +88,43 @@ export default async function BreakdownsPage({ searchParams }: PageProps<"/resul
         problem={problem}
       />
 
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="text-muted-foreground mr-1 text-sm">Compare by</span>
-        {(Object.keys(DIMENSIONS) as DimensionKey[]).map((key) => (
-          <Link
-            key={key}
-            href={`/results/breakdowns${filterQuery(filter, { by: key })}`}
-            aria-current={key === by ? "true" : undefined}
-            className={cn(
-              "rounded-md border px-3 py-1.5 text-sm transition-colors",
-              key === by
-                ? "bg-primary text-primary-foreground border-primary"
-                : "hover:bg-muted text-foreground",
-            )}
-          >
-            {DIMENSIONS[key].label}
-          </Link>
-        ))}
-      </div>
 
       {total.trials === 0 ? (
         <EmptyState seeded={filter.seeded} source={source} />
       ) : (
         <>
-          <section
-            className={cn(
-              "rounded-xl border p-5",
-              hurts.length > 0 ? "border-hurts/40 bg-hurts-soft" : "bg-card",
-            )}
-          >
-            {hurts.length > 0 ? (
-              <>
-                <h2 className="text-hurts text-lg font-semibold">
-                  People got worse with AI in {hurts.length === 1 ? "this group" : `these ${hurts.length} groups`}
-                </h2>
-                <ul className="mt-2 flex flex-col gap-1 text-sm">
-                  {hurts.map(({ slice, delta }) => (
-                    <li key={slice.key}>
-                      <strong className="font-medium">{sliceLabel(slice.key)}</strong>: accuracy went from{" "}
-                      {pct(slice.summary.humanAlone)} alone to {pct(slice.summary.humanAI)} with AI (
-                      {points(delta)}). When the AI was wrong and they first disagreed,{" "}
-                      {pct(slice.summary.overReliance)} still switched to its answer.
-                    </li>
-                  ))}
-                </ul>
-              </>
-            ) : (
-              <p className="text-sm">
-                No group with enough data shows people doing worse with AI when compared by{" "}
-                {lowerFirst(DIMENSIONS[by].label)}.
-              </p>
-            )}
+          <InShort>
+            {summary}
+          </InShort>
+
+          <section aria-label="Groups" className="flex flex-col gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-xl font-semibold tracking-tight">Correct answers by group</h2>
+            <FilterMenu
+              label="Split by"
+              align="end"
+              options={(Object.keys(DIMENSIONS) as DimensionKey[]).map((key) => ({
+                href: `/results/breakdowns${filterQuery(filter, { by: key })}`,
+                label: DIMENSIONS[key].label,
+                active: key === by,
+              }))}
+            />
+          </div>
+          <Dumbbell
+            fromLabel="On their own"
+            toLabel="With AI advice"
+            rows={slices.map(({ slice, verdict, delta }) => ({
+              label: sliceLabel(slice.key),
+              n: slice.summary.trials,
+              from: slice.enoughData && slice.summary.humanAlone.value !== null ? slice.summary.humanAlone.value * 100 : null,
+              to: slice.enoughData && slice.summary.humanAI.value !== null ? slice.summary.humanAI.value * 100 : null,
+              change: points(delta),
+              tone: verdict === "helps" ? "helps" : verdict === "hurts" ? "hurts" : "even",
+            }))}
+          />
           </section>
 
+          <DetailedNumbers>
           <div className="grid gap-6 lg:grid-cols-[2fr_3fr]">
             <Card>
               <CardHeader>
@@ -190,6 +199,7 @@ export default async function BreakdownsPage({ searchParams }: PageProps<"/resul
               </CardContent>
             </Card>
           </div>
+          </DetailedNumbers>
         </>
       )}
     </>

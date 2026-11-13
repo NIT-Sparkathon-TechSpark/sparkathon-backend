@@ -63,12 +63,12 @@ export default async function OrgDashboard({ params }: PageProps<"/org/[slug]">)
           Your question sets
         </h2>
         {sets === null ? (
-          <p className="border-hurts/40 bg-hurts-soft rounded-2xl border p-5 text-sm">
+          <p className="bg-hurts-soft rounded-2xl p-5 text-sm">
             Your sets could not be loaded. If this is a new database, the organization tables may not be set up yet
             (run <code>pnpm db:migrate</code>).
           </p>
         ) : sets.length === 0 ? (
-          <p className="bg-card/70 text-muted-foreground rounded-2xl border border-dashed p-6 text-sm backdrop-blur">
+          <p className="bg-secondary/40 text-muted-foreground rounded-3xl p-6 text-sm">
             No sets yet. Upload your first one below.
           </p>
         ) : (
@@ -82,7 +82,7 @@ export default async function OrgDashboard({ params }: PageProps<"/org/[slug]">)
 
       <section
         aria-labelledby="upload-heading"
-        className="bg-card/70 flex flex-col gap-6 rounded-2xl border p-6 backdrop-blur md:p-8"
+        className="bg-card/70 flex flex-col gap-6 rounded-3xl p-6 backdrop-blur md:p-8 ring-1 ring-foreground/5 shadow-xl shadow-black/5"
       >
         <div className="flex max-w-2xl flex-col gap-2">
           <Eyebrow className="text-primary">Add a set</Eyebrow>
@@ -106,7 +106,7 @@ export default async function OrgDashboard({ params }: PageProps<"/org/[slug]">)
 function SetCard({ set, origin, orgSlug }: { set: OrgSetSummary; origin: string; orgSlug: string }) {
   const link = `${origin}/t/${set.shareToken}`;
   return (
-    <article className="bg-card/70 flex min-w-0 flex-col gap-5 rounded-2xl border p-5 backdrop-blur sm:p-6">
+    <article className="bg-card/70 flex min-w-0 flex-col gap-5 rounded-3xl p-5 backdrop-blur sm:p-6 ring-1 ring-foreground/5 shadow-xl shadow-black/5">
       <div className="flex flex-col gap-1">
         <h3 className="text-lg font-semibold">{set.name}</h3>
         {set.description && <p className="text-muted-foreground text-sm leading-relaxed">{set.description}</p>}
@@ -142,7 +142,7 @@ function SetCard({ set, origin, orgSlug }: { set: OrgSetSummary; origin: string;
 
 function Stat({ label, ai, note, children }: { label: string; ai?: boolean; note?: string; children: ReactNode }) {
   return (
-    <div className="flex min-w-0 flex-col gap-1 rounded-xl border p-3">
+    <div className="bg-secondary/50 flex min-w-0 flex-col gap-1 rounded-2xl p-3">
       <dt className="text-muted-foreground truncate text-[0.6875rem] font-semibold tracking-wide uppercase sm:text-xs">
         {label}
       </dt>
@@ -154,7 +154,7 @@ function Stat({ label, ai, note, children }: { label: string; ai?: boolean; note
 
 function FormatHelp() {
   return (
-    <aside className="bg-secondary/60 border-l-primary/50 text-muted-foreground flex flex-col gap-2 rounded-xl border-l-4 p-4 text-sm leading-relaxed">
+    <aside className="bg-secondary/60 text-muted-foreground flex flex-col gap-2 rounded-2xl p-4 text-sm leading-relaxed">
       <Eyebrow className="text-foreground">File format</Eyebrow>
       <p>A CSV with these columns (Excel&apos;s comma or semicolon export works):</p>
       <ul className="list-disc pl-5 font-mono text-xs leading-relaxed">

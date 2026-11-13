@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ConfidenceChart, ShiftChart, type ConfidenceBar, type ShiftBar } from "@/components/results/charts";
 import { EmptyState, TooLittleData } from "@/components/results/notices";
 import { ResultsHeader } from "@/components/results/results-header";
+import { Dumbbell, InShort, DetailedNumbers } from "@/components/results/simple";
 import { StatTile } from "@/components/results/stat-tile";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -49,12 +50,12 @@ export default async function ConfidencePage({ searchParams }: PageProps<"/resul
   const done = complete(facts);
 
   const byFinal: Group[] = [
-    { label: "Ended right", trials: done.filter(finalCorrect) },
-    { label: "Ended wrong", trials: done.filter((t) => !finalCorrect(t)) },
+    { label: "Final answer right", trials: done.filter(finalCorrect) },
+    { label: "Final answer wrong", trials: done.filter((t) => !finalCorrect(t)) },
   ];
   const byAI: Group[] = [
-    { label: "AI right", trials: done.filter(aiCorrect) },
-    { label: "AI wrong", trials: done.filter((t) => !aiCorrect(t)) },
+    { label: "The AI was right", trials: done.filter(aiCorrect) },
+    { label: "The AI was wrong", trials: done.filter((t) => !aiCorrect(t)) },
   ];
   const rows = [...byFinal, ...byAI].map(confidenceRow);
   const chartData: ConfidenceBar[] = rows
@@ -82,7 +83,48 @@ export default async function ConfidencePage({ searchParams }: PageProps<"/resul
       {s.trials === 0 ? (
         <EmptyState seeded={filter.seeded} source={source} />
       ) : (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-10">
+          <InShort
+            sub={
+              surerOnWrongAdvice.value !== null
+                ? `${pct(surerOnWrongAdvice)} when the AI was wrong.`
+                : undefined
+            }
+          >
+            {surer.value === null
+              ? "Not enough answers yet."
+              : `${pct(surer)} of answers ended wrong, but people felt surer.`}
+          </InShort>
+
+          <section aria-labelledby="sureness" className="flex flex-col gap-4">
+            <h2 id="sureness" className="text-xl font-semibold tracking-tight">
+              Confidence, before and after advice
+            </h2>
+            <Dumbbell
+              fromLabel="Before advice"
+              toLabel="After advice"
+              min={25}
+              max={100}
+              unit=""
+              rows={rows.map((row) => {
+                const enough = row.n >= MIN_TRIALS_PER_SLICE && row.before !== null && row.after !== null;
+                // Getting surer is good on right answers and bad on wrong ones.
+                const badGroup = row.label.includes("wrong");
+                const up = (row.shift ?? 0) > 0.5;
+                const down = (row.shift ?? 0) < -0.5;
+                return {
+                  label: row.label,
+                  n: row.n,
+                  from: enough ? row.before : null,
+                  to: enough ? row.after : null,
+                  change: signed(row.shift, 0),
+                  tone: !up && !down ? "even" : up === badGroup ? "hurts" : "helps",
+                };
+              })}
+            />
+          </section>
+
+          <DetailedNumbers>
           <section className="grid gap-3 md:grid-cols-3">
             <StatTile
               size="lg"
@@ -190,6 +232,7 @@ export default async function ConfidencePage({ searchParams }: PageProps<"/resul
               </CardContent>
             </Card>
           </div>
+          </DetailedNumbers>
         </div>
       )}
     </>

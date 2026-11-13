@@ -73,9 +73,9 @@ export function AnswerForm({
           <label
             key={i}
             className={cn(
-              "group bg-card flex min-h-14 cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition-colors",
-              "hover:border-primary/50 active:bg-accent/60",
-              "has-checked:border-primary has-checked:bg-accent has-checked:ring-primary has-checked:ring-1",
+              "group bg-card flex min-h-14 cursor-pointer items-center gap-3 rounded-2xl px-4 py-3 transition-colors ring-1 ring-foreground/8 shadow-sm",
+              "hover:ring-primary/40 active:bg-accent/60",
+              "has-checked:bg-accent has-checked:ring-primary has-checked:ring-2",
               "has-focus-visible:outline-ring has-focus-visible:outline-2 has-focus-visible:outline-offset-2",
             )}
           >
@@ -116,9 +116,9 @@ export function AnswerForm({
             <label
               key={level.value}
               className={cn(
-                "group bg-card flex min-h-16 cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl border px-1.5 py-2 text-center text-xs leading-tight transition-colors",
-                "hover:border-primary/50 active:bg-accent/60",
-                "has-checked:border-primary has-checked:bg-accent has-checked:ring-primary has-checked:font-semibold has-checked:ring-1",
+                "group bg-card flex min-h-16 cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl px-1.5 py-2 text-center text-xs leading-tight transition-colors ring-1 ring-foreground/8 shadow-sm",
+                "hover:ring-primary/40 active:bg-accent/60",
+                "has-checked:bg-accent has-checked:ring-primary has-checked:font-semibold has-checked:ring-2",
                 "has-focus-visible:outline-ring has-focus-visible:outline-2 has-focus-visible:outline-offset-2",
               )}
             >

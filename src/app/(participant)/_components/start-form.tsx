@@ -30,7 +30,7 @@ export function StartForm({ setSlug, label }: { setSlug: string; label: LinkLabe
           autoCapitalize="words"
           aria-describedby="nickname-hint"
           placeholder="e.g. Quiet Fox"
-          className="bg-card placeholder:text-muted-foreground/70 h-12 rounded-xl border px-4 text-base"
+          className="bg-secondary/60 placeholder:text-muted-foreground/70 h-12 rounded-2xl px-4 text-base transition-colors focus-visible:bg-card"
         />
         <p id="nickname-hint" className="text-muted-foreground text-sm">
           Anything except your real name.
@@ -47,7 +47,7 @@ export function StartForm({ setSlug, label }: { setSlug: string; label: LinkLabe
             return (
               <label
                 key={level.value}
-                className="bg-card hover:border-primary/50 has-checked:border-primary has-checked:bg-accent has-checked:ring-primary has-focus-visible:outline-ring flex min-h-16 cursor-pointer flex-col items-center justify-center gap-0.5 rounded-xl border px-1 py-2 text-center transition-colors has-checked:ring-1 has-focus-visible:outline-2 has-focus-visible:outline-offset-2"
+                className="bg-secondary/60 hover:bg-secondary has-checked:bg-accent has-checked:ring-primary has-focus-visible:outline-ring flex min-h-16 cursor-pointer flex-col items-center justify-center gap-0.5 rounded-2xl px-1 py-2 text-center transition-colors has-checked:ring-2 has-focus-visible:outline-2 has-focus-visible:outline-offset-2"
               >
                 <input
                   type="radio"

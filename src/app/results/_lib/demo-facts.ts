@@ -1,6 +1,6 @@
 import type { SessionLabel } from "@/db/schema";
 import { mulberry32, type TrialFact } from "@/lib/metrics";
-import type { ResultsFilter, SetSlug } from "./filters";
+import { setsOf, type ResultsFilter, type SetSlug } from "./filters";
 
 /**
  * Generated responses for reviewing the results screens without a database. Deterministic
@@ -25,7 +25,7 @@ const SESSIONS: { set: SetSlug; label: SessionLabel; expertise: number | null }[
   { set: "acme", label: "pilot", expertise: 3 },
   { set: "acme", label: "seeded", expertise: 4 },
   { set: "acme", label: "seeded", expertise: 2 },
-  // A few judges on the 3-question demo, so /live?set=judge-demo can be previewed.
+  // A few judges on the 3-question demo, so the judge-demo set can be previewed.
   ...Array.from({ length: 6 }, (_, i) => ({
     set: "judge-demo" as SetSlug,
     label: "judge" as SessionLabel,
@@ -102,7 +102,6 @@ let cache: ReturnType<typeof buildAll> | null = null;
 
 export function demoFacts(filter: ResultsFilter, labels: SessionLabel[]): TrialFact[] {
   cache ??= buildAll();
-  return cache.filter(
-    (t) => labels.includes(t.label) && (filter.set === null || t.setSlug === filter.set),
-  );
+  const sets: readonly string[] = setsOf(filter);
+  return cache.filter((t) => labels.includes(t.label) && sets.includes(t.setSlug));
 }

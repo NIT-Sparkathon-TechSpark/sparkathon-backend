@@ -91,9 +91,9 @@ export default async function OrgResults({ params, searchParams }: PageProps<"/o
       </header>
 
       {failed ? (
-        <p className="border-hurts/40 bg-hurts-soft rounded-2xl border p-5 text-sm">The results could not be loaded. Try again in a moment.</p>
+        <p className="bg-hurts-soft rounded-2xl p-5 text-sm">The results could not be loaded. Try again in a moment.</p>
       ) : s.trials === 0 ? (
-        <p className="bg-card/70 text-muted-foreground rounded-2xl border border-dashed p-6 text-sm backdrop-blur">
+        <p className="bg-secondary/40 text-muted-foreground rounded-3xl p-6 text-sm">
           No finished sessions yet. Share a set&apos;s participant link from your{" "}
           <Link href={`/org/${org.slug}`} className="underline underline-offset-4">
             dashboard
@@ -160,7 +160,7 @@ function Overview({ facts }: { facts: TrialFact[] }) {
         people="one of your people"
       />
 
-      <Card className="border-l-4 border-l-centaur">
+      <Card className="ring-centaur/30">
         <CardHeader>
           <CardTitle>What this means for your rollout</CardTitle>
           <CardDescription>Read from these results. Check the numbers below before acting on them.</CardDescription>

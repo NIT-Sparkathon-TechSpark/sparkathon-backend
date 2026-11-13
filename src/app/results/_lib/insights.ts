@@ -34,6 +34,8 @@ export type Verdict = "supported" | "opposite" | "unclear" | "too-little-data" |
 export type Prediction = {
   id: string;
   claim: string;
+  /** What the two numbers measure, as a short caption: "Fooled by wrong advice". */
+  measure: string;
   /** What the two groups are, in reading order: the group predicted to be higher first. */
   groups: [string, string];
   values: [Rate, Rate];
@@ -42,6 +44,8 @@ export type Prediction = {
   verdict: Verdict;
   note?: string;
 };
+
+const FOOLED = "Switched to wrong advice";
 
 type Split = (rows: TrialFact[]) => [TrialFact[], TrialFact[]];
 
@@ -79,13 +83,15 @@ export function predictions(rows: TrialFact[], { allSets }: { allSets: boolean }
   const p1: Prediction = allSets
     ? {
         id: "checkability",
-        claim: "People follow wrong AI advice more when they can't check the answer (facts) than when they can (logic).",
+        claim: "Wrong advice fools people more on facts than on logic.",
+        measure: FOOLED,
         groups: ["Facts", "Logic"],
         ...judge(rows, bySet, overReliance),
       }
     : {
         id: "checkability",
-        claim: "People follow wrong AI advice more when they can't check the answer (facts) than when they can (logic).",
+        claim: "Wrong advice fools people more on facts than on logic.",
+        measure: FOOLED,
         groups: ["Facts", "Logic"],
         values: [overReliance([]), overReliance([])],
         difference: null,
@@ -97,13 +103,15 @@ export function predictions(rows: TrialFact[], { allSets }: { allSets: boolean }
     p1,
     {
       id: "explanation",
-      claim: "An explanation makes people follow wrong AI advice more than the bare answer does.",
+      claim: "An explanation makes wrong advice more convincing.",
+      measure: FOOLED,
       groups: ["With explanation", "Answer only"],
       ...judge(rows, byExplanation, overReliance),
     },
     {
       id: "surer",
-      claim: "Wrong AI advice leaves people wrong and more confident more often than right advice does.",
+      claim: "Wrong advice leaves people wrong and surer.",
+      measure: "Ended wrong and surer",
       groups: ["AI wrong", "AI right"],
       ...judge(rows, byAdvice, wrongAndSurer),
     },
