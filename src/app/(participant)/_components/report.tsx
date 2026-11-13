@@ -7,13 +7,21 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Eyebrow, LETTERS, Shell } from "./shell";
 
-type Props = { nickname: string; setSlug: string; facts: TrialFact[]; tasks: ReportTask[] };
+type Props = {
+  nickname: string;
+  /** The public set's slug, or a private set's share token. */
+  setSlug: string;
+  facts: TrialFact[];
+  tasks: ReportTask[];
+  /** Off for an organization's private set: its people shouldn't be sent to the public sets. */
+  showOtherSets?: boolean;
+};
 
 /**
  * The personal report (scope feature 12). Built only from this person's own answers, and only for a
  * finished session. The correct answers appear here for the first time, after the last question.
  */
-export function Report({ nickname, setSlug, facts, tasks }: Props) {
+export function Report({ nickname, setSlug, facts, tasks, showOtherSets = true }: Props) {
   const profile = sessionProfile(facts);
   // Spec 0002: questions where the AI advice was on screen from the start. Empty for every other set.
   const advised = advisedProfile(facts);
@@ -168,6 +176,7 @@ export function Report({ nickname, setSlug, facts, tasks }: Props) {
         </section>
       )}
 
+      {showOtherSets && (
       <section className="flex flex-col gap-3 border-t pt-6">
         <h2 className="text-lg font-semibold">Try another topic</h2>
         <div className="flex flex-wrap gap-2">
@@ -189,6 +198,7 @@ export function Report({ nickname, setSlug, facts, tasks }: Props) {
           </Link>
         </div>
       </section>
+      )}
     </Shell>
   );
 }

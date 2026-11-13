@@ -4,6 +4,7 @@
  *   pnpm db:export                         pilot sessions only, completed ones
  *   pnpm db:export --labels pilot,seeded   choose labels
  *   pnpm db:export --all                   include unfinished sessions
+ *   pnpm db:export --sets logic,facts      choose sets (default: the public sets, never an organization's)
  *
  * Writes exports/trials-<timestamp>.csv and prints the headline numbers. No nicknames are
  * exported; session ids are random and carry no personal data.
@@ -14,6 +15,7 @@ import { getTrialFacts } from "../src/db/queries/trial-facts";
 import type { SessionLabel } from "../src/db/schema";
 import { SESSION_LABELS } from "../src/db/schema";
 import { summarize, type TrialFact } from "../src/lib/metrics";
+import { SET_SLUGS } from "../src/lib/sets";
 
 const args = process.argv.slice(2);
 const labelsArg = args.indexOf("--labels");
@@ -51,7 +53,9 @@ const cell = (v: unknown) => {
 const pct = (v: number | null) => (v === null ? "n/a" : `${(v * 100).toFixed(1)}%`);
 
 async function main() {
-  const rows = await getTrialFacts({ labels, completedOnly: !args.includes("--all") });
+  const setsArg = args.indexOf("--sets");
+  const sets = setsArg >= 0 ? args[setsArg + 1].split(",") : [...SET_SLUGS];
+  const rows = await getTrialFacts({ sets, labels, completedOnly: !args.includes("--all") });
   const csv = [COLUMNS.join(","), ...rows.map((r) => COLUMNS.map((c) => cell(r[c])).join(","))].join("\n");
 
   const dir = path.join(process.cwd(), "exports");

@@ -42,3 +42,26 @@ export const isMixedSet = (slug: string): boolean => (MIXED_SETS as readonly str
 export function isParticipantSet(value: string): value is ParticipantSet {
   return Object.hasOwn(PARTICIPANT_SETS, value);
 }
+
+/**
+ * Private sets belong to one organization (docs/plan/org-accounts.md). Their slug is "o-" plus
+ * 10 random characters, and participants open them only through /t/<share token>.
+ */
+export const PRIVATE_SET_SLUG = /^o-[a-z0-9]{10}$/;
+
+/** Share tokens in /t/<token>: 22 URL-safe characters, 128 bits of randomness. */
+export const SHARE_TOKEN = /^[A-Za-z0-9_-]{22}$/;
+
+export function isShareToken(value: string): boolean {
+  return SHARE_TOKEN.test(value);
+}
+
+/**
+ * Forms in the participant flow carry a set reference: a public set's slug, or a private set's
+ * share token. This turns one into the address of its page.
+ */
+export function setPath(ref: string): string {
+  if (isParticipantSet(ref)) return `/s/${ref}`;
+  if (isShareToken(ref)) return `/t/${ref}`;
+  return "/";
+}

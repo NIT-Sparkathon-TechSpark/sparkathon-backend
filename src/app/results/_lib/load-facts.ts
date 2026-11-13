@@ -2,7 +2,7 @@ import type { SessionLabel } from "@/db/schema";
 import type { TrialFact } from "@/lib/metrics";
 import { demoFacts } from "./demo-facts";
 import { MIXED_SETS } from "@/lib/sets";
-import type { ResultsFilter } from "./filters";
+import { SETS, type ResultsFilter } from "./filters";
 
 export type FactsSource = "database" | "demo" | "unavailable";
 
@@ -45,9 +45,10 @@ export async function loadFacts(filter: ResultsFilter): Promise<LoadedFacts> {
   try {
     // Imported lazily: the database module throws at import time when DATABASE_URL is missing.
     const { getTrialFacts } = await import("@/db/queries/trial-facts");
-    // Experiment sets (spec 0002) have their own page and never mix into these screens.
+    // Public sets only: organizations' private sets (docs/plan/org-accounts.md) never show here,
+    // and experiment sets (spec 0002) have their own page and never mix into these screens.
     const facts = await getTrialFacts({
-      sets: filter.set ? [filter.set] : undefined,
+      sets: filter.set ? [filter.set] : [...SETS],
       excludeSets: [...MIXED_SETS],
       labels,
     });

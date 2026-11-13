@@ -7,7 +7,7 @@ import {
   type FormState,
 } from "@/lib/participant-schemas";
 import { clearSessionCookie, readSessionId, setSessionCookie } from "@/lib/session";
-import { isParticipantSet } from "@/lib/sets";
+import { isParticipantSet, setPath } from "@/lib/sets";
 
 /**
  * Every write the participant flow makes. Rules from CLAUDE.md that live here:
@@ -33,10 +33,18 @@ export async function startSessionAction(_prev: FormState, formData: FormData): 
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? "Check the form and try again." };
   }
-  const { setSlug, nickname, expertise, label } = parsed.data;
+  // A public set's slug, or a private set's share token (organizations, /t/<token>).
+  const { setSlug: setRef, nickname, expertise, label } = parsed.data;
 
   let sessionId: string;
+  let setSlug: string = setRef;
   try {
+    if (!isParticipantSet(setRef)) {
+      const { findSetByToken } = await import("@/db/queries/orgs");
+      const shared = await findSetByToken(setRef);
+      if (!shared) return { error: "This question set is not available." };
+      setSlug = shared.slug;
+    }
     const { startSession } = await import("@/db/queries/participant");
     const started = await startSession({
       setSlug,
@@ -52,7 +60,15 @@ export async function startSessionAction(_prev: FormState, formData: FormData): 
   }
 
   await setSessionCookie(sessionId);
-  redirect(`/s/${setSlug}`);
+  redirect(setPath(setRef));
+}
+
+/** The page of the set a session belongs to: /s/<slug> for a public set, /t/<token> for a private one. */
+async function pathForSession(setSlug: string): Promise<string> {
+  if (isParticipantSet(setSlug)) return `/s/${setSlug}`;
+  const { findTokenForSet } = await import("@/db/queries/orgs");
+  const token = await findTokenForSet(setSlug);
+  return token ? `/t/${token}` : "/";
 }
 
 type Stage = "first" | "final" | "advised";
@@ -68,7 +84,7 @@ async function submitAnswer(stage: Stage, formData: FormData): Promise<FormState
   const { setSlug, taskId, answer, confidence, ms } = parsed.data;
 
   const sessionId = await readSessionId();
-  if (!sessionId) redirect(`/s/${setSlug}`);
+  if (!sessionId) redirect(setPath(setSlug));
 
   try {
     const [{ getSessionInfo }, { getSessionStep, recordFirstAnswer, recordFinalAnswer, recordAdvisedAnswer }] =
@@ -78,7 +94,7 @@ async function submitAnswer(stage: Stage, formData: FormData): Promise<FormState
       ]);
 
     const info = await getSessionInfo(sessionId);
-    if (!info) redirect(`/s/${setSlug}`);
+    if (!info) redirect(setPath(setSlug));
 
     const step = await getSessionStep(sessionId);
     const inStep = step.stage !== "done" && step.stage === stage && step.task.taskId === taskId;
@@ -89,7 +105,7 @@ async function submitAnswer(stage: Stage, formData: FormData): Promise<FormState
       else if (stage === "final") await recordFinalAnswer(input);
       else await recordAdvisedAnswer(input);
     }
-    redirect(`/s/${info.setSlug}`);
+    redirect(await pathForSession(info.setSlug));
   } catch (error) {
     // redirect() works by throwing; let it through.
     if (isRedirect(error)) throw error;
@@ -120,5 +136,5 @@ export async function submitAdvisedAnswerAction(_prev: FormState, formData: Form
 export async function leaveSessionAction(formData: FormData): Promise<void> {
   const set = String(formData.get("setSlug") ?? "");
   await clearSessionCookie();
-  redirect(isParticipantSet(set) ? `/s/${set}` : "/");
+  redirect(setPath(set));
 }

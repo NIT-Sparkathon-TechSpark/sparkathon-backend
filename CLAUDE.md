@@ -9,6 +9,7 @@ Read these before changing anything.
 |---|---|
 | Stack and architecture | `docs/specs/0001-stack-architecture/index.md` plus its `amendments.md` (amendments win) |
 | Team plan: owners, timeline, data model, metrics, task format | `docs/plan/team-plan.md` |
+| Organization accounts: private sets, sign-in, upload format | `docs/plan/org-accounts.md` |
 | The brief | `PROBLEM_STATEMENT.md` |
 | Feature list | `docs/scope/scope.md` (features 3, 4, 5, 7, 9 and 11 are already decided in the team plan: go straight to `/develop`, no `/architect`) |
 
@@ -23,7 +24,7 @@ Skills installed in `.claude/skills/`: `shadcn`, `neon-postgres`, `neon-drizzle`
 1. The app never calls an AI service, at build time or at run time. AI advice comes from `data/tasks/*.json`.
 2. The correct answer for a task never reaches the browser before the session is complete. The AI advice never reaches the browser before the participant's first answer for that task is stored, except on responses marked `advice_first` (spec 0002, experiment branch only), where the advice is shown with the question by design. That covers page content, Server Action return values and props passed to Client Components.
 3. Every Server Action validates its input with Zod and reads the session from the cookie, never from a form value.
-4. Results queries return aggregates only. One person's rows appear only in their own report and the researcher area.
+4. Results queries return aggregates only. Public results read only the public sets; an organization's sets and results are visible only to that organization. One person's rows appear only in their own report and the researcher area.
 5. No database write during a page render.
 6. Pilot data is never deleted. Reset scripts may delete only sessions labelled `practice` or `judge`.
 7. Tasks are updated by their stable `id`. Once anyone has answered, never delete and reinsert tasks.
@@ -33,7 +34,7 @@ Skills installed in `.claude/skills/`: `shadcn`, `neon-postgres`, `neon-drizzle`
 | Owner | Folders |
 |---|---|
 | P1: participant flow (Jay leads the scaffold) | `src/app/(participant)/`, `src/actions/`, `src/lib/session.ts` |
-| P2: data, metrics, analysis | `src/db/` (schema, queries), `scripts/`, `drizzle/`, `src/lib/metrics.ts` |
+| P2: data, metrics, analysis, organization accounts | `src/db/` (schema, queries), `scripts/`, `drizzle/`, `src/lib/metrics.ts`, `src/lib/org-*.ts`, `src/actions/org.ts`, `src/app/org/` |
 | P3: results screens and design | `src/app/results/`, `src/app/live/`, `src/components/`, theme |
 | P4: task content | `data/tasks/*.json` only |
 
