@@ -24,6 +24,13 @@ import {
   summarize,
   underReliance,
   wrongAndSurer,
+  advisedProfile,
+  catchRate,
+  followedWrongRate,
+  inForm,
+  medianSeconds,
+  orderGap,
+  rightWhenAIRight,
 } from "../src/lib/metrics.ts";
 import { planSession } from "../src/db/session-plan.ts";
 import { taskFileSchema } from "../src/db/task-file.ts";
@@ -197,4 +204,105 @@ test("guard: only development and preview count as safe, anything else is produc
     assert.throws(() => requireNonProduction("seed", { NEON_BRANCH: branch }), /Refusing to seed/);
   }
   assert.doesNotThrow(() => requireNonProduction("seed", { NEON_BRANCH: "development" }));
+});
+
+// ---------------------------------------------------------------------------------------------
+// Spec 0002: advice first against answer first
+
+test("planSession mixed: every task, half of each kind advice first, explanation always shown", () => {
+  for (let seed = 1; seed <= 200; seed++) {
+    const tasks = makeTasks(12, 6);
+    const plan = planSession(tasks, { mixed: true, random: mulberry32(seed) });
+    assert.equal(plan.length, 12);
+    assert.equal(new Set(plan.map((p) => p.taskId)).size, 12);
+    assert.deepEqual(plan.map((p) => p.position), Array.from({ length: 12 }, (_, i) => i + 1));
+    assert.ok(plan.every((p) => p.rationaleShown));
+    const wrong = (p) => tasks.find((t) => t.id === p.taskId).adviceIndex !== 0;
+    const advised = plan.filter((p) => p.adviceFirst);
+    assert.equal(advised.length, 6);
+    assert.equal(advised.filter(wrong).length, 3);
+  }
+  // Every task lands in both forms across sessions.
+  const seen = new Map();
+  for (let seed = 1; seed <= 200; seed++) {
+    for (const p of planSession(makeTasks(12, 6), { mixed: true, random: mulberry32(seed) })) {
+      seen.set(p.taskId, (seen.get(p.taskId) ?? new Set()).add(p.adviceFirst));
+    }
+  }
+  assert.ok([...seen.values()].every((forms) => forms.size === 2));
+  // Odd counts: the extra task goes to one side, never lost.
+  const odd = planSession(makeTasks(7, 3), { mixed: true, random: mulberry32(3) });
+  const n = odd.filter((p) => p.adviceFirst).length;
+  assert.ok(n >= 3 && n <= 5, String(n));
+  // Other sets never get an advice first question.
+  assert.ok(planSession(makeTasks(20, 7), { random: mulberry32(1) }).every((p) => !p.adviceFirst));
+  assert.ok(planSession(makeTasks(3, 1), { fixedOrder: true }).every((p) => !p.adviceFirst));
+});
+
+// An advice first trial: no first answer, one final answer.
+const advised = (sessionId, position, correctIndex, adviceIndex, final, ms = 10_000) => ({
+  ...trial(sessionId, position, correctIndex, adviceIndex, null, null, final, 75),
+  adviceFirst: true,
+  msFinal: ms,
+});
+const answered = (sessionId, position, correctIndex, adviceIndex, first, final, msFirst = 12_000, msFinal = 6_000) => ({
+  ...trial(sessionId, position, correctIndex, adviceIndex, first, 50, final, 75),
+  adviceFirst: false,
+  msFirst,
+  msFinal,
+});
+
+const mixedRows = [
+  // Advice first: AI wrong 3 times (caught once, followed twice), AI right twice (right once).
+  advised("m1", 1, 0, 1, 0, 8_000), // caught
+  advised("m1", 2, 0, 1, 1, 4_000), // followed the wrong advice
+  advised("m2", 1, 2, 3, 3, 6_000), // followed the wrong advice
+  advised("m1", 3, 1, 1, 1, 10_000), // AI right, right
+  advised("m2", 2, 1, 1, 0, 12_000), // AI right, wrong
+  // Answer first: AI wrong 3 times (caught twice, followed once), AI right once (right).
+  answered("m1", 4, 0, 1, 0, 0), // caught
+  answered("m1", 5, 0, 1, 0, 1), // followed the wrong advice
+  answered("m2", 3, 2, 3, 1, 2, 20_000, 10_000), // caught after a wrong first answer
+  answered("m2", 4, 1, 1, 0, 1), // AI right, right
+  // Not answered yet: ignored.
+  { ...advised("m2", 5, 0, 1, null), finalConfidence: null },
+];
+
+test("advice first metrics: catch rate, gap and the supporting numbers", () => {
+  assert.equal(inForm(mixedRows, "adviceFirst").length, 5);
+  assert.equal(inForm(mixedRows, "answerFirst").length, 4);
+
+  assert.deepEqual(catchRate(mixedRows, "adviceFirst"), { value: 1 / 3, k: 1, n: 3 });
+  assert.deepEqual(catchRate(mixedRows, "answerFirst"), { value: 2 / 3, k: 2, n: 3 });
+  close(orderGap(mixedRows), 1 / 3);
+  assert.equal(orderGap(mixedRows.filter((t) => t.adviceFirst)), null);
+
+  assert.deepEqual(followedWrongRate(mixedRows, "adviceFirst"), { value: 2 / 3, k: 2, n: 3 });
+  assert.deepEqual(followedWrongRate(mixedRows, "answerFirst"), { value: 1 / 3, k: 1, n: 3 });
+  assert.deepEqual(rightWhenAIRight(mixedRows, "adviceFirst"), { value: 0.5, k: 1, n: 2 });
+  assert.deepEqual(rightWhenAIRight(mixedRows, "answerFirst"), { value: 1, k: 1, n: 1 });
+
+  close(medianSeconds(mixedRows, "adviceFirst"), 8); // 4, 6, 8, 10, 12 seconds
+  close(medianSeconds(mixedRows, "answerFirst"), 18); // 18, 18, 18, 30 seconds
+  assert.equal(medianSeconds([], "adviceFirst"), null);
+
+  const gap = bootstrap(mixedRows, orderGap);
+  assert.ok(gap && gap.low <= gap.estimate && gap.estimate <= gap.high);
+});
+
+test("advice first trials never enter the two stage metrics", () => {
+  const twoStageOnly = mixedRows.filter((t) => !t.adviceFirst);
+  assert.deepEqual(summarize(mixedRows), summarize(twoStageOnly));
+  assert.equal(summarize(mixedRows).trials, 4);
+  assert.equal(sessionProfile(mixedRows.filter((t) => t.sessionId === "m1")).answered, 2);
+});
+
+test("advisedProfile: one person's advice first questions", () => {
+  const p = advisedProfile(mixedRows.filter((t) => t.sessionId === "m1"));
+  assert.equal(p.answered, 3);
+  assert.equal(p.right, 2);
+  assert.equal(p.aiWrong, 2);
+  assert.equal(p.caught, 1);
+  assert.deepEqual(p.followedWrong.map((i) => i.position), [2]);
+  assert.equal(advisedProfile(rows).answered, 0);
 });

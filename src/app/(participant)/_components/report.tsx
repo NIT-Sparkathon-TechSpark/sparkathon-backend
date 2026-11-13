@@ -1,7 +1,7 @@
 import { leaveSessionAction } from "@/actions/session";
 import { Button, buttonVariants } from "@/components/ui/button";
 import type { ReportTask } from "@/db/queries/session-info";
-import { aiAloneAccuracy, sessionProfile, type ProfileItem, type TrialFact } from "@/lib/metrics";
+import { advisedProfile, aiAloneAccuracy, sessionProfile, type ProfileItem, type TrialFact } from "@/lib/metrics";
 import { PARTICIPANT_SETS, SET_SLUGS } from "@/lib/sets";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -23,6 +23,9 @@ type Props = {
  */
 export function Report({ nickname, setSlug, facts, tasks, showOtherSets = true }: Props) {
   const profile = sessionProfile(facts);
+  // Spec 0002: questions where the AI advice was on screen from the start. Empty for every other set.
+  const advised = advisedProfile(facts);
+  const mixed = advised.answered > 0;
   const ai = aiAloneAccuracy(facts);
   const byTask = new Map(tasks.map((t) => [t.taskId, t]));
 
@@ -47,8 +50,9 @@ export function Report({ nickname, setSlug, facts, tasks, showOtherSets = true }
         <p className="text-muted-foreground text-sm">Thanks, {nickname}. That was the last question.</p>
         <h1 className="text-3xl font-semibold tracking-tight text-balance">Here&apos;s how you did</h1>
         <p className="text-muted-foreground leading-relaxed">
-          Three scores for the same questions: yours before any advice, the AI&apos;s, and yours after seeing its
-          advice. (Chess players call a human and a computer playing together a centaur. That&apos;s where the
+          {mixed
+            ? `Three scores for the ${profile.answered} alerts you answered on your own first: yours before any advice, the AI's, and yours after seeing its advice.`
+            : "Three scores for the same questions: yours before any advice, the AI's, and yours after seeing its advice."} (Chess players call a human and a computer playing together a centaur. That&apos;s where the
           name comes from.)
         </p>
       </header>
@@ -73,8 +77,46 @@ export function Report({ nickname, setSlug, facts, tasks, showOtherSets = true }
         </p>
       </section>
 
+      {mixed && (
+        <section className="flex flex-col gap-3">
+          <h2 className="text-lg font-semibold">When the AI went first</h2>
+          <p>
+            On <b>{advised.answered}</b> alerts you saw the AI&apos;s suggestion before you answered. You got{" "}
+            <b>{advised.right}</b> of them right.
+          </p>
+          <ul className="grid grid-cols-2 gap-2">
+            <Outcome
+              count={advised.caught}
+              good
+              title="You caught it"
+              detail={`The AI was wrong on ${advised.aiWrong} of these, and you still got these right.`}
+            />
+            <Outcome
+              count={advised.followedWrong.length}
+              title="It fooled you"
+              detail="The AI was wrong and you went with its answer."
+            />
+          </ul>
+          {advised.followedWrong.map((item) => {
+            const task = byTask.get(item.taskId);
+            if (!task) return null;
+            return (
+              <article key={item.taskId} className="border-hurts/50 bg-hurts-soft rounded-xl border p-4">
+                <Eyebrow className="text-hurts">It fooled you</Eyebrow>
+                <p className="mt-1.5 leading-snug font-medium">{task.prompt}</p>
+                <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
+                  <Row term="The AI said" option={task.options[item.adviceIndex]} letter={LETTERS[item.adviceIndex]} />
+                  <Row term="Your answer" option={task.options[item.finalAnswer]} letter={LETTERS[item.finalAnswer]} />
+                  <Row term="Correct answer" option={task.options[item.correctIndex]} letter={LETTERS[item.correctIndex]} strong />
+                </dl>
+              </article>
+            );
+          })}
+        </section>
+      )}
+
       <section className="flex flex-col gap-3">
-        <h2 className="text-lg font-semibold">How you used the AI</h2>
+        <h2 className="text-lg font-semibold">{mixed ? "When you answered first" : "How you used the AI"}</h2>
         {disagreements === 0 ? (
           <p>The AI picked the same answer as you on every question, so you never had to choose between them.</p>
         ) : (

@@ -13,7 +13,8 @@ import { isParticipantSet, setPath } from "@/lib/sets";
  * Every write the participant flow makes. Rules from CLAUDE.md that live here:
  *  - Zod checks all input, and the session id comes from the cookie, never from the form (rule 3).
  *  - Nothing returned from an action carries a correct answer or AI advice. The advice reaches the
- *    page only through a render after the first answer is stored (rule 2).
+ *    page only through a render: after the first answer is stored, or with the question on a
+ *    response marked advice first (rule 2 and spec 0002).
  *  - Only actions write to the database, never a page render (rule 5).
  *
  * The database modules are imported inside the functions: they throw at import time when
@@ -70,7 +71,7 @@ async function pathForSession(setSlug: string): Promise<string> {
   return token ? `/t/${token}` : "/";
 }
 
-type Stage = "first" | "final";
+type Stage = "first" | "final" | "advised";
 
 /**
  * Shared by both answer actions. The stage and the question always come from the database, so a
@@ -86,7 +87,7 @@ async function submitAnswer(stage: Stage, formData: FormData): Promise<FormState
   if (!sessionId) redirect(setPath(setSlug));
 
   try {
-    const [{ getSessionInfo }, { getSessionStep, recordFirstAnswer, recordFinalAnswer }] =
+    const [{ getSessionInfo }, { getSessionStep, recordFirstAnswer, recordFinalAnswer, recordAdvisedAnswer }] =
       await Promise.all([
         import("@/db/queries/session-info"),
         import("@/db/queries/participant"),
@@ -101,7 +102,8 @@ async function submitAnswer(stage: Stage, formData: FormData): Promise<FormState
       const input = { sessionId, taskId, answer, confidence, ms };
       // Both writes apply at most once and return false on a repeat, which is fine here.
       if (stage === "first") await recordFirstAnswer(input);
-      else await recordFinalAnswer(input);
+      else if (stage === "final") await recordFinalAnswer(input);
+      else await recordAdvisedAnswer(input);
     }
     redirect(await pathForSession(info.setSlug));
   } catch (error) {
@@ -123,6 +125,11 @@ export async function submitFirstAnswerAction(_prev: FormState, formData: FormDa
 
 export async function submitFinalAnswerAction(_prev: FormState, formData: FormData): Promise<FormState> {
   return submitAnswer("final", formData);
+}
+
+/** Spec 0002: the one answer of a question where the AI advice was shown from the start. */
+export async function submitAdvisedAnswerAction(_prev: FormState, formData: FormData): Promise<FormState> {
+  return submitAnswer("advised", formData);
 }
 
 /** "Start over" and "try another set": forget this session on this device. The data stays. */

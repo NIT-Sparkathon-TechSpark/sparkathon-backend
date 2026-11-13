@@ -5,13 +5,14 @@ import { AutoRefresh } from "./auto-refresh";
 import type { FactsProblem, FactsSource } from "@/app/results/_lib/load-facts";
 import { DataSourceNotice } from "./notices";
 
-const TABS = [
+export const RESULTS_TABS = [
   { href: "/results", label: "Overview" },
   { href: "/results/breakdowns", label: "Helps or hurts" },
   { href: "/results/confidence", label: "Confidence" },
+  { href: "/results/advice-first", label: "AI shown first" },
 ] as const;
 
-type Tab = (typeof TABS)[number]["href"];
+type Tab = (typeof RESULTS_TABS)[number]["href"];
 
 function Chip({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
   return (
@@ -70,7 +71,7 @@ export function ResultsHeader({
       </div>
 
       <nav aria-label="Results views" className="flex gap-1 overflow-x-auto border-b">
-        {TABS.map((tab) => (
+        {RESULTS_TABS.map((tab) => (
           <Link
             key={tab.href}
             href={`${tab.href}${filterQuery(filter)}`}

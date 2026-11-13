@@ -1,4 +1,4 @@
-import { and, eq, inArray, isNotNull, type SQL } from "drizzle-orm";
+import { and, eq, inArray, isNotNull, notInArray, type SQL } from "drizzle-orm";
 import type { TrialFact } from "../../lib/metrics";
 import { db } from "../index";
 import { responses, sessions, tasks, type SessionLabel } from "../schema";
@@ -13,6 +13,9 @@ const factColumns = {
   taskId: responses.taskId,
   position: responses.position,
   rationaleShown: responses.rationaleShown,
+  adviceFirst: responses.adviceFirst,
+  msFirst: responses.msFirst,
+  msFinal: responses.msFinal,
   firstAnswer: responses.firstAnswer,
   firstConfidence: responses.firstConfidence,
   finalAnswer: responses.finalAnswer,
@@ -41,15 +44,19 @@ function baseQuery(where: SQL | undefined) {
  */
 export async function getTrialFacts({
   sets,
+  excludeSets,
   labels = ["pilot", "seeded"],
   completedOnly = true,
 }: {
   sets?: string[];
+  /** Sets to leave out, for example the experiment sets of spec 0002 on the main results screens. */
+  excludeSets?: string[];
   labels?: SessionLabel[];
   completedOnly?: boolean;
 } = {}): Promise<TrialFact[]> {
   const filters: SQL[] = [inArray(sessions.label, labels), isNotNull(responses.finalAnswer)];
   if (sets && sets.length > 0) filters.push(inArray(tasks.setSlug, sets));
+  if (excludeSets && excludeSets.length > 0) filters.push(notInArray(tasks.setSlug, excludeSets));
   if (completedOnly) filters.push(isNotNull(sessions.completedAt));
   return baseQuery(and(...filters));
 }

@@ -14,13 +14,14 @@ type Props = {
   answerLegend: string;
   confidenceLegend: string;
   submitLabel: string;
-  /** Rendered between the question and the pickers. Only the final stage passes the AI advice. */
+  /** Rendered between the question and the pickers. The final and advised stages pass the AI advice. */
   above?: ReactNode;
   /**
-   * Final stage only: which option was the person's first answer and which one the AI suggests, so
-   * both can be tagged in the list. Nothing is preselected; the person still has to choose.
+   * Which option the AI suggests and, in the final stage, which one was the person's first answer,
+   * so they can be tagged in the list. An advised question has no first answer, so `you` is left
+   * out. Nothing is preselected; the person still has to choose.
    */
-  marks?: { you: number; ai: number };
+  marks?: { you?: number; ai: number };
 };
 
 /**

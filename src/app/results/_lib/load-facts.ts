@@ -1,6 +1,7 @@
 import type { SessionLabel } from "@/db/schema";
 import type { TrialFact } from "@/lib/metrics";
 import { demoFacts } from "./demo-facts";
+import { MIXED_SETS } from "@/lib/sets";
 import { SETS, type ResultsFilter } from "./filters";
 
 export type FactsSource = "database" | "demo" | "unavailable";
@@ -44,12 +45,37 @@ export async function loadFacts(filter: ResultsFilter): Promise<LoadedFacts> {
   try {
     // Imported lazily: the database module throws at import time when DATABASE_URL is missing.
     const { getTrialFacts } = await import("@/db/queries/trial-facts");
-    // Public sets only: organizations' private sets (docs/plan/org-accounts.md) never show here.
-    const facts = await getTrialFacts({ sets: filter.set ? [filter.set] : [...SETS], labels });
+    // Public sets only: organizations' private sets (docs/plan/org-accounts.md) never show here,
+    // and experiment sets (spec 0002) have their own page and never mix into these screens.
+    const facts = await getTrialFacts({
+      sets: filter.set ? [filter.set] : [...SETS],
+      excludeSets: [...MIXED_SETS],
+      labels,
+    });
     return { facts, source: "database" };
   } catch (error) {
     const problem: FactsProblem = isMissingTable(error) ? "missing-tables" : "query-failed";
     console.error("[results] loadFacts failed", { problem, filter, error });
+    return { facts: [], source: "unavailable", problem };
+  }
+}
+
+/**
+ * Server only. Completed pilot sessions of the advice first experiment (spec 0002), for
+ * /results/advice-first. There is no generated demo data for this set: without a database the
+ * page says so. A database without the `advice_first` column counts as unavailable.
+ * `practice` shows the team's own test runs instead of the study, so the page can be checked
+ * before the first participant; the two are never mixed.
+ */
+export async function loadExperimentFacts({ practice = false } = {}): Promise<LoadedFacts> {
+  if (!process.env.DATABASE_URL) return { facts: [], source: "demo" };
+  try {
+    const { getTrialFacts } = await import("@/db/queries/trial-facts");
+    const facts = await getTrialFacts({ sets: [...MIXED_SETS], labels: [practice ? "practice" : "pilot"] });
+    return { facts, source: "database" };
+  } catch (error) {
+    const problem: FactsProblem = isMissingTable(error) ? "missing-tables" : "query-failed";
+    console.error("[results] loadExperimentFacts failed", { problem, error });
     return { facts: [], source: "unavailable", problem };
   }
 }

@@ -1,6 +1,7 @@
-import { submitFinalAnswerAction, submitFirstAnswerAction } from "@/actions/session";
-import type { SessionStep } from "@/db/queries/participant";
+import { submitAdvisedAnswerAction, submitFinalAnswerAction, submitFirstAnswerAction } from "@/actions/session";
+import type { Advice, PublicTask, SessionStep } from "@/db/queries/participant";
 import { CONFIDENCE_LEVELS } from "@/lib/participant-schemas";
+import { cn } from "@/lib/utils";
 import { AnswerForm } from "./answer-form";
 import { Eyebrow, LETTERS, Progress, Question } from "./shell";
 
@@ -61,23 +62,59 @@ export function FinalStage({ step, setSlug }: { step: Step<"final">; setSlug: st
                 </p>
               </div>
 
-              <div className="border-ai/50 bg-ai/8 rounded-xl border p-4 transition-all duration-500 starting:translate-y-2 starting:opacity-0">
-                <Eyebrow className="text-ai flex items-center gap-1.5">
-                  <Sparkle />
-                  The AI picked
-                </Eyebrow>
-                <p className="mt-1.5 text-lg leading-snug font-medium">
-                  <span className="font-semibold">{LETTERS[advice.index]}.</span> {task.options[advice.index]}
-                </p>
-                {advice.explanation && (
-                  <p className="text-muted-foreground mt-2 text-sm leading-relaxed">{advice.explanation}</p>
-                )}
-              </div>
+              <AdviceCard task={task} advice={advice} className="transition-all duration-500 starting:translate-y-2 starting:opacity-0" />
             </section>
           </>
         }
       />
     </>
+  );
+}
+
+/**
+ * Spec 0002: one step. The AI advice is on screen together with the question, as it is in most
+ * AI tools at work, and the person gives one answer. The step holds no correct answer.
+ */
+export function AdvisedStage({ step, setSlug }: { step: Step<"advised">; setSlug: string }) {
+  const { task, advice } = step;
+  return (
+    <>
+      <Progress position={step.position} total={step.total} stage="advised" />
+      <AnswerForm
+        key={`${task.taskId}-advised`}
+        action={submitAdvisedAnswerAction}
+        setSlug={setSlug}
+        taskId={task.taskId}
+        options={task.options}
+        answerLegend="Your answer"
+        confidenceLegend="How sure are you?"
+        submitLabel="That's my answer"
+        marks={{ ai: advice.index }}
+        above={
+          <>
+            <Question prompt={task.prompt} context={task.context} />
+            <AdviceCard task={task} advice={advice} />
+          </>
+        }
+      />
+    </>
+  );
+}
+
+function AdviceCard({ task, advice, className }: { task: PublicTask; advice: Advice; className?: string }) {
+  return (
+    <div className={cn("border-ai/50 bg-ai/8 rounded-xl border p-4", className)}>
+      <Eyebrow className="text-ai flex items-center gap-1.5">
+        <Sparkle />
+        The AI picked
+      </Eyebrow>
+      <p className="mt-1.5 text-lg leading-snug font-medium">
+        <span className="font-semibold">{LETTERS[advice.index]}.</span> {task.options[advice.index]}
+      </p>
+      {advice.explanation && (
+        <p className="text-muted-foreground mt-2 text-sm leading-relaxed">{advice.explanation}</p>
+      )}
+    </div>
   );
 }
 

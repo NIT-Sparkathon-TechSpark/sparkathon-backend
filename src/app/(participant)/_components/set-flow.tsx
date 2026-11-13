@@ -3,7 +3,8 @@ import { readSessionId } from "@/lib/session";
 import { Report } from "./report";
 import { Shell } from "./shell";
 import { StartForm } from "./start-form";
-import { FinalStage, FirstStage } from "./stages";
+import { isMixedSet } from "@/lib/sets";
+import { AdvisedStage, FinalStage, FirstStage } from "./stages";
 
 /**
  * The whole participant flow for one set, shared by /s/<set> (public sets) and /t/<token>
@@ -52,6 +53,14 @@ export async function SetFlow({ set, label }: { set: FlowSet; label: LinkLabel }
       </Shell>
     );
   }
+  // Advice first cases (spec 0002): question and AI advice together, one answer.
+  if (step.stage === "advised") {
+    return (
+      <Shell>
+        <AdvisedStage step={step} setSlug={set.ref} />
+      </Shell>
+    );
+  }
 
   const [{ getSessionFacts }, { getReportTasks }] = await Promise.all([
     import("@/db/queries/trial-facts"),
@@ -70,6 +79,8 @@ export async function SetFlow({ set, label }: { set: FlowSet; label: LinkLabel }
 }
 
 function StartScreen({ set, label, inOtherSet }: { set: FlowSet; label: LinkLabel; inOtherSet: boolean }) {
+  // Experiment sets mix advice first and answer first cases (spec 0002). Private sets never do.
+  const mixed = set.owner === null && isMixedSet(set.slug);
   return (
     <Shell>
       <header className="flex flex-col gap-2 pt-2">
@@ -82,13 +93,30 @@ function StartScreen({ set, label, inOtherSet }: { set: FlowSet; label: LinkLabe
         <h2 id="how-it-works" className="text-sm font-semibold">
           How it works
         </h2>
+        {mixed && (
+          <p className="text-sm leading-relaxed">
+            Each alert is handled in one of two ways. You will get some of each, in a mixed order.
+          </p>
+        )}
         <ol className="flex flex-col gap-3 text-sm leading-relaxed">
-          <li className="flex gap-3">
+          {mixed && (
+            <li className="flex gap-3">
+              <span aria-hidden className="bg-ai/15 text-ai grid size-7 shrink-0 place-items-center rounded-full font-semibold">
+                A
+              </span>
+              <span>
+                <b className="font-semibold">AI suggestion shown.</b> You see the alert together with what the AI
+                picked. Give your answer and tell us how sure you are.
+              </span>
+            </li>
+          )}
+          <li className={mixed ? "flex gap-3 border-t pt-3" : "flex gap-3"}>
             <span aria-hidden className="bg-primary/15 text-primary grid size-7 shrink-0 place-items-center rounded-full font-semibold">
               1
             </span>
             <span>
-              <b className="font-semibold">On your own.</b> Pick an answer and tell us how sure you are.
+              <b className="font-semibold">{mixed ? "B, step 1: on your own." : "On your own."}</b> Pick an answer and
+              tell us how sure you are.
             </span>
           </li>
           <li className="flex gap-3">
@@ -96,7 +124,8 @@ function StartScreen({ set, label, inOtherSet }: { set: FlowSet; label: LinkLabe
               2
             </span>
             <span>
-              <b className="font-semibold">With AI advice.</b> We show you what the AI picked. Keep your answer
+              <b className="font-semibold">{mixed ? "B, step 2: with AI advice." : "With AI advice."}</b> We show you
+              what the AI picked. Keep your answer
               or change it, then tell us how sure you are now.
             </span>
           </li>

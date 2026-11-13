@@ -1,67 +1,9 @@
 {
-  "id": "c2de686a-a05c-4906-9799-b2c5a49c62c5",
+  "id": "f956f7be-53f1-497b-973d-ef0acda7ac93",
   "prevId": "29097bff-eba3-4ee3-953a-1af8ef5e970b",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.organizations": {
-      "name": "organizations",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "slug": {
-          "name": "slug",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "passcode_hash": {
-          "name": "passcode_hash",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "organizations_slug_unique": {
-          "name": "organizations_slug_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
-        }
-      },
-      "policies": {},
-      "checkConstraints": {
-        "organizations_slug_format": {
-          "name": "organizations_slug_format",
-          "value": "\"organizations\".\"slug\" ~ '^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$'"
-        }
-      },
-      "isRLSEnabled": false
-    },
     "public.responses": {
       "name": "responses",
       "schema": "",
@@ -96,6 +38,13 @@
           "type": "boolean",
           "primaryKey": false,
           "notNull": true
+        },
+        "advice_first": {
+          "name": "advice_first",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         },
         "first_answer": {
           "name": "first_answer",
@@ -230,7 +179,11 @@
         },
         "responses_final_after_first": {
           "name": "responses_final_after_first",
-          "value": "\"responses\".\"final_answer\" is null or \"responses\".\"first_answer\" is not null"
+          "value": "\"responses\".\"final_answer\" is null or \"responses\".\"first_answer\" is not null or \"responses\".\"advice_first\""
+        },
+        "responses_advice_first_no_first": {
+          "name": "responses_advice_first_no_first",
+          "value": "not \"responses\".\"advice_first\" or (\"responses\".\"first_answer\" is null and \"responses\".\"first_confidence\" is null)"
         }
       },
       "isRLSEnabled": false
@@ -320,99 +273,6 @@
         "sessions_expertise_range": {
           "name": "sessions_expertise_range",
           "value": "\"sessions\".\"self_rated_expertise\" is null or \"sessions\".\"self_rated_expertise\" between 1 and 5"
-        }
-      },
-      "isRLSEnabled": false
-    },
-    "public.task_sets": {
-      "name": "task_sets",
-      "schema": "",
-      "columns": {
-        "slug": {
-          "name": "slug",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "org_id": {
-          "name": "org_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "share_token": {
-          "name": "share_token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "task_sets_org_idx": {
-          "name": "task_sets_org_idx",
-          "columns": [
-            {
-              "expression": "org_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "task_sets_org_id_organizations_id_fk": {
-          "name": "task_sets_org_id_organizations_id_fk",
-          "tableFrom": "task_sets",
-          "tableTo": "organizations",
-          "columnsFrom": [
-            "org_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "task_sets_share_token_unique": {
-          "name": "task_sets_share_token_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "share_token"
-          ]
-        }
-      },
-      "policies": {},
-      "checkConstraints": {
-        "task_sets_slug_format": {
-          "name": "task_sets_slug_format",
-          "value": "\"task_sets\".\"slug\" ~ '^o-[a-z0-9]{10}$'"
         }
       },
       "isRLSEnabled": false

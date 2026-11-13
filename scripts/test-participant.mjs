@@ -3,14 +3,16 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { answerSchema, parseLinkLabel, sessionIdSchema, startSchema } from "../src/lib/participant-schemas.ts";
-import { isParticipantSet, SET_SLUGS } from "../src/lib/sets.ts";
+import { isMixedSet, isParticipantSet, SET_SLUGS } from "../src/lib/sets.ts";
 
 const start = (over = {}) => ({ setSlug: "logic", nickname: "Mo", expertise: "", label: "pilot", ...over });
 const answer = (over = {}) => ({ setSlug: "facts", taskId: "facts-01", answer: "2", confidence: "75", ms: "8300", ...over });
 
 test("sets: only real sets can be opened, the dev test set cannot", () => {
-  assert.deepEqual([...SET_SLUGS].sort(), ["acme", "facts", "judge-demo", "logic"]);
+  assert.deepEqual([...SET_SLUGS].sort(), ["acme", "alerts", "facts", "judge-demo", "logic"]);
   assert.ok(isParticipantSet("logic"));
+  // Spec 0002: only the bank alerts mix the two forms.
+  assert.deepEqual(SET_SLUGS.filter(isMixedSet), ["alerts"]);
   for (const bad of ["dev", "", "LOGIC", "__proto__", "toString", "../logic"]) assert.ok(!isParticipantSet(bad), bad);
 });
 

@@ -1,0 +1,294 @@
+{
+  "set": "alerts",
+  "name": "Bank alerts",
+  "tasks": [
+    {
+      "id": "alerts-01",
+      "position": 1,
+      "category": "cash",
+      "difficulty": 1,
+      "prompt": "A customer pays EUR 12,000 in cash into their account in one deposit. They say it comes from selling a car. What do you do?",
+      "context": "Nordbank alert rulebook.\nRule 1, large cash: a single cash deposit of EUR 10,000 or more: ask the customer for documents.\nRule 2, split cash: two or more cash deposits within 7 days that are each below EUR 10,000 and add up to EUR 10,000 or more: escalate to compliance.\nRule 3, sanctions: a name on the sanctions list is a true match only if the date of birth matches too. True match: block and report. Same name but a different date of birth: clear the alert.\nRule 4, high risk country: a transfer of EUR 5,000 or more to a country on the high risk list: escalate to compliance. Exception: if the customer has sent money to the same recipient at least 3 times in the last 12 months, clear the alert.\nRule 5, unusual income: an incoming payment of more than 5 times the customer's average monthly income: ask the customer for documents.\nRule 6: if no rule applies, clear the alert. If more than one rule applies, take the strictest action. From mild to strict: clear, ask for documents, escalate, block and report.",
+      "options": [
+        "Clear the alert",
+        "Ask the customer for documents",
+        "Escalate to compliance",
+        "Block and report"
+      ],
+      "correct_index": 1,
+      "advice": {
+        "index": 1,
+        "answer_text": "Ask the customer for documents",
+        "confidence": 93,
+        "explanation": "This is a single cash deposit of EUR 10,000 or more, so Rule 1 applies: ask the customer for documents.",
+        "source": "seeded",
+        "model": null
+      },
+      "verified_by": "draft, needs a human check"
+    },
+    {
+      "id": "alerts-02",
+      "position": 2,
+      "category": "cash",
+      "difficulty": 2,
+      "prompt": "A café owner pays in cash three times in one week: EUR 9,500 on Monday, EUR 9,400 on Wednesday and EUR 9,600 on Friday. What do you do?",
+      "context": "Nordbank alert rulebook.\nRule 1, large cash: a single cash deposit of EUR 10,000 or more: ask the customer for documents.\nRule 2, split cash: two or more cash deposits within 7 days that are each below EUR 10,000 and add up to EUR 10,000 or more: escalate to compliance.\nRule 3, sanctions: a name on the sanctions list is a true match only if the date of birth matches too. True match: block and report. Same name but a different date of birth: clear the alert.\nRule 4, high risk country: a transfer of EUR 5,000 or more to a country on the high risk list: escalate to compliance. Exception: if the customer has sent money to the same recipient at least 3 times in the last 12 months, clear the alert.\nRule 5, unusual income: an incoming payment of more than 5 times the customer's average monthly income: ask the customer for documents.\nRule 6: if no rule applies, clear the alert. If more than one rule applies, take the strictest action. From mild to strict: clear, ask for documents, escalate, block and report.",
+      "options": [
+        "Clear the alert",
+        "Ask the customer for documents",
+        "Escalate to compliance",
+        "Block and report"
+      ],
+      "correct_index": 2,
+      "advice": {
+        "index": 0,
+        "answer_text": "Clear the alert",
+        "confidence": 91,
+        "explanation": "Each deposit is below EUR 10,000, so the large cash rule does not apply. Daily cash takings are normal for a café.",
+        "source": "seeded",
+        "model": null
+      },
+      "verified_by": "draft, needs a human check"
+    },
+    {
+      "id": "alerts-03",
+      "position": 3,
+      "category": "sanctions",
+      "difficulty": 1,
+      "prompt": "A new customer is called Viktor Petrov, born 4 March 1984. The sanctions list has a Viktor Petrov, born 19 July 1961. What do you do?",
+      "context": "Nordbank alert rulebook.\nRule 1, large cash: a single cash deposit of EUR 10,000 or more: ask the customer for documents.\nRule 2, split cash: two or more cash deposits within 7 days that are each below EUR 10,000 and add up to EUR 10,000 or more: escalate to compliance.\nRule 3, sanctions: a name on the sanctions list is a true match only if the date of birth matches too. True match: block and report. Same name but a different date of birth: clear the alert.\nRule 4, high risk country: a transfer of EUR 5,000 or more to a country on the high risk list: escalate to compliance. Exception: if the customer has sent money to the same recipient at least 3 times in the last 12 months, clear the alert.\nRule 5, unusual income: an incoming payment of more than 5 times the customer's average monthly income: ask the customer for documents.\nRule 6: if no rule applies, clear the alert. If more than one rule applies, take the strictest action. From mild to strict: clear, ask for documents, escalate, block and report.",
+      "options": [
+        "Clear the alert",
+        "Ask the customer for documents",
+        "Escalate to compliance",
+        "Block and report"
+      ],
+      "correct_index": 0,
+      "advice": {
+        "index": 3,
+        "answer_text": "Block and report",
+        "confidence": 94,
+        "explanation": "The customer's full name is on the sanctions list, so this is a sanctions match under Rule 3: block and report.",
+        "source": "seeded",
+        "model": null
+      },
+      "verified_by": "draft, needs a human check"
+    },
+    {
+      "id": "alerts-04",
+      "position": 4,
+      "category": "sanctions",
+      "difficulty": 1,
+      "prompt": "A customer is called Leila Haddad, born 2 February 1975. The sanctions list has a Leila Haddad, born 2 February 1975. What do you do?",
+      "context": "Nordbank alert rulebook.\nRule 1, large cash: a single cash deposit of EUR 10,000 or more: ask the customer for documents.\nRule 2, split cash: two or more cash deposits within 7 days that are each below EUR 10,000 and add up to EUR 10,000 or more: escalate to compliance.\nRule 3, sanctions: a name on the sanctions list is a true match only if the date of birth matches too. True match: block and report. Same name but a different date of birth: clear the alert.\nRule 4, high risk country: a transfer of EUR 5,000 or more to a country on the high risk list: escalate to compliance. Exception: if the customer has sent money to the same recipient at least 3 times in the last 12 months, clear the alert.\nRule 5, unusual income: an incoming payment of more than 5 times the customer's average monthly income: ask the customer for documents.\nRule 6: if no rule applies, clear the alert. If more than one rule applies, take the strictest action. From mild to strict: clear, ask for documents, escalate, block and report.",
+      "options": [
+        "Clear the alert",
+        "Ask the customer for documents",
+        "Escalate to compliance",
+        "Block and report"
+      ],
+      "correct_index": 3,
+      "advice": {
+        "index": 3,
+        "answer_text": "Block and report",
+        "confidence": 96,
+        "explanation": "The name and the date of birth both match the sanctions list, so Rule 3 makes this a true match: block and report.",
+        "source": "seeded",
+        "model": null
+      },
+      "verified_by": "draft, needs a human check"
+    },
+    {
+      "id": "alerts-05",
+      "position": 5,
+      "category": "transfers",
+      "difficulty": 1,
+      "prompt": "A customer sends EUR 8,000 to a company in a country on the high risk list. They have never sent money to this recipient before. What do you do?",
+      "context": "Nordbank alert rulebook.\nRule 1, large cash: a single cash deposit of EUR 10,000 or more: ask the customer for documents.\nRule 2, split cash: two or more cash deposits within 7 days that are each below EUR 10,000 and add up to EUR 10,000 or more: escalate to compliance.\nRule 3, sanctions: a name on the sanctions list is a true match only if the date of birth matches too. True match: block and report. Same name but a different date of birth: clear the alert.\nRule 4, high risk country: a transfer of EUR 5,000 or more to a country on the high risk list: escalate to compliance. Exception: if the customer has sent money to the same recipient at least 3 times in the last 12 months, clear the alert.\nRule 5, unusual income: an incoming payment of more than 5 times the customer's average monthly income: ask the customer for documents.\nRule 6: if no rule applies, clear the alert. If more than one rule applies, take the strictest action. From mild to strict: clear, ask for documents, escalate, block and report.",
+      "options": [
+        "Clear the alert",
+        "Ask the customer for documents",
+        "Escalate to compliance",
+        "Block and report"
+      ],
+      "correct_index": 2,
+      "advice": {
+        "index": 2,
+        "answer_text": "Escalate to compliance",
+        "confidence": 92,
+        "explanation": "The transfer is above EUR 5,000 and goes to a high risk country. The exception does not apply to a first transfer, so Rule 4 says escalate.",
+        "source": "seeded",
+        "model": null
+      },
+      "verified_by": "draft, needs a human check"
+    },
+    {
+      "id": "alerts-06",
+      "position": 6,
+      "category": "transfers",
+      "difficulty": 3,
+      "prompt": "A customer sends EUR 6,500 to their brother in a country on the high risk list. They sent money to him in January, April, June and September of this year. What do you do?",
+      "context": "Nordbank alert rulebook.\nRule 1, large cash: a single cash deposit of EUR 10,000 or more: ask the customer for documents.\nRule 2, split cash: two or more cash deposits within 7 days that are each below EUR 10,000 and add up to EUR 10,000 or more: escalate to compliance.\nRule 3, sanctions: a name on the sanctions list is a true match only if the date of birth matches too. True match: block and report. Same name but a different date of birth: clear the alert.\nRule 4, high risk country: a transfer of EUR 5,000 or more to a country on the high risk list: escalate to compliance. Exception: if the customer has sent money to the same recipient at least 3 times in the last 12 months, clear the alert.\nRule 5, unusual income: an incoming payment of more than 5 times the customer's average monthly income: ask the customer for documents.\nRule 6: if no rule applies, clear the alert. If more than one rule applies, take the strictest action. From mild to strict: clear, ask for documents, escalate, block and report.",
+      "options": [
+        "Clear the alert",
+        "Ask the customer for documents",
+        "Escalate to compliance",
+        "Block and report"
+      ],
+      "correct_index": 0,
+      "advice": {
+        "index": 2,
+        "answer_text": "Escalate to compliance",
+        "confidence": 90,
+        "explanation": "The transfer is above EUR 5,000 and goes to a country on the high risk list, so Rule 4 applies: escalate to compliance.",
+        "source": "seeded",
+        "model": null
+      },
+      "verified_by": "draft, needs a human check"
+    },
+    {
+      "id": "alerts-07",
+      "position": 7,
+      "category": "income",
+      "difficulty": 1,
+      "prompt": "A payment of EUR 3,200 arrives from the customer's employer. Their average monthly income is EUR 3,100. What do you do?",
+      "context": "Nordbank alert rulebook.\nRule 1, large cash: a single cash deposit of EUR 10,000 or more: ask the customer for documents.\nRule 2, split cash: two or more cash deposits within 7 days that are each below EUR 10,000 and add up to EUR 10,000 or more: escalate to compliance.\nRule 3, sanctions: a name on the sanctions list is a true match only if the date of birth matches too. True match: block and report. Same name but a different date of birth: clear the alert.\nRule 4, high risk country: a transfer of EUR 5,000 or more to a country on the high risk list: escalate to compliance. Exception: if the customer has sent money to the same recipient at least 3 times in the last 12 months, clear the alert.\nRule 5, unusual income: an incoming payment of more than 5 times the customer's average monthly income: ask the customer for documents.\nRule 6: if no rule applies, clear the alert. If more than one rule applies, take the strictest action. From mild to strict: clear, ask for documents, escalate, block and report.",
+      "options": [
+        "Clear the alert",
+        "Ask the customer for documents",
+        "Escalate to compliance",
+        "Block and report"
+      ],
+      "correct_index": 0,
+      "advice": {
+        "index": 0,
+        "answer_text": "Clear the alert",
+        "confidence": 95,
+        "explanation": "The payment is close to the customer's normal income and no rule applies, so under Rule 6 the alert is cleared.",
+        "source": "seeded",
+        "model": null
+      },
+      "verified_by": "draft, needs a human check"
+    },
+    {
+      "id": "alerts-08",
+      "position": 8,
+      "category": "income",
+      "difficulty": 2,
+      "prompt": "A payment of EUR 18,000 arrives from a notary's office. The customer's average monthly income is EUR 3,000. What do you do?",
+      "context": "Nordbank alert rulebook.\nRule 1, large cash: a single cash deposit of EUR 10,000 or more: ask the customer for documents.\nRule 2, split cash: two or more cash deposits within 7 days that are each below EUR 10,000 and add up to EUR 10,000 or more: escalate to compliance.\nRule 3, sanctions: a name on the sanctions list is a true match only if the date of birth matches too. True match: block and report. Same name but a different date of birth: clear the alert.\nRule 4, high risk country: a transfer of EUR 5,000 or more to a country on the high risk list: escalate to compliance. Exception: if the customer has sent money to the same recipient at least 3 times in the last 12 months, clear the alert.\nRule 5, unusual income: an incoming payment of more than 5 times the customer's average monthly income: ask the customer for documents.\nRule 6: if no rule applies, clear the alert. If more than one rule applies, take the strictest action. From mild to strict: clear, ask for documents, escalate, block and report.",
+      "options": [
+        "Clear the alert",
+        "Ask the customer for documents",
+        "Escalate to compliance",
+        "Block and report"
+      ],
+      "correct_index": 1,
+      "advice": {
+        "index": 1,
+        "answer_text": "Ask the customer for documents",
+        "confidence": 90,
+        "explanation": "EUR 18,000 is 6 times the average monthly income of EUR 3,000, which is more than 5 times, so Rule 5 applies: ask for documents.",
+        "source": "seeded",
+        "model": null
+      },
+      "verified_by": "draft, needs a human check"
+    },
+    {
+      "id": "alerts-09",
+      "position": 9,
+      "category": "income",
+      "difficulty": 2,
+      "prompt": "A payment of EUR 12,000 arrives from an insurance company. The customer's average monthly income is EUR 3,000. What do you do?",
+      "context": "Nordbank alert rulebook.\nRule 1, large cash: a single cash deposit of EUR 10,000 or more: ask the customer for documents.\nRule 2, split cash: two or more cash deposits within 7 days that are each below EUR 10,000 and add up to EUR 10,000 or more: escalate to compliance.\nRule 3, sanctions: a name on the sanctions list is a true match only if the date of birth matches too. True match: block and report. Same name but a different date of birth: clear the alert.\nRule 4, high risk country: a transfer of EUR 5,000 or more to a country on the high risk list: escalate to compliance. Exception: if the customer has sent money to the same recipient at least 3 times in the last 12 months, clear the alert.\nRule 5, unusual income: an incoming payment of more than 5 times the customer's average monthly income: ask the customer for documents.\nRule 6: if no rule applies, clear the alert. If more than one rule applies, take the strictest action. From mild to strict: clear, ask for documents, escalate, block and report.",
+      "options": [
+        "Clear the alert",
+        "Ask the customer for documents",
+        "Escalate to compliance",
+        "Block and report"
+      ],
+      "correct_index": 0,
+      "advice": {
+        "index": 1,
+        "answer_text": "Ask the customer for documents",
+        "confidence": 89,
+        "explanation": "The payment is far above the customer's normal monthly income, so Rule 5 on unusual income applies: ask for documents.",
+        "source": "seeded",
+        "model": null
+      },
+      "verified_by": "draft, needs a human check"
+    },
+    {
+      "id": "alerts-10",
+      "position": 10,
+      "category": "cash",
+      "difficulty": 2,
+      "prompt": "A market trader pays in EUR 6,000 in cash on Tuesday and EUR 4,500 in cash on Saturday of the same week. What do you do?",
+      "context": "Nordbank alert rulebook.\nRule 1, large cash: a single cash deposit of EUR 10,000 or more: ask the customer for documents.\nRule 2, split cash: two or more cash deposits within 7 days that are each below EUR 10,000 and add up to EUR 10,000 or more: escalate to compliance.\nRule 3, sanctions: a name on the sanctions list is a true match only if the date of birth matches too. True match: block and report. Same name but a different date of birth: clear the alert.\nRule 4, high risk country: a transfer of EUR 5,000 or more to a country on the high risk list: escalate to compliance. Exception: if the customer has sent money to the same recipient at least 3 times in the last 12 months, clear the alert.\nRule 5, unusual income: an incoming payment of more than 5 times the customer's average monthly income: ask the customer for documents.\nRule 6: if no rule applies, clear the alert. If more than one rule applies, take the strictest action. From mild to strict: clear, ask for documents, escalate, block and report.",
+      "options": [
+        "Clear the alert",
+        "Ask the customer for documents",
+        "Escalate to compliance",
+        "Block and report"
+      ],
+      "correct_index": 2,
+      "advice": {
+        "index": 2,
+        "answer_text": "Escalate to compliance",
+        "confidence": 91,
+        "explanation": "Both deposits are below EUR 10,000, they are 4 days apart and add up to EUR 10,500, so Rule 2 applies: escalate.",
+        "source": "seeded",
+        "model": null
+      },
+      "verified_by": "draft, needs a human check"
+    },
+    {
+      "id": "alerts-11",
+      "position": 11,
+      "category": "transfers",
+      "difficulty": 3,
+      "prompt": "A customer sends EUR 5,000 to a supplier in a country on the high risk list. They paid the same supplier in March and in August of this year. What do you do?",
+      "context": "Nordbank alert rulebook.\nRule 1, large cash: a single cash deposit of EUR 10,000 or more: ask the customer for documents.\nRule 2, split cash: two or more cash deposits within 7 days that are each below EUR 10,000 and add up to EUR 10,000 or more: escalate to compliance.\nRule 3, sanctions: a name on the sanctions list is a true match only if the date of birth matches too. True match: block and report. Same name but a different date of birth: clear the alert.\nRule 4, high risk country: a transfer of EUR 5,000 or more to a country on the high risk list: escalate to compliance. Exception: if the customer has sent money to the same recipient at least 3 times in the last 12 months, clear the alert.\nRule 5, unusual income: an incoming payment of more than 5 times the customer's average monthly income: ask the customer for documents.\nRule 6: if no rule applies, clear the alert. If more than one rule applies, take the strictest action. From mild to strict: clear, ask for documents, escalate, block and report.",
+      "options": [
+        "Clear the alert",
+        "Ask the customer for documents",
+        "Escalate to compliance",
+        "Block and report"
+      ],
+      "correct_index": 2,
+      "advice": {
+        "index": 0,
+        "answer_text": "Clear the alert",
+        "confidence": 90,
+        "explanation": "The customer has paid this supplier before, so the recipient is known and the exception in Rule 4 applies: clear the alert.",
+        "source": "seeded",
+        "model": null
+      },
+      "verified_by": "draft, needs a human check"
+    },
+    {
+      "id": "alerts-12",
+      "position": 12,
+      "category": "sanctions",
+      "difficulty": 3,
+      "prompt": "A customer is called Omar Saleh, born 11 May 1968. They pay in EUR 11,000 in cash. The sanctions list has an Omar Saleh, born 11 May 1968. What do you do?",
+      "context": "Nordbank alert rulebook.\nRule 1, large cash: a single cash deposit of EUR 10,000 or more: ask the customer for documents.\nRule 2, split cash: two or more cash deposits within 7 days that are each below EUR 10,000 and add up to EUR 10,000 or more: escalate to compliance.\nRule 3, sanctions: a name on the sanctions list is a true match only if the date of birth matches too. True match: block and report. Same name but a different date of birth: clear the alert.\nRule 4, high risk country: a transfer of EUR 5,000 or more to a country on the high risk list: escalate to compliance. Exception: if the customer has sent money to the same recipient at least 3 times in the last 12 months, clear the alert.\nRule 5, unusual income: an incoming payment of more than 5 times the customer's average monthly income: ask the customer for documents.\nRule 6: if no rule applies, clear the alert. If more than one rule applies, take the strictest action. From mild to strict: clear, ask for documents, escalate, block and report.",
+      "options": [
+        "Clear the alert",
+        "Ask the customer for documents",
+        "Escalate to compliance",
+        "Block and report"
+      ],
+      "correct_index": 3,
+      "advice": {
+        "index": 1,
+        "answer_text": "Ask the customer for documents",
+        "confidence": 92,
+        "explanation": "This is a single cash deposit of EUR 10,000 or more, so Rule 1 applies: ask the customer for documents on the source.",
+        "source": "seeded",
+        "model": null
+      },
+      "verified_by": "draft, needs a human check"
+    }
+  ]
+}

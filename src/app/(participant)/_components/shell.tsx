@@ -69,9 +69,12 @@ export function Brand() {
   );
 }
 
-type Stage = "first" | "final";
+type Stage = "first" | "final" | "advised";
 
-/** Where the person is: which question, and which of the two steps for that question. */
+/**
+ * Where the person is: which question, and which of the two steps for that question. An advised
+ * question (spec 0002) has one step only, with the AI advice on screen from the start.
+ */
 export function Progress({ position, total, stage }: { position: number; total: number; stage: Stage }) {
   return (
     <header className="flex flex-col gap-3">
@@ -80,8 +83,14 @@ export function Progress({ position, total, stage }: { position: number; total: 
           Question {position} <span className="text-muted-foreground font-normal">of {total}</span>
         </p>
         <ol aria-label="Steps for this question" className="flex items-center gap-1.5 text-xs">
-          <StepPill n={1} label="On your own" state={stage === "first" ? "current" : "done"} />
-          <StepPill n={2} label="With AI advice" state={stage === "final" ? "current" : "todo"} ai />
+          {stage === "advised" ? (
+            <StepPill n={1} label="With AI advice" state="current" ai />
+          ) : (
+            <>
+              <StepPill n={1} label="On your own" state={stage === "first" ? "current" : "done"} />
+              <StepPill n={2} label="With AI advice" state={stage === "final" ? "current" : "todo"} ai />
+            </>
+          )}
         </ol>
       </div>
 
