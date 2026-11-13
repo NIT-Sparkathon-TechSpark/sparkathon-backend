@@ -44,18 +44,14 @@ export function AutoRefresh({ className }: { className?: string }) {
     };
   }, [router]);
 
+  if (state === "live") return null;
+
   return (
     <span
       className={cn("text-muted-foreground inline-flex items-center gap-2 text-xs", className)}
       aria-live="polite"
     >
-      <span
-        className={cn(
-          "size-2 rounded-full",
-          state === "live" ? "bg-helps animate-pulse" : "bg-muted-foreground/40",
-        )}
-      />
-      {state === "live" && "Live · updates every 5 s"}
+      <span className="bg-muted-foreground/40 size-2 rounded-full" />
       {state === "hidden" && "Paused while hidden"}
       {state === "idle" && "Paused after 10 min idle · move the mouse to resume"}
     </span>

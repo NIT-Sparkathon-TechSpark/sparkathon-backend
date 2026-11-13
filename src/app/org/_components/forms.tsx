@@ -7,7 +7,7 @@ import type { OrgFormState } from "@/lib/org-schemas";
 
 // Same look as the participant nickname field (start-form.tsx).
 const input =
-  "bg-card placeholder:text-muted-foreground/70 h-12 w-full rounded-xl border px-4 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring";
+  "bg-secondary/60 placeholder:text-muted-foreground/70 h-12 w-full rounded-2xl px-4 text-base outline-none transition-colors focus-visible:bg-card focus-visible:ring-2 focus-visible:ring-ring";
 
 function Field({
   id,
@@ -127,7 +127,7 @@ export function UploadForm() {
           type="file"
           required
           accept=".csv,.json,.tsv,.txt,text/csv,application/json"
-          className="bg-card text-muted-foreground w-full rounded-xl border border-dashed p-3 text-sm file:bg-secondary file:text-foreground file:mr-3 file:rounded-lg file:border-0 file:px-3 file:py-1.5 file:font-medium"
+          className="bg-secondary/60 text-muted-foreground w-full rounded-2xl p-3 text-sm file:bg-secondary file:text-foreground file:mr-3 file:rounded-lg file:border-0 file:px-3 file:py-1.5 file:font-medium"
         />
       </Field>
       <Messages state={state} />
@@ -143,7 +143,7 @@ export function CopyLink({ url }: { url: string }) {
   const [copied, setCopied] = useState(false);
   return (
     <div className="flex items-center gap-2">
-      <code className="bg-secondary/60 min-w-0 flex-1 truncate rounded-lg border px-3 py-2 text-xs">{url}</code>
+      <code className="bg-secondary/60 min-w-0 flex-1 truncate rounded-xl px-3 py-2 text-xs">{url}</code>
       <Button
         type="button"
         size="sm"

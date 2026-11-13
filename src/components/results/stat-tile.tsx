@@ -3,11 +3,11 @@ import { cn } from "@/lib/utils";
 
 const tones = {
   default: "",
-  human: "border-l-human",
-  ai: "border-l-ai",
-  centaur: "border-l-centaur",
-  helps: "border-l-helps",
-  hurts: "border-l-hurts",
+  human: "bg-human",
+  ai: "bg-ai",
+  centaur: "bg-centaur",
+  helps: "bg-helps",
+  hurts: "bg-hurts",
 } as const;
 
 /** One headline number with its base ("7 of 12") and, when there is one, its interval. */
@@ -31,13 +31,14 @@ export function StatTile({
   return (
     <div
       className={cn(
-        "bg-card flex flex-col gap-1 rounded-lg border p-4",
-        tone !== "default" && "border-l-4",
-        tones[tone],
+        "flex flex-col gap-1 px-1 py-3",
         className,
       )}
     >
-      <span className="text-muted-foreground text-sm">{label}</span>
+      <span className="text-muted-foreground flex items-center gap-2 text-sm">
+        {tone !== "default" && <span aria-hidden className={cn("size-2.5 shrink-0 rounded-full", tones[tone])} />}
+        {label}
+      </span>
       <span
         className={cn(
           "font-semibold tracking-tight tabular-nums",

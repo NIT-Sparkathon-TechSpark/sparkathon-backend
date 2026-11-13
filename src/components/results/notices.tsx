@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 export function DemoDataBanner({ show }: { show: boolean }) {
   if (!show) return null;
   return (
-    <div className="rounded-lg border border-dashed border-ai/60 bg-ai/5 px-4 py-2 text-sm">
+    <div className="rounded-xl bg-ai/5 px-4 py-2 text-sm">
       <strong className="font-medium">Demo data.</strong>{" "}
       <span className="text-muted-foreground">
         No database is connected (DATABASE_URL is not set), so these numbers are generated
@@ -19,7 +19,7 @@ export function DemoDataBanner({ show }: { show: boolean }) {
 /** Shown instead of numbers when the database could not be read. */
 export function UnavailableBanner({ problem }: { problem?: FactsProblem }) {
   return (
-    <div role="alert" className="border-hurts/50 bg-hurts-soft rounded-lg border px-4 py-3 text-sm">
+    <div role="alert" className="bg-hurts-soft rounded-xl px-4 py-3 text-sm">
       <strong className="text-hurts font-medium">Results are unavailable right now.</strong>{" "}
       <span className="text-muted-foreground">
         {problem === "missing-tables"
@@ -50,7 +50,7 @@ export function EmptyState({ seeded, source }: { seeded: boolean; source?: Facts
   // The banner above already explains an unreadable database; "no answers yet" would mislead.
   if (source === "unavailable") return null;
   return (
-    <div className="text-muted-foreground rounded-lg border border-dashed p-10 text-center text-sm">
+    <div className="text-muted-foreground bg-secondary/40 rounded-3xl p-10 text-center text-sm">
       Nobody has finished a question here yet.
       {!seeded && " Simulated sessions are switched off."}
     </div>

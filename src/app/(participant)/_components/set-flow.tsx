@@ -34,7 +34,7 @@ export async function SetFlow({ set, label }: { set: FlowSet; label: LinkLabel }
 
   // No session, a session that was reset, or one from a different set: show the nickname form.
   if (!sessionId || !info || info.setSlug !== set.slug) {
-    return <StartScreen set={set} label={label} inOtherSet={Boolean(info && info.setSlug !== set.slug)} />;
+    return <StartScreen set={set} label={label} />;
   }
 
   const step = await getSessionStep(sessionId);
@@ -78,7 +78,7 @@ export async function SetFlow({ set, label }: { set: FlowSet; label: LinkLabel }
   );
 }
 
-function StartScreen({ set, label, inOtherSet }: { set: FlowSet; label: LinkLabel; inOtherSet: boolean }) {
+function StartScreen({ set, label }: { set: FlowSet; label: LinkLabel }) {
   // Experiment sets mix advice first and answer first cases (spec 0002). Private sets never do.
   const mixed = set.owner === null && isMixedSet(set.slug);
   return (
@@ -89,7 +89,7 @@ function StartScreen({ set, label, inOtherSet }: { set: FlowSet; label: LinkLabe
         {set.blurb && <p className="text-muted-foreground text-lg leading-snug">{set.blurb}</p>}
       </header>
 
-      <section aria-labelledby="how-it-works" className="bg-card flex flex-col gap-4 rounded-xl border p-4">
+      <section aria-labelledby="how-it-works" className="bg-secondary/40 flex flex-col gap-4 rounded-3xl p-5">
         <h2 id="how-it-works" className="text-sm font-semibold">
           How it works
         </h2>
@@ -139,11 +139,6 @@ function StartScreen({ set, label, inOtherSet }: { set: FlowSet; label: LinkLabe
 
       <StartForm setSlug={set.ref} label={label} />
 
-      {inOtherSet && (
-        <p className="text-muted-foreground text-sm">
-          You already started a different topic on this device. If you start here, you begin again from question 1.
-        </p>
-      )}
       {label !== "pilot" && (
         <p className="text-muted-foreground text-xs">This is a test run ({label}). Your answers won&apos;t be counted in the study.</p>
       )}
